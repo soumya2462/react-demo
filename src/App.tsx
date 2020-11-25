@@ -1,8 +1,7 @@
-import { Grid, makeStyles } from "@material-ui/core";
 import React from "react";
 import "./App.css";
 import ComponentExample from "./components/ComponentExample/ComponentExample";
-import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
+import { HashRouter as Router, Route, Switch } from "react-router-dom";
 
 const Home = () => <h1>Home Page</h1>;
 
