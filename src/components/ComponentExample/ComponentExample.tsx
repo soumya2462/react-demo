@@ -160,10 +160,10 @@ class ComponentExample extends Component<IComponentExample> {
             <Grid item xs={12}>
               {this.props.error ? (
                 <Alert severity="error">
-                  The account does exist or values are incorrect
+                  The account does not exist or values are incorrect
                 </Alert>
               ) : (
-                undefined
+                null
               )}
             </Grid>
             <Grid item xs={12}>
