@@ -1,10 +1,9 @@
-
 //actions
-const SHOW_ERROR = "SHOW_ERROR";
-const HIDE_ERROR = "HIDE_ERROR";
-const SET_USERNAME = "SET_USERNAME";
-const SET_PASSWORD = "SET_PASSWORD";
-const LOG_ON_USER = "LOG_ON_USER";
+export const SHOW_ERROR = "SHOW_ERROR";
+export const HIDE_ERROR = "HIDE_ERROR";
+export const SET_USERNAME = "SET_USERNAME";
+export const SET_PASSWORD = "SET_PASSWORD";
+export const LOG_ON_USER = "LOG_ON_USER";
 
 const initialState = {
   error: false,
@@ -14,7 +13,10 @@ const initialState = {
 };
 
 //reducer
-export default function componentExampleReducer(state = initialState, action: any) {
+export default function componentExampleReducer(
+  state = initialState,
+  action: any
+) {
   switch (action.type) {
     case SHOW_ERROR:
       return { ...state, error: true };
@@ -47,5 +49,5 @@ export function setPassword(payload: string) {
 }
 
 export function logOn() {
-    return { type: LOG_ON_USER, payload: true };
+  return { type: LOG_ON_USER, payload: true };
 }

@@ -170,6 +170,7 @@ class ComponentExample extends Component<IComponentExample> {
               <SharedComponentExample
                 text="Sign In"
                 onClick={this.handleClick}
+                type="primary"
               />
             </Grid>
           </Grid>
