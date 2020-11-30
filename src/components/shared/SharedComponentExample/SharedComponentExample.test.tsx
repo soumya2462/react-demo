@@ -18,9 +18,9 @@ describe("Shared component example -", () => {
   it("passes all props to Button", () => {
     const buttonWrapper = wrapper.find(Button);
 
-    expect(buttonWrapper.find(Button).props().children).toEqual("Test");
-    expect(buttonWrapper.find(Button).props().variant).toEqual("contained");
-    expect(buttonWrapper.find(Button).props().type).toEqual("submit");
+    expect(buttonWrapper.props().children).toEqual("Test");
+    expect(buttonWrapper.props().variant).toEqual("contained");
+    expect(buttonWrapper.props().type).toEqual("submit");
   });
 
   it("click event is called", () => {
@@ -32,7 +32,7 @@ describe("Shared component example -", () => {
         onClick={mockCallBack}
       />
     );
-    
+
     button.find(Button).simulate("click");
 
     expect(mockCallBack.mock.calls.length).toEqual(1);

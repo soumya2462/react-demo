@@ -35,11 +35,11 @@ describe("Component example -", () => {
     const sharedComponentWrapper = wrapper.find(SharedComponentExample);
 
     expect(
-      sharedComponentWrapper.find(SharedComponentExample).props().type
+      sharedComponentWrapper.props().type
     ).toEqual("primary");
 
     expect(
-      sharedComponentWrapper.find(SharedComponentExample).props().text
+      sharedComponentWrapper.props().text
     ).toEqual("Sign In");
   });
 });
