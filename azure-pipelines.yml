@@ -1,0 +1,28 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+  demands: 'Claims'
+
+stages:
+- stage: BuildAndPublishApp
+  displayName: Build app and publish output
+  jobs:
+  - job: BuildAndPublish
+    displayName: Build And Publish
+    steps:
+    - task: NodeTool@0
+      displayName: Install Node to PATH
+      inputs:
+        versionSpec: '14.x'
+        checkLatest: true
+    - script: npm install yarn
+      displayName: Install Yarn
+    - script: yarn
+      displayName: Restore packages via Yarn
+    - script: yarn build
+      displayName: Build app via build script
+    - publish: $(Build.SourcesDirectory)/build
+      displayName: Publish app build to artifacts
+      artifact: public
