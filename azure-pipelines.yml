@@ -26,5 +26,3 @@ stages:
     - publish: $(Build.SourcesDirectory)/build
       displayName: Publish app build to artifacts
       artifact: public
-    - script: yarn test
-      displayName: Run tests
