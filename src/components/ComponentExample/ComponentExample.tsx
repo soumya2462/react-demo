@@ -21,6 +21,7 @@ import {
 } from "../../ducks/componentExample";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
+import api from "../../utilities/api";
 
 interface IComponentExample extends RouteComponentProps {
   showError: () => void;
@@ -65,11 +66,17 @@ class ComponentExample extends Component<IComponentExample> {
   handleClick = () => {
     this.props.hideError();
 
+    try {
+      api.getData(3);
+    } catch (e) {
+      console.log(`Axios request failed: ${e}`);
+    }
+
     if (this.props.username === "test") {
       this.props.history.push("/home");
     }
-    
-    if(this.props.username === "invalid"){
+
+    if (this.props.username === "invalid") {
       this.props.showError();
     }
   };
@@ -162,9 +169,7 @@ class ComponentExample extends Component<IComponentExample> {
                 <Alert severity="error">
                   The account does not exist or values are incorrect
                 </Alert>
-              ) : (
-                null
-              )}
+              ) : null}
             </Grid>
             <Grid item xs={12}>
               <SharedComponentExample
