@@ -1,22 +1,25 @@
-import React from "react";
-import "./App.css";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { create } from "jss";
+import { StylesProvider, jssPreset } from "@material-ui/core/styles";
 import ComponentExample from "./components/ComponentExample/ComponentExample";
-import { HashRouter as Router, Route, Switch } from "react-router-dom";
+import Login from "./components/Login/Login";
 
-const Home = () => <h1>Home Page</h1>;
+const jss = create({
+  ...jssPreset(),
+  // Define a custom insertion point that JSS will look for when injecting the styles into the DOM.
+  insertionPoint: document.getElementById("jss-insertion-point")!,
+});
 
 function App() {
   return (
-    <div className="App">
+    <StylesProvider jss={jss}>
       <Router>
-        <div>
-          <Switch>
-            <Route exact path="/" component={ComponentExample} />
-            <Route exact path="/home" component={Home} />
-          </Switch>
-        </div>
+        <Switch>
+          <Route path="/login" component={Login} />
+          <Route exact path="/" component={ComponentExample} />
+        </Switch>
       </Router>
-    </div>
+    </StylesProvider>
   );
 }
 
