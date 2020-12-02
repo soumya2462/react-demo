@@ -1,9 +1,11 @@
 import thunk from "redux-thunk";
 import { createStore, compose, combineReducers, applyMiddleware } from "redux";
 import componentExampleReducer from "./../ducks/componentExample";
+import loginReducer from "./../ducks/Login";
 
 const rootReducer = combineReducers({
   componentExample: componentExampleReducer,
+  login: loginReducer,
   //other: otherReducer,
 });
 

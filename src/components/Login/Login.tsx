@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import { ChangeEvent, Component } from "react";
+import { connect } from "react-redux";
 import {
   Container,
   Grid,
@@ -13,27 +14,23 @@ import {
   Divider,
 } from "@material-ui/core";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
+import axios from "axios";
+import qs from "querystring";
 import "./index.css";
+import { logOn } from "../../ducks/Login"
 
 interface LoginProps {
   username: string;
   accessToken: string;
   isLoggedIn: boolean;
-  setUsername: (value: string) => void;
-  setAccessToken: (value: string) => void;
-  logOn: () => void;
-  classes: {
-    text: string;
-    title: string;
-    container: string;
-    innerContainer: string;
-    input: string;
-  };
+  logOn: (username: string, accessToken: string) => void;
 }
 
 type LoginState = {
+  username: string;
+  password: string;
   showPassword: boolean;
-  rememberMe: boolean;
+  rememberMe: boolean; // not used atm
 };
 
 class Login extends Component<LoginProps, LoginState> {
@@ -41,6 +38,8 @@ class Login extends Component<LoginProps, LoginState> {
     super(props);
 
     this.state = {
+      username: "",
+      password: "",
       showPassword: false,
       rememberMe: false,
     };
@@ -50,16 +49,46 @@ class Login extends Component<LoginProps, LoginState> {
     this.setState({ ...this.state, showPassword: !this.state.showPassword });
   };
 
-  handleRememberCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
+  handleRememberCheckbox = (event: ChangeEvent<HTMLInputElement>) => {
     this.setState({ ...this.state, rememberMe: event.target.checked });
   };
 
+  handleTextChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    this.setState({ ...this.state, [name]: value })
+  };
+
   handleLoginButton = () => {
-    console.log("login clicked, do stuff");
+    const body = {
+      client_id: 'spa',
+      client_secret: 'secret',
+      grant_type: 'password',
+      username: this.state.username,
+      password: this.state.password,
+      scope: 'openid profile api email',
+    };
+
+    axios.post('http://localhost:10080/connect/token',
+      qs.stringify(body),
+      { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
+    .then(response => {
+      this.props.logOn(this.state.username, response.data.access_token);
+    },
+    (error) => {
+      console.log(error);
+      // change some state and show error message
+    });
   };
 
   render() {
-    const { showPassword, rememberMe } = this.state;
+    const {
+      username,
+      password,
+      showPassword,
+      rememberMe,
+    } = this.state;
+    console.log(this.state)
 
     return (
       <Container maxWidth="lg" className="container">
@@ -83,6 +112,9 @@ class Login extends Component<LoginProps, LoginState> {
                     Username
                   </Typography>
                   <TextField
+                    value={username}
+                    name="username"
+                    onChange={this.handleTextChange}
                     //className={input}
                     placeholder="Username"
                     required={true}
@@ -106,10 +138,13 @@ class Login extends Component<LoginProps, LoginState> {
                 </Grid>
                 <Grid item>
                   <TextField
+                    value={password}
+                    name="password"
                     placeholder="Enter your password"
                     required={true}
                     variant="outlined"
                     type={showPassword ? "text" : "password"}
+                    onChange={this.handleTextChange}
                     fullWidth
                     //className={input}
                     InputProps={{
@@ -175,4 +210,20 @@ class Login extends Component<LoginProps, LoginState> {
   }
 }
 
-export default Login;
+const mapStateToProps = (state: any) => {
+  return {
+    username: state.login.username,
+    accessToken: state.login.accessToken,
+    isLoggedIn: state.login.isLoggedIn,
+  };
+};
+
+function mapDispatchToProps(dispatch: any) {
+  return {
+    logOn: (username: string, accessToken: string) => {
+      return dispatch(logOn(username, accessToken));
+    },
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
