@@ -1,5 +1,5 @@
 //actions
-export const LOG_ON_USER = "LOG_ON_USER";
+export const UPDATE_USER = "UPDATE_USER";
 
 const initialState = {
   username: "",
@@ -8,30 +8,39 @@ const initialState = {
 };
 
 //reducer
-export default function LoginReducer(
+export default function AuthReducer(
   state = initialState,
   action: { type: string, payload?: any }
 ) {
   const { type, payload } = action;
+  let newState = state;
   
   switch (type) {
-    case LOG_ON_USER:
-      return { 
+    case UPDATE_USER:
+      newState = { 
         ...state,
         isLoggedIn: payload.isLoggedIn,
         username: payload.username,
         accessToken: payload.accessToken,
       };
-    default:
-      return state;
+      break;
   }
+
+  return newState;
 }
 
 //action creators
 export function logOn(username: string, accessToken: string) {
-  return { type: LOG_ON_USER, payload: {
+  return { type: UPDATE_USER, payload: {
     isLoggedIn: true,
     username,
     accessToken,
+  } };
+}
+export function logOff() {
+  return { type: UPDATE_USER, payload: {
+    isLoggedIn: false,
+    username: "",
+    accessToken: "",
   } };
 }

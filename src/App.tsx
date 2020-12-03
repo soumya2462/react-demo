@@ -1,9 +1,10 @@
-import { Component } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { create } from "jss";
 import { StylesProvider, jssPreset } from "@material-ui/core/styles";
 import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
 import Login from "./components/Login/Login";
+import Navbar from "./components/Navbar/Navbar";
 //import ComponentExample from "./components/ComponentExample/ComponentExample";
 
 const jss = create({
@@ -19,17 +20,19 @@ class App extends Component<{ isLoggedIn: boolean }>{
     return (
       <StylesProvider jss={jss}>
         <Router>
-          { this.props.isLoggedIn ?
-            <Switch>
-              <Route path="/login" component={Login} />
-              <Route exact path="/" component={Home} />
-            </Switch>
-          :
-            <Switch>
-              <Route exact path="/" component={Login} />
-              <Redirect from="*" to="/" />
-            </Switch>
-          }
+          <Navbar>
+            { this.props.isLoggedIn ?
+              <Switch>
+                <Route path="/login" component={Login} />
+                <Route exact path="/" component={Home} />
+              </Switch>
+            :
+              <Switch>
+                <Route exact path="/" component={Login} />
+                <Redirect from="*" to="/" />
+              </Switch>
+            }
+          </Navbar>
         </Router>
       </StylesProvider>
     );
@@ -38,7 +41,7 @@ class App extends Component<{ isLoggedIn: boolean }>{
 
 const mapStateToProps = (state: any) => {
   return {
-    isLoggedIn: state.login.isLoggedIn,
+    isLoggedIn: state.auth.isLoggedIn,
   };
 };
 

@@ -17,7 +17,7 @@ import { Visibility, VisibilityOff } from "@material-ui/icons";
 import axios from "axios";
 import qs from "querystring";
 import "./index.css";
-import { logOn } from "../../ducks/Login"
+import { logOn } from "../../ducks/Auth";
 
 interface LoginProps {
   username: string;
@@ -181,15 +181,7 @@ class Login extends Component<LoginProps, LoginState> {
                     label="Remember me?"
                   />
                 </Grid>
-                <Grid item>
-                  <Typography variant="caption" className="small-text">
-                    This site is provided solely for clients and staff of F2X
-                    Group Limited. All authentication attempts are subject to
-                    monitoring. It is an offence for any other third party or
-                    commercial organisation to continue without prior express
-                    written consent from F2X Group Limited.
-                  </Typography>
-                </Grid>
+                {/* needs css */}
                 <Divider variant="middle" />
                 <Grid item>
                   <Button
@@ -212,9 +204,9 @@ class Login extends Component<LoginProps, LoginState> {
 
 const mapStateToProps = (state: any) => {
   return {
-    username: state.login.username,
-    accessToken: state.login.accessToken,
-    isLoggedIn: state.login.isLoggedIn,
+    username: state.auth.username,
+    accessToken: state.auth.accessToken,
+    isLoggedIn: state.auth.isLoggedIn,
   };
 };
 
