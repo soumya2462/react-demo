@@ -51,7 +51,7 @@ class Navbar extends Component<NavbarProps, NavbarState> {
     const { accessToken, logOff } = this.props;
 
     const body = {
-      client_id: 'spa',
+      client_id: 'design_ui',
       client_secret: 'secret',
       token: accessToken,
       token_type_hint: 'access_token',

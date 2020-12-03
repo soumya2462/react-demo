@@ -61,7 +61,7 @@ class Login extends Component<LoginProps, LoginState> {
 
   handleLoginButton = () => {
     const body = {
-      client_id: 'spa',
+      client_id: 'design_ui',
       client_secret: 'secret',
       grant_type: 'password',
       username: this.state.username,
