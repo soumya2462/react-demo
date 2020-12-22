@@ -61,15 +61,15 @@ class Login extends Component<LoginProps, LoginState> {
 
   handleLoginButton = () => {
     const body = {
-      client_id: 'design_ui',
-      client_secret: 'secret',
+      client_id: process.env.REACT_APP_CLIENT_ID,
+      client_secret: process.env.REACT_APP_CLIENT_SECRET,
       grant_type: 'password',
       username: this.state.username,
       password: this.state.password,
       scope: 'openid profile api email',
     };
 
-    axios.post('http://localhost:10080/connect/token',
+    axios.post(`${process.env.REACT_APP_AUTHENTICATION_URL}/connect/token`,
       qs.stringify(body),
       { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
     .then(response => {

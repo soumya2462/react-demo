@@ -1,20 +1,17 @@
-import React, { ChangeEvent, Component } from "react";
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import {
   IconButton,
-  Typography,
   AppBar,
   Toolbar,
   Menu,
   MenuItem,
 } from "@material-ui/core";
-import { AccountCircle, Menu as MenuIcon } from "@material-ui/icons";
+import { AccountCircle } from "@material-ui/icons";
 import axios from "axios";
 import qs from "querystring";
-//import "./index.css";
 import { logOff } from "../../ducks/Auth"
-import { Link } from "react-router-dom";
-import { inherits } from "util";
 
 interface NavbarProps {
   username: string;
@@ -51,15 +48,15 @@ class Navbar extends Component<NavbarProps, NavbarState> {
     const { accessToken, logOff } = this.props;
 
     const body = {
-      client_id: 'design_ui',
-      client_secret: 'secret',
+      client_id: process.env.REACT_APP_CLIENT_ID,
+      client_secret: process.env.REACT_APP_CLIENT_SECRET,
       token: accessToken,
       token_type_hint: 'access_token',
     };
 
     axios({
       method: 'post',
-      url: 'http://localhost:10080/connect/revocation',
+      url: `${process.env.REACT_APP_AUTHENTICATION_URL}/connect/revocation`,
       data: qs.stringify(body),
       headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': `Bearer ${accessToken}` },
       })
