@@ -25,6 +25,7 @@ class App extends Component<{ isLoggedIn: boolean }>{
               <Switch>
                 <Route path="/login" component={Login} />
                 <Route exact path="/" component={Home} />
+                <Redirect from="*" to="/" />
               </Switch>
             :
               <Switch>
