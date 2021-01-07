@@ -73,11 +73,23 @@ class Login extends Component<LoginProps, LoginState> {
       qs.stringify(body),
       { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
     .then(response => {
-      this.props.logOn(this.state.username, response.data.access_token);
+      if(response!.data!.access_token)
+      {
+        this.props.logOn(this.state.username, response.data.access_token);
+      }
+      else{
+        console.log("show error");
+      }
     },
     (error) => {
-      console.log(error);
-      // change some state and show error message
+      const { data } = error.response;
+
+      if(data.error_description === "invalid_username_or_password") {
+        console.log("show error");
+      }
+      else {
+        console.log("show error_description");
+      }
     });
   };
 
