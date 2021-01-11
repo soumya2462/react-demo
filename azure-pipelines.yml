@@ -23,6 +23,9 @@ stages:
       displayName: Restore packages via Yarn
     - script: yarn build
       displayName: Build app via build script
+      env:
+        REACT_APP_DESIGN_GATEWAY_URL: http://designgateway/
+        REACT_APP_AUTHENTICATION_URL: http://authenticationapi/
     - publish: $(Build.SourcesDirectory)/build
       displayName: Publish app build to artifacts
       artifact: public

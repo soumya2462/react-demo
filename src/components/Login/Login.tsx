@@ -73,7 +73,7 @@ class Login extends Component<LoginProps, LoginState> {
       qs.stringify(body),
       { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
     .then(response => {
-      if(response!.data!.access_token)
+      if(response?.data?.access_token)
       {
         this.props.logOn(this.state.username, response.data.access_token);
       }
