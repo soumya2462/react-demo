@@ -24,8 +24,10 @@ stages:
     - script: yarn build
       displayName: Build app via build script
       env:
-        REACT_APP_DESIGN_GATEWAY_URL: http://designgateway
-        REACT_APP_AUTHENTICATION_URL: http://authenticationapi
+        REACT_APP_DESIGN_GATEWAY_URL: http://designgateway.instandaclaims.com
+        REACT_APP_AUTHENTICATION_URL: http://auth.instandaclaims.com
+        REACT_APP_CLIENT_ID: design_ui
+        REACT_APP_CLIENT_SECRET: secret
     - publish: $(Build.SourcesDirectory)/build
       displayName: Publish app build to artifacts
       artifact: public
