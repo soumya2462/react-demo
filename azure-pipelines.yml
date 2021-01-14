@@ -19,6 +19,8 @@ stages:
         checkLatest: true
     - script: npm install yarn
       displayName: Install Yarn
+    - script: yarn test
+      displayName: Run tests via Yarn
     - script: yarn
       displayName: Restore packages via Yarn
     - script: yarn build

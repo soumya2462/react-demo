@@ -1,14 +1,13 @@
 import React from "react";
 import { render } from "@testing-library/react";
-import App from "./App";
-import { Provider } from "react-redux";
-import store from "./store/index";
 import { mount } from "enzyme";
-import ComponentExample from "./components/ComponentExample/ComponentExample";
+import { Provider } from "react-redux";
+import App from "./App";
+import { store } from "./store/index";
 
 const wrapper = mount(
   <Provider store={store}>
-    <App />)
+    <App />
   </Provider>
 );
 
@@ -26,9 +25,5 @@ describe("App -", () => {
     );
     const textElement = getByText("You are testing the Test release");
     expect(textElement).toBeInTheDocument();
-  });
-
-  it("renders componentExample", () => {
-    expect(wrapper.find(ComponentExample).length).toBe(1);
   });
 });

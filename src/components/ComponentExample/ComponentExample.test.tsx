@@ -2,7 +2,7 @@ import { mount } from "enzyme";
 import SharedComponentExample from "./../shared/SharedComponentExample/SharedComponentExample";
 import ComponentExample from "./ComponentExample";
 import { Provider } from "react-redux";
-import store from "./../../store/index";
+import { store } from "./../../store/index";
 
 const routeComponentPropsMock = {
   history: {} as any,

@@ -33,7 +33,7 @@ type LoginState = {
   rememberMe: boolean; // not used atm
 };
 
-class Login extends Component<LoginProps, LoginState> {
+export class Login extends Component<LoginProps, LoginState> {
   constructor(props: LoginProps) {
     super(props);
 
@@ -150,7 +150,7 @@ class Login extends Component<LoginProps, LoginState> {
                 </Grid>
                 <Grid item>
                   <TextField
-                    value={password}
+                    value={showPassword ? password : ""}
                     name="password"
                     placeholder="Enter your password"
                     required={true}
