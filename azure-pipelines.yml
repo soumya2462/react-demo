@@ -28,7 +28,7 @@ stages:
         REACT_APP_AUTHENTICATION_URL: https://auth.instandaclaims.com
         REACT_APP_CLIENT_ID: design_ui
         REACT_APP_CLIENT_SECRET: secret
-    - script: yarn test
+    - script: yarn test --watchAll=false
       displayName: Run tests via Yarn
 
 - stage: BuildAndPublishApp
