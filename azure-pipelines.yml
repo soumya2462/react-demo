@@ -6,6 +6,31 @@ pool:
   demands: 'Claims'
 
 stages:
+- stage: Test
+  displayName: Test
+  jobs:
+  - job: Test
+    displayName: Test
+    steps:
+    - task: NodeTool@0
+      displayName: Install Node to PATH
+      inputs:
+        versionSpec: '14.x'
+        checkLatest: true
+    - script: npm install yarn
+      displayName: Install Yarn
+    - script: yarn
+      displayName: Restore packages via Yarn
+    - script: yarn build
+      displayName: Build app via build script
+      env:
+        REACT_APP_DESIGN_GATEWAY_URL: https://designgateway.instandaclaims.com
+        REACT_APP_AUTHENTICATION_URL: https://auth.instandaclaims.com
+        REACT_APP_CLIENT_ID: design_ui
+        REACT_APP_CLIENT_SECRET: secret
+    - script: yarn test
+      displayName: Run tests via Yarn
+
 - stage: BuildAndPublishApp
   displayName: Build app and publish output
   jobs:
@@ -19,8 +44,6 @@ stages:
         checkLatest: true
     - script: npm install yarn
       displayName: Install Yarn
-    - script: yarn test
-      displayName: Run tests via Yarn
     - script: yarn
       displayName: Restore packages via Yarn
     - script: yarn build
