@@ -70,6 +70,7 @@ describe("Testing Login component - ", () => {
     usernameInput.simulate("change", { target: { name: "username", value: "usernameTest" } });
     
     expect(wrapper.find(UnwrappedLogin).find("input[name='username']").prop("value")).toBe("usernameTest");
+    expect(loginWrapper.state("username")).toBe("usernameTest");
   });
 
 
@@ -80,8 +81,6 @@ describe("Testing Login component - ", () => {
     expect(passwordInput.prop("type")).toBe("password");
     passwordInput.simulate("change", { target: { name: "password", value: "pw123" } });
 
-    // check if text is not visible
-    expect(wrapper.find(UnwrappedLogin).find("input[name='password']").prop("value")).toBe("");
     expect(loginWrapper.state("password")).toBe("pw123");
   });
 

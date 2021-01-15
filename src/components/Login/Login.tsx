@@ -100,7 +100,6 @@ export class Login extends Component<LoginProps, LoginState> {
       showPassword,
       rememberMe,
     } = this.state;
-    console.log(this.state)
 
     return (
       <Container maxWidth="lg" className="container">
