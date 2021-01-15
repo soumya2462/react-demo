@@ -13,7 +13,7 @@ const jss = create({
   insertionPoint: document.getElementById("jss-insertion-point")!,
 });
 
-const Home = () => { return(<img src="https://media.tenor.com/images/81fa2ba3412aa97cb37deaa4b18b024f/tenor.gif" />); }
+const Home = () => { return(<img src="/banana.gif" alt="image" />); }
 
 class App extends Component<{ isLoggedIn: boolean }>{
   render(){

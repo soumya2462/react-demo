@@ -150,7 +150,7 @@ export class Login extends Component<LoginProps, LoginState> {
                 </Grid>
                 <Grid item>
                   <TextField
-                    value={showPassword ? password : ""}
+                    value={password}
                     name="password"
                     placeholder="Enter your password"
                     required={true}
