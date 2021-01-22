@@ -4,7 +4,8 @@ import { create } from "jss";
 import { StylesProvider, jssPreset } from "@material-ui/core/styles";
 import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
 import Login from "./components/Login/Login";
-import Navbar from "./components/Navbar/Navbar";
+import Layout from "./components/Layout/Layout";
+import Home from "./components/Home/Home";
 //import ComponentExample from "./components/ComponentExample/ComponentExample";
 
 const jss = create({
@@ -13,17 +14,18 @@ const jss = create({
   insertionPoint: document.getElementById("jss-insertion-point")!,
 });
 
-const Home = () => { return(<img src="/banana.gif" alt="image" />); }
+const Banana = () => { return(<img src="/banana.gif" alt="image" />); }
 
 class App extends Component<{ isLoggedIn: boolean }>{
   render(){
     return (
       <StylesProvider jss={jss}>
         <Router>
-          <Navbar>
+          <Layout>
             { this.props.isLoggedIn ?
               <Switch>
                 <Route path="/login" component={Login} />
+                <Route path="/banana" component={Banana} />
                 <Route exact path="/" component={Home} />
                 <Redirect from="*" to="/" />
               </Switch>
@@ -33,7 +35,7 @@ class App extends Component<{ isLoggedIn: boolean }>{
                 <Redirect from="*" to="/" />
               </Switch>
             }
-          </Navbar>
+          </Layout>
         </Router>
       </StylesProvider>
     );
