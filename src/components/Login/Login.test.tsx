@@ -1,9 +1,8 @@
 import React from "react";
 import { Provider } from "react-redux";
-import { shallow, mount } from "enzyme";
+import { mount } from "enzyme";
 import { store } from "./../../store/index";
 import { Login as UnwrappedLogin, default as Login } from "./Login";
-import { fireEvent, getByPlaceholderText } from "@testing-library/react";
 
 const wrapper = mount(
   <Provider store={store}>

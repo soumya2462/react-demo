@@ -1,0 +1,64 @@
+html, body {
+  height: 100%;
+}
+
+#layout {
+  display: flex;
+}
+
+.content-root {
+  flex-grow: 1;
+  width: 100%;
+}
+
+.content {
+  padding: 20px;
+}
+
+.side-menu {
+  background-color: rgb(13, 37, 58);
+  height: 100vh;
+  color: rgb(95, 122, 142);
+  padding-top: 12px;
+}
+
+.side-menu-root {
+  width: 250px;
+  flex-shrink: 0;
+}
+
+#appbar {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+#side-menu-footer {
+  height: 10%;
+  width: 100%;
+  border-top: 1px solid white;
+}
+
+#side-menu-header {
+  width: 100%;
+  height: 10%;
+}
+
+#appbar-img {
+  height: 25px;
+}
+
+.logo-img {
+  width: 80%;
+}
+
+.side-menu-buttons {
+  color: rgb(95, 122, 142);
+}
+
+.side-menu-buttons:hover {
+  color: rgb(149, 170, 201);
+}
+
+#profile-menu {
+  padding: 5px;
+}
