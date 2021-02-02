@@ -1,16 +1,21 @@
-import thunk from "redux-thunk";
-import { createStore, compose, combineReducers, applyMiddleware } from "redux";
-import { persistStore, persistReducer } from 'redux-persist'
-import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
-import componentExampleReducer from "./../ducks/componentExample";
-import authReducer from "./../ducks/Auth";
+import { createStore, compose, combineReducers, applyMiddleware, Reducer } from 'redux';
+import { persistStore, persistReducer } from 'redux-persist';
+import thunk from 'redux-thunk';
+import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
+import { authReducer, AuthState } from './../ducks/Auth';
+import componentExampleReducer from './../ducks/componentExample';
 
 const persistConfig = {
   key: 'root',
   storage,
-}
+};
 
-const rootReducer = combineReducers({
+export type RootState = {
+  componentExample: any,
+  auth: AuthState,
+};
+
+const rootReducer: Reducer<RootState> = combineReducers({
   componentExample: componentExampleReducer,
   auth: authReducer,
   //other: otherReducer,
@@ -22,11 +27,10 @@ const storeEnhancers =
 const middleWare = [];
 middleWare.push(thunk);
 
-let store = createStore(
+export const store = createStore(
   persistReducer(persistConfig, rootReducer),
-  {},
+  undefined,
   storeEnhancers(applyMiddleware(...middleWare))
 );
-let persistor = persistStore(store)
 
-export { store, persistor }
+export const persistor = persistStore(store);

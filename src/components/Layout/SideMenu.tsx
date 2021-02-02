@@ -1,104 +1,90 @@
-import React, { Component, FunctionComponent } from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import axios from "axios";
-import qs from "querystring";
+import React, { Component, MouseEvent, ReactChild } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
+import axios from 'axios';
+import qs from 'querystring';
 import {
   List,
-  ListItem,
-  ListItemText,
-  Drawer,
-  IconButton,
   Grid,
   Menu,
   MenuItem,
-} from "@material-ui/core";
+  withStyles,
+} from '@material-ui/core';
 import {
   Person,
   CloudUpload,
   Notifications,
-  NavigateNext,
   HomeOutlined,
   AccessibleForwardOutlined
-} from "@material-ui/icons";
-import { logOff } from "../../ducks/Auth";
-import "./index.css";
+} from '@material-ui/icons';
+import { RootState } from '../../store';
+import { logOff } from '../../ducks/Auth';
+import SideMenuListItemLink from './SideMenuListItemLink';
+import SideMenuIconButton from './SideMenuIconButton';
 
-interface SideMenuProps {
-  username: string;
-  accessToken: string;
-  isLoggedIn: boolean;
-  logOff: () => void;
-}
+const useStyles = () => ({
+  sideMenu: {
+    backgroundColor: 'rgb(13, 37, 58)',
+    height: '100vh',
+    color: 'rgb(95, 122, 142)',
+    paddingTop: '12px',
+  },
+  footer: {
+    width: '100%',
+    height: '10%',
+    borderTop: '1px solid white',
+  },
+  profileMenu: {
+    padding: '5px 0px 5px 0px',
+  },
+  contentRoot: {
+    width: '100%',
+    flexGrow: 1,
+  },
+});
 
-type SideMenuState = {
-  anchorEl: null | Element | ((element: Element) => Element)
+const mapStateToProps = ({ auth }: RootState) => ({
+  username: auth.username,
+  accessToken: auth.accessToken,
+  isLoggedIn: auth.isLoggedIn,
+});
+
+const mapDispatchToProps = ({
+  logOff: () => logOff()
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+type SideMenuProps = PropsFromRedux & {
+  classes: {
+    sideMenu: string,
+    footer: string,
+    profileMenu: string,
+    contentRoot: string,
+  },
+  children?: ReactChild,
 };
 
-type MyListItemProps = {
-  text: string,
-  icon: any,
-  to: string,
-}
-
-type MyIconButtonProps = {
-  icon: any,
-  onClick?: any,
-}
-
-const MyListItemLink: FunctionComponent<MyListItemProps> = ({text, icon, to}) => {  
-  const CustomLink = React.useMemo(
-    () =>
-      React.forwardRef<HTMLAnchorElement>((linkProps, ref) => 
-        <Link ref={ref} to={to} {...linkProps} />
-      ),
-    [to],
-  );
-  
-  return(
-    <ListItem
-      button
-      component={CustomLink}
-      disableRipple={true}
-      classes={{
-        button: "side-menu-buttons"
-      }}
-    >
-      {icon}
-      <ListItemText primary={text} />
-      <NavigateNext />
-    </ListItem>
-  );
-}
-
-const MyIconButton: FunctionComponent<MyIconButtonProps> = ({icon, onClick}) => {
-  return(
-    <IconButton
-      color="inherit"
-      aria-label="open drawer"
-      disableRipple={true}
-      onClick={onClick}
-      className="side-menu-buttons" >
-      {icon}
-    </IconButton>
-  );
-}
+type SideMenuState = {
+  profileAnchor: null | Element | ((element: Element) => Element),
+};
 
 class SideMenu extends Component<SideMenuProps, SideMenuState> {
   constructor(props: SideMenuProps) {
     super(props);
 
     this.state = {
-      anchorEl: null,
+      profileAnchor: null,
     };
   }
 
-  handleMenu = (event: any) => {
-    this.setState({ ...this.state, anchorEl: event.currentTarget });
+  handleMenu = (event: MouseEvent<HTMLElement>) => {
+    this.setState({ ...this.state, profileAnchor: event.currentTarget });
   };
 
   handleClose = () => {
-    this.setState({ ...this.state, anchorEl: null });
+    this.setState({ ...this.state, profileAnchor: null });
   };
 
   handleLogoutButton = () => {
@@ -117,99 +103,72 @@ class SideMenu extends Component<SideMenuProps, SideMenuState> {
       method: 'post',
       url: `${process.env.REACT_APP_AUTHENTICATION_URL}/connect/revocation`,
       data: qs.stringify(body),
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': `Bearer ${accessToken}` },
+      headers: {'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': `Bearer ${accessToken}`},
       })
     .then(response => {
-      console.log(response);
+      //log off based on response. How can a non error response be invalid? Maybe only after 
       logOff();
     },
     (error) => {
       console.log(error);
       // alert with error message
+      // which error message might also need for logOff()?
     });
   };
 
   render() {
-    const { anchorEl } = this.state;
-    const open = Boolean(anchorEl);
+    const { classes } = this.props;
+    const { profileAnchor } = this.state;
+    const open = Boolean(profileAnchor);
 
     return (
-      <Drawer
-        variant="permanent"
-        open
-        classes={{
-          paper: "side-menu-root"
-        }}
+      <Grid
+        container
+        direction="column"
+        justify="space-between"
+        alignItems="flex-start"
+        className={classes.sideMenu}
       >
+        { this.props.children }
+        <List className={classes.contentRoot} >
+          <SideMenuListItemLink text="Home" icon={<HomeOutlined /> } to="/home" />
+          <SideMenuListItemLink text="Banana" icon={<AccessibleForwardOutlined />} to="/banana" />
+        </List>
         <Grid
           container
-          direction="column"
-          justify="space-between"
-          alignItems="flex-start"
-          className="side-menu"
+          direction="row"
+          justify="space-evenly"
+          alignItems="center"
+          className={classes.footer}
         >
-          <Grid
-            container
-            justify="space-evenly"
-            alignItems="center"
-            id="side-menu-header">
-          <Link to="/" className="logo-img">
-            <img src={'/INSTANDA-logo-tm-RGB-vector-white.svg'} alt="home-img" />
-          </Link>
-          </Grid>
-          <List className="content-root" >
-            <MyListItemLink text="Home" icon={<HomeOutlined /> } to="/home" />
-            <MyListItemLink text="Banana" icon={<AccessibleForwardOutlined />} to="/banana" />
-          </List>
-          <Grid
-            container
-            direction="row"
-            justify="space-evenly"
-            alignItems="center"
-            id="side-menu-footer"
+          <Menu
+            PopoverClasses={{
+              paper: classes.profileMenu
+            }}
+            anchorEl={profileAnchor}
+            getContentAnchorEl={null}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: "bottom",
+              horizontal: "left",
+            }}
+            open={open}
+            onClose={this.handleClose}
           >
-            <Menu
-              id="profile-menu"
-              anchorEl={anchorEl}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              open={open}
-              onClose={this.handleClose}
-            >
-              <MenuItem >Profile</MenuItem>
-              <MenuItem onClick={this.handleLogoutButton}>Logout</MenuItem>
-            </Menu>
-            <MyIconButton icon={<Person />} onClick={this.handleMenu} />
-            <MyIconButton icon={<CloudUpload />} />
-            <MyIconButton icon={<Notifications />} />
-          </Grid>
+            <MenuItem>Profile</MenuItem>
+            <MenuItem onClick={this.handleLogoutButton}>Logout</MenuItem>
+          </Menu>
+          <SideMenuIconButton icon={<Person />} onClick={this.handleMenu} />
+          <SideMenuIconButton icon={<CloudUpload />} onClick={()=>{}} />
+          <SideMenuIconButton icon={<Notifications />} onClick={()=>{}} />
         </Grid>
-      </Drawer>
+      </Grid>
     );
   }
 }
 
-const mapStateToProps = (state: any) => {
-  return {
-    username: state.auth.username,
-    accessToken: state.auth.accessToken,
-    isLoggedIn: state.auth.isLoggedIn,
-  };
-};
-
-function mapDispatchToProps(dispatch: any) {
-  return {
-    logOff: () => {
-      return dispatch(logOff());
-    },
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(SideMenu);
+export default connector(withStyles(useStyles)(SideMenu));

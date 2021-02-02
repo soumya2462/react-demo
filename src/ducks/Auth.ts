@@ -1,17 +1,23 @@
 //actions
-export const UPDATE_USER = "UPDATE_USER";
+export const UPDATE_USER = 'UPDATE_USER';
 
-const initialState = {
-  username: "",
-  accessToken: "",
+export interface AuthState {
+  username: string,
+  accessToken: string,
+  isLoggedIn: boolean,
+};
+
+const initialState: AuthState = {
+  username: '',
+  accessToken: '',
   isLoggedIn: false,
 };
 
 //reducer
-export default function AuthReducer(
+export function authReducer(
   state = initialState,
-  action: { type: string, payload?: any }
-) {
+  action: { type: string, payload: AuthState}
+): AuthState {
   const { type, payload } = action;
   let newState = state;
   
@@ -37,10 +43,11 @@ export function logOn(username: string, accessToken: string) {
     accessToken,
   } };
 }
+
 export function logOff() {
   return { type: UPDATE_USER, payload: {
     isLoggedIn: false,
-    username: "",
-    accessToken: "",
+    username: '',
+    accessToken: '',
   } };
 }

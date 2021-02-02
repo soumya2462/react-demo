@@ -1,25 +1,27 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { create } from "jss";
-import { StylesProvider, jssPreset } from "@material-ui/core/styles";
-import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
-import Login from "./components/Login/Login";
-import Layout from "./components/Layout/Layout";
-import Home from "./components/Home/Home";
-//import ComponentExample from "./components/ComponentExample/ComponentExample";
+import React, { Component } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
+import { ThemeProvider } from '@material-ui/core/styles';
+import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
+import { RootState } from './store';
+import Login from './components/Login/Login';
+import Layout from './components/Layout/Layout';
+import Home from './components/Home/Home';
+import Theme from './MuiTheme';
 
-const jss = create({
-  ...jssPreset(),
-  // Define a custom insertion point that JSS will look for when injecting the styles into the DOM.
-  insertionPoint: document.getElementById("jss-insertion-point")!,
+const mapStateToProps = ({ auth }: RootState) => ({
+  isLoggedIn: auth.isLoggedIn,
 });
 
-const Banana = () => { return(<img src="/banana.gif" alt="image" />); }
+const connector = connect(mapStateToProps);
 
-class App extends Component<{ isLoggedIn: boolean }>{
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+const Banana = () => (<img src="/banana.gif" alt="image" />);
+
+class App extends Component<PropsFromRedux>{
   render(){
     return (
-      <StylesProvider jss={jss}>
+      <ThemeProvider theme={Theme}>
         <Router>
           <Layout>
             { this.props.isLoggedIn ?
@@ -37,15 +39,9 @@ class App extends Component<{ isLoggedIn: boolean }>{
             }
           </Layout>
         </Router>
-      </StylesProvider>
+      </ThemeProvider>
     );
   }
 }
 
-const mapStateToProps = (state: any) => {
-  return {
-    isLoggedIn: state.auth.isLoggedIn,
-  };
-};
-
-export default connect(mapStateToProps)(App);
+export default connector(App);
