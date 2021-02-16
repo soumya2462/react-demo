@@ -116,9 +116,6 @@ export class Login extends Component<LoginProps, LoginState> {
               <Divider />
               <Grid container direction="column" className="innerContainer">
                 <Grid item>
-                  <Typography>You are testing the Test release</Typography>
-                </Grid>
-                <Grid item>
                   <Typography variant="subtitle1" align="left">
                     Username
                   </Typography>
