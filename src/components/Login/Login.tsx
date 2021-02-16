@@ -16,7 +16,6 @@ import {
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import axios from "axios";
 import qs from "querystring";
-import "./index.css";
 import { logOn } from "../../ducks/Auth";
 
 interface LoginProps {
