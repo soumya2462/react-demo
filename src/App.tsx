@@ -3,10 +3,13 @@ import { connect, ConnectedProps } from 'react-redux';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import { RootState } from './store';
-import Login from './components/Login/Login';
-import Layout from './components/Layout/Layout';
-import Home from './components/Home/Home';
 import Theme from './MuiTheme';
+import Layout from './components/Layout/Layout';
+import Login from './components/Login/Login';
+import Home from './components/Home/Home';
+import RichTextEditorPoC from './components/PoC/RichTextEditorPoC';
+import CssJsEditorPoC from './components/PoC/CssJsEditorPoC';
+import ParserPoC from './components/PoC/ParserPoC';
 
 const mapStateToProps = ({ auth }: RootState) => ({
   isLoggedIn: auth.isLoggedIn,
@@ -28,6 +31,9 @@ class App extends Component<PropsFromRedux>{
               <Switch>
                 <Route path="/login" component={Login} />
                 <Route path="/banana" component={Banana} />
+                <Route path="/editor/richtext" component={RichTextEditorPoC} />
+                <Route path="/editor/cssjs" component={CssJsEditorPoC} />
+                <Route path="/editor/parser" component={ParserPoC} />
                 <Route exact path="/" component={Home} />
                 <Redirect from="*" to="/" />
               </Switch>
