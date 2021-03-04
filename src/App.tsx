@@ -32,7 +32,16 @@ class App extends Component<PropsFromRedux>{
                 <Route path="/login" component={Login} />
                 <Route path="/banana" component={Banana} />
                 <Route path="/editor/richtext" component={RichTextEditorPoC} />
-                <Route path="/editor/cssjs" component={CssJsEditorPoC} />
+                <Route
+                  path="/editor/css"
+                  render={(props) => (
+                    <CssJsEditorPoC {...props} templateId="55e8d45f-ccaa-41b7-bdcc-245f816c8193" />
+                  )} />
+                <Route
+                  path="/editor/js"
+                  render={(props) => (
+                    <CssJsEditorPoC {...props} templateId="b9938dd0-2d7a-48ff-b8e4-494a343400e2" />
+                  )} />
                 <Route path="/editor/parser" component={ParserPoC} />
                 <Route exact path="/" component={Home} />
                 <Redirect from="*" to="/" />
