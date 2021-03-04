@@ -134,7 +134,8 @@ class SideMenu extends Component<SideMenuProps, SideMenuState> {
           <SideMenuListItemLink text="Home" icon={<HomeOutlined /> } to="/home" />
           <SideMenuListItemLink text="Banana" icon={<AccessibleForwardOutlined />} to="/banana" />
           <SideMenuListItemLink text="RichTextEditor" icon={<AccessibleForwardOutlined />} to="/editor/richtext" />
-          <SideMenuListItemLink text="CssJsEditor" icon={<AccessibleForwardOutlined />} to="/editor/cssjs" />
+          <SideMenuListItemLink text="CssEditor" icon={<AccessibleForwardOutlined />} to="/editor/css" />
+          <SideMenuListItemLink text="JsEditor" icon={<AccessibleForwardOutlined />} to="/editor/js" />
           <SideMenuListItemLink text="Parser" icon={<AccessibleForwardOutlined />} to="/editor/parser" />
         </List>
         <Grid
