@@ -7,10 +7,11 @@ import 'codemirror/theme/material.css';
 
 type CssJsEditorState = {
   html: string,
-  templateId: string,
 };
 
-type dummyProps = {};
+type CssJsEditorProps = {
+  templateId: string,
+};
 
 const options = {
   mode: 'xml',
@@ -18,19 +19,19 @@ const options = {
   lineNumbers: true
 };
 
-class CssJsEditorPoC extends Component<dummyProps, CssJsEditorState> {
-  constructor(props: dummyProps) {
+class CssJsEditorPoC extends Component<CssJsEditorProps, CssJsEditorState> {
+  constructor(props: CssJsEditorProps) {
     super(props);
 
     this.state = {
       html: '',
-      //templateId: 'fd4ede1b-169d-4366-8e2c-3f233d0c505a', usar outro
-      templateId: 'c2a95458-c0af-443e-86db-a5fe3678e192',
+      //templateId: 'fd4ede1b-169d-4366-8e2c-3f233d0c505a',
+      //templateId: 'c2a95458-c0af-443e-86db-a5fe3678e192',
     };
   }
 
   componentDidMount() {
-    axios.get(`${process.env.REACT_APP_DESIGN_GATEWAY_URL}/templates/${this.state.templateId}`)
+    axios.get(`${process.env.REACT_APP_DESIGN_GATEWAY_URL}/templates/${this.props.templateId}`)
     .then(response => {
       //log off based on response. How can a non error response be invalid? Maybe only after
       this.setState({html: response.data.html});
@@ -50,7 +51,8 @@ class CssJsEditorPoC extends Component<dummyProps, CssJsEditorState> {
   }
 
   handleSaveClick = (e: any) => {
-    const { html, templateId } = this.state;
+    const { html } = this.state;
+    const { templateId } = this.props;
     const body = {
       id: templateId,
       html,
