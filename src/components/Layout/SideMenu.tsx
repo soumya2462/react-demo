@@ -131,8 +131,6 @@ class SideMenu extends Component<SideMenuProps, SideMenuState> {
       >
         { this.props.children }
         <List className={classes.contentRoot} >
-          <SideMenuListItemLink text="Home" icon={<HomeOutlined /> } to="/home" />
-          <SideMenuListItemLink text="Banana" icon={<AccessibleForwardOutlined />} to="/banana" />
           <SideMenuListItemLink text="RichTextEditor" icon={<AccessibleForwardOutlined />} to="/editor/richtext" />
           <SideMenuListItemLink text="CssEditor" icon={<AccessibleForwardOutlined />} to="/editor/css" />
           <SideMenuListItemLink text="JsEditor" icon={<AccessibleForwardOutlined />} to="/editor/js" />

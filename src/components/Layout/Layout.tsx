@@ -24,7 +24,7 @@ const useStyles = (theme: Theme) => ({
     },
   },
   content: {
-    padding: '20px',
+    padding: '0 30px 0 30px',
     flexGrow: 1,
   },
   header: {

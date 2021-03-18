@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 import {Controlled as CodeMirror} from 'react-codemirror2';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/material.css';
+import ContentLayout from '../Layout/ContentLayout';
+import EditorButtons from './EditorButtons';
 
 type CssJsEditorState = {
   key: string,
@@ -12,6 +14,7 @@ type CssJsEditorState = {
 
 type CssJsEditorProps = {
   templateId: string,
+  title: string,
 };
 
 const options = {
@@ -59,9 +62,6 @@ class CssJsEditorPoC extends Component<CssJsEditorProps, CssJsEditorState> {
   };
   
   handleEditorChange = (editor: any, data: any, value:any) => {
-    console.log(`editor: ${editor}`);
-    console.log(`data: ${data}`);
-    console.log(`value/jss/css: ${value}`);
     this.setState({html: value});
   }
 
@@ -90,17 +90,23 @@ class CssJsEditorPoC extends Component<CssJsEditorProps, CssJsEditorState> {
   
   render() {
     return (
-      <div>
-        <CodeMirror
-          value={this.state.html}
-          options={options}
-          onBeforeChange={this.handleEditorChange}
-          onChange={(editor, value) => {
-            console.log('controlled', {value});
-          }}
-        />
-        <Button onClick={this.handleSaveClick}>Save</Button>
-      </div>
+      <ContentLayout title={this.props.title}>
+        <div>
+          <CodeMirror
+            value={this.state.html}
+            options={options}
+            onBeforeChange={this.handleEditorChange}
+            onChange={(editor, value) => {
+              console.log('controlled', {value});
+            }}
+          />
+          <EditorButtons
+            saveClick={this.handleSaveClick}
+            cancelClick={() => {}}
+            defaultClick={() => {}}
+          />
+        </div>
+      </ContentLayout>
     );
   };
 };

@@ -1,9 +1,10 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import axios from 'axios';
 import qs from 'querystring';
 import ReactHtmlParser from 'react-html-parser';
 import { RootState } from '../../store';
+import ContentLayout from '../Layout/ContentLayout';
 
 type ParserPoCStats = {
   templateId: string,
@@ -48,9 +49,11 @@ class ParserPoC extends Component<dummyProps, ParserPoCStats> {
   render() {
     const { html } = this.state;
     return (
-      <div>
-        { ReactHtmlParser(html) }
-      </div>
+      <ContentLayout title="Parser">
+        <div>
+          { ReactHtmlParser(html) }
+        </div>
+      </ContentLayout>
     );
   };
 };

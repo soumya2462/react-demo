@@ -1,20 +1,60 @@
 import React, { Component } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
+import tinymce from 'tinymce';
 //import { CKEditor } from '@ckeditor/ckeditor5-react';
 //import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { Button } from '@material-ui/core';
+import { Button, Theme, withStyles } from '@material-ui/core';
 import axios from 'axios';
 import qs from 'querystring';
-  
+import ContentLayout from '../Layout/ContentLayout';
+import EditorButtons from './EditorButtons';
+import VariableDropdown from './VariableDropdown';
+
+const useStyles = (theme: Theme) => ({
+  buttonGroup: {
+    paddingTop: "1.5rem",
+  },
+});
+
 type RichTextEditorPoCState = {
   html: string,
   templateId: string,
 };
 
-type dummyProps = {};
+type RichTextEditorPoCProps = {
+  classes: {
+    buttonGroup: string,
+  },
+};
 
-class RichTextEditorPoC extends Component<dummyProps, RichTextEditorPoCState> {
-  constructor(props: dummyProps) {
+const VariableList = [
+  "var1",
+  "var2",
+  "var3",
+  "var4",
+  "var5",
+  "the 1",
+  "the 2",
+  "the 3",
+  "the 4",
+  "a test",
+  "another test",
+  "asd test",
+];
+
+const PlaceholderList = [
+  "place1",
+  "place2",
+  "place3",
+  "place4",
+];
+
+const LinkList = [
+  "link1"
+];
+
+class RichTextEditorPoC extends Component<RichTextEditorPoCProps, RichTextEditorPoCState> {
+  constructor(props: RichTextEditorPoCProps) {
     super(props);
 
     this.state = {
@@ -50,10 +90,11 @@ class RichTextEditorPoC extends Component<dummyProps, RichTextEditorPoCState> {
     });
   }
 
-  componentDidMount() {
+  fetchData = () => {
     axios.get(`${process.env.REACT_APP_DESIGN_GATEWAY_URL}/templates/${this.state.templateId}`)
     .then(response => {
-      //log off based on response. How can a non error response be invalid? Maybe only after
+      //tinymce.get('TempEditor').execCommand('mceInsertContent', false, response.data.html);
+      tinymce.get('TempEditor').execCommand('mceSetContent', false, response.data.html);
       this.setState({html: response.data.html});
     },
     (error) => {
@@ -64,28 +105,47 @@ class RichTextEditorPoC extends Component<dummyProps, RichTextEditorPoCState> {
   };
 
   render() {
+    const { classes } = this.props;
     return (
-      <div>
-        <Editor
-          apiKey='igy32r06yhpq2kh2fdjw8sjayfm478ul8rxg9v6nz072ovrp'
-          initialValue={this.state.html}
-          init={{
-            height: 500,
-            menubar: 'tools',
-            plugins: [
-              'advlist autolink lists link image', 
-              'charmap print preview anchor help',
-              'searchreplace visualblocks code',
-              'insertdatetime media table paste wordcount',
-              'code'
-            ],
-            toolbar:
-              'undo redo | formatselect | bold italic | \
-              alignleft aligncenter alignright | \
-              bullist numlist outdent indent | help | \
-              code'
-          }}
-          onChange={this.handleEditorChange}
+      <ContentLayout title="RichTextEditor">
+        <div>
+          <VariableDropdown
+            variableList={LinkList}
+            id="links"
+            title="Links"
+            placeholder="Type here to insert links"
+            chipBackgroundColor="rgb(52, 73, 94)"
+            chipBorderColor="rgb(49, 69, 89)" />
+          <VariableDropdown
+            variableList={PlaceholderList}
+            id="placeholders"
+            title="Placeholders"
+            placeholder="Type here to insert placeholders"
+            chipBackgroundColor="rgb(37, 115, 166)"
+            chipBorderColor="rgb(35, 109, 157)" />
+          <VariableDropdown
+            variableList={VariableList}
+            id="variables"
+            title="Variables"
+            placeholder="Type here to insert variables"
+            chipBackgroundColor="rgb(218, 140, 16)"
+            chipBorderColor="rgb(207, 133, 15)" />
+          <Editor
+            id="TempEditor"
+            init={{
+              height: 500,
+              menubar: 'tools',
+              plugins: [
+                'advlist autolink link image lists charmap print preview hr anchor pagebreak',
+                'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+                'table emoticons template paste help'
+              ],
+              toolbar:
+              'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' +
+              'bullist numlist outdent indent | link image | print preview media fullpage | ' +
+              'forecolor backcolor emoticons | help | code',
+            }}
+            onChange={this.handleEditorChange}
         />
         {/*<div className="App">
           <h2>Using CKEditor 5 build in React</h2>
@@ -108,10 +168,15 @@ class RichTextEditorPoC extends Component<dummyProps, RichTextEditorPoCState> {
             } }
           />
         </div>*/}
-        <Button onClick={this.handleSaveClick}>Save</Button>
-      </div>
+          <EditorButtons
+            saveClick={this.handleSaveClick}
+            cancelClick={() => {}}
+            defaultClick={this.fetchData}
+          />
+        </div>
+      </ContentLayout>
     );
   };
 };
 
-export default RichTextEditorPoC;
+export default withStyles(useStyles)(RichTextEditorPoC);
