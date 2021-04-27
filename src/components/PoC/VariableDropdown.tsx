@@ -88,8 +88,7 @@ function VariableDropdown(props: VariableDropdownProps) {
         <Button
           variant="contained"
           disableElevation
-          disabled
-          onClick={handleButtonClick}
+          //onClick={handleButtonClick}
           className={classes.button}
         >
           {title}

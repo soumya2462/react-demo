@@ -10,6 +10,7 @@ import Home from './components/Home/Home';
 import RichTextEditorPoC from './components/PoC/RichTextEditorPoC';
 import CssJsEditorPoC from './components/PoC/CssJsEditorPoC';
 import ParserPoC from './components/PoC/ParserPoC';
+import DragAndDropPoC from './components/PoC/DnDPoc/DragAndDropPoC';
 
 const mapStateToProps = ({ auth }: RootState) => ({
   isLoggedIn: auth.isLoggedIn,
@@ -49,6 +50,12 @@ class App extends Component<PropsFromRedux>{
                       title="Js Editor" />
                   )} />
                 <Route path="/editor/parser" component={ParserPoC} />
+                <Route
+                  path="/dragndrop"
+                  render={(props) => (
+                    <DragAndDropPoC {...props}
+                      title="Drag And Drop" />
+                  )} />
                 <Route exact path="/" component={Home} />
                 <Redirect from="*" to="/" />
               </Switch>

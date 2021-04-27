@@ -131,10 +131,11 @@ class SideMenu extends Component<SideMenuProps, SideMenuState> {
       >
         { this.props.children }
         <List className={classes.contentRoot} >
-          <SideMenuListItemLink text="RichTextEditor" icon={<AccessibleForwardOutlined />} to="/editor/richtext" />
-          <SideMenuListItemLink text="CssEditor" icon={<AccessibleForwardOutlined />} to="/editor/css" />
-          <SideMenuListItemLink text="JsEditor" icon={<AccessibleForwardOutlined />} to="/editor/js" />
+          <SideMenuListItemLink text="Rich Text Editor" icon={<AccessibleForwardOutlined />} to="/editor/richtext" />
+          <SideMenuListItemLink text="Css Editor" icon={<AccessibleForwardOutlined />} to="/editor/css" />
+          <SideMenuListItemLink text="Js Editor" icon={<AccessibleForwardOutlined />} to="/editor/js" />
           <SideMenuListItemLink text="Parser" icon={<AccessibleForwardOutlined />} to="/editor/parser" />
+          <SideMenuListItemLink text="Drag And Drop" icon={<AccessibleForwardOutlined />} to="/dragndrop" />
         </List>
         <Grid
           container
