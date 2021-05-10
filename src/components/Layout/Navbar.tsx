@@ -7,12 +7,13 @@ import {
   withStyles,
 } from '@material-ui/core';
 import { Menu as MenuIcon } from '@material-ui/icons';
+import Color, { addAlpha } from '../../constants/Colors';
 
 const useStyles = () => ({
   appbar: {
-    backgroundColor: 'rgb(13, 37, 58)',
+    backgroundColor: Color.DarkBlue,
     boxShadow: 'none',
-    borderBottom: '1px solid white',
+    borderBottom: `1px solid ${Color.White}`,
   },
   toolbar: {
     height: '26px',
@@ -27,14 +28,14 @@ const useStyles = () => ({
     height: '100%',
   },
   menuButton: {
-    backgroundColor: 'rgb(249, 251, 253)',
-    color: 'rgb(40, 62, 89)',
+    backgroundColor: Color.White,
+    color: Color.DarkBlue,
     padding: '2px 8px 2px 8px',
     height: '26px',
     minWidth: '11px',
     width: '27px',
     '&:hover': {
-      backgroundColor: 'rgb(233, 239, 248)',
+      backgroundColor: addAlpha(Color.White, 0.9),
     },
   },
   menuIcon: {
@@ -65,7 +66,7 @@ const Navbar: FunctionComponent<NavbarProps> = ({isLoggedIn, handleSideMenuToggl
     <Toolbar classes={{root: classes.toolbar}}>
       <Link to="/" className={classes.logoLink}>
         <img
-          src="/INSTANDA-logo-tm-RGB-vector-white.svg"
+          src="/images/INSTANDA-logo-tm-RGB-vector-white.svg"
           alt="home-img"
           className={classes.logo} />
       </Link>

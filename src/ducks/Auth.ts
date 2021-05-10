@@ -1,10 +1,17 @@
+import { Reducer } from "react";
+
 //actions
 export const UPDATE_USER = 'UPDATE_USER';
 
-export interface AuthState {
+export type AuthState = {
   username: string,
   accessToken: string,
   isLoggedIn: boolean,
+};
+
+interface AuthAction {
+  type: string,
+  payload: AuthState,
 };
 
 const initialState: AuthState = {
@@ -16,7 +23,7 @@ const initialState: AuthState = {
 //reducer
 export function authReducer(
   state = initialState,
-  action: { type: string, payload: AuthState}
+  action: AuthAction,
 ): AuthState {
   const { type, payload } = action;
   let newState = state;

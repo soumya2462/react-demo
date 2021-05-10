@@ -3,8 +3,8 @@ import { connect, ConnectedProps } from 'react-redux';
 import axios from 'axios';
 import qs from 'querystring';
 import ReactHtmlParser from 'react-html-parser';
-import { RootState } from '../../store';
-import ContentLayout from '../Layout/ContentLayout';
+import { RootState } from '../store';
+import ContentLayout from '../components/Layout/ContentLayout';
 
 type ParserPoCStats = {
   templateId: string,

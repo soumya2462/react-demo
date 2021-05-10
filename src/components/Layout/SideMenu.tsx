@@ -13,17 +13,18 @@ import {
   Person,
   CloudUpload,
   Notifications,
-  HomeOutlined,
   AccessibleForwardOutlined
 } from '@material-ui/icons';
 import { RootState } from '../../store';
 import { logOff } from '../../ducks/Auth';
 import SideMenuListItemLink from './SideMenuListItemLink';
 import SideMenuIconButton from './SideMenuIconButton';
+import Color from '../../constants/Colors';
+
 
 const useStyles = () => ({
   sideMenu: {
-    backgroundColor: 'rgb(13, 37, 58)',
+    backgroundColor: Color.DarkBlue,
     height: '100vh',
     color: 'rgb(95, 122, 142)',
     paddingTop: '12px',
@@ -31,7 +32,7 @@ const useStyles = () => ({
   footer: {
     width: '100%',
     height: '10%',
-    borderTop: '1px solid white',
+    borderTop: `1px solid ${Color.White}`,
   },
   profileMenu: {
     padding: '5px 0px 5px 0px',

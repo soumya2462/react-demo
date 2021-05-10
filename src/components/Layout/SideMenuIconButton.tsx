@@ -5,13 +5,14 @@ import {
   IconProps,
   makeStyles,
 } from '@material-ui/core';
+import Color, { addAlpha } from '../../constants/Colors';
 
 const useStyles = makeStyles(() =>
   createStyles({
     button: {
-      color: 'rgb(95, 122, 142)',
+      color: addAlpha(Color.White, 0.4),
       '&:hover': {
-        color: 'rgb(149, 170, 201)',
+        color: addAlpha(Color.White, 0.7),
       },
     },
   })

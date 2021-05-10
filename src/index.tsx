@@ -2,14 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import { ThemeProvider } from '@material-ui/core';
 import { store, persistor } from './store/index';
 import reportWebVitals from './reportWebVitals';
-import App from './App';
+import Routes from './Routes';
+import Theme from './MuiTheme';
 
 ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <App />
+      <ThemeProvider theme={Theme}>
+        <Routes />
+      </ThemeProvider>
     </PersistGate>
   </Provider>,
   document.getElementById('root')

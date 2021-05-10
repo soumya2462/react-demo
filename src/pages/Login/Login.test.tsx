@@ -120,25 +120,4 @@ describe("Testing Login component - ", () => {
     expect(loginWrapper.state("rememberMe")).toBe(false);
     expect(wrapper.find(UnwrappedLogin).find("input[name='rememberMe']").prop("checked")).toBe(false);
   });
-
-/*
-  it("remember me checkbox - clicking in Remember me? next to checkbox changes checkbox visually and updates state", () => {
-    var loginWrapper = wrapper.find(UnwrappedLogin);
-    var rememberCheckbox = loginWrapper.find("input[name='rememberMe']");
-    var rememberText = loginWrapper.find(".MuiTypography-root.MuiFormControlLabel-label");
-
-    expect(loginWrapper.state("rememberMe")).toBe(false);
-    expect(rememberCheckbox.prop("checked")).toBe(false);
-    //rememberText.simulate("change", { target: { checked: true } });
-    rememberText.simulate("click", { target: { checked: true }});
-
-    expect(loginWrapper.state("rememberMe")).toBe(true);
-    expect(wrapper.find(UnwrappedLogin).find("input[name='rememberMe']").prop("checked")).toBe(true);
-    rememberText.simulate("change", { target: { checked: false } });
-
-    expect(loginWrapper.state("rememberMe")).toBe(false);
-    expect(wrapper.find(UnwrappedLogin).find("input[name='rememberMe']").prop("checked")).toBe(false);
-  });
-*/
-  // add tests to check if error messages are being shown (when ready)
 });

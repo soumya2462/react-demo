@@ -135,7 +135,7 @@ class Layout extends Component<LayoutProps, LayoutState> {
                       className={classes.header}
                     >
                       <Link to="/" className={classes.logoImg}>
-                        <img src="/INSTANDA-logo-tm-RGB-vector-white.svg" alt="home-img" />
+                        <img src="/images/INSTANDA-logo-tm-RGB-vector-white.svg" alt="home-img" />
                       </Link>
                     </Grid>
                   </SideMenu>

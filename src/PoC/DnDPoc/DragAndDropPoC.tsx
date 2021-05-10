@@ -1,5 +1,5 @@
-import React, { useState } from "react"
-import useProfunctorState from "@staltz/use-profunctor-state"
+import React, { useState } from "react";
+import useProfunctorState from "@staltz/use-profunctor-state";
 import {
   Button,
   Divider,
@@ -9,14 +9,14 @@ import {
   MenuItem,
   Select,
   Theme
-} from "@material-ui/core"
+} from "@material-ui/core";
 import TreeView, {
   makeTree,
   node,
   deselect,
   addNode,
-} from "./TreeView"
-import ContentLayout from "../../Layout/ContentLayout"
+} from "./TreeView";
+import ContentLayout from "../../components/Layout/ContentLayout";
 
 const useStyles = makeStyles<Theme>({
   rootDrag: {

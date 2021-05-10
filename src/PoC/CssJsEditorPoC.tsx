@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import {Controlled as CodeMirror} from 'react-codemirror2';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/material.css';
-import ContentLayout from '../Layout/ContentLayout';
+import ContentLayout from '../components/Layout/ContentLayout';
 import EditorButtons from './EditorButtons';
 
 type CssJsEditorState = {

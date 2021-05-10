@@ -8,13 +8,14 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import { NavigateNext } from '@material-ui/icons';
+import Color, { addAlpha } from '../../constants/Colors';
 
 const useStyles = makeStyles(() =>
   createStyles({
     button: {
-      color: 'rgb(156, 186, 204)',
+      color: addAlpha(Color.White, 0.6),
       '&:hover': {
-        color: 'white',
+        color: Color.White,
       },
     },
     text: {
