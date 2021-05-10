@@ -4,7 +4,7 @@ import axios from 'axios';
 import qs from 'querystring';
 import ReactHtmlParser from 'react-html-parser';
 import { RootState } from '../store';
-import ContentLayout from '../components/Layout/ContentLayout';
+import { ContentLayout } from '../components/Layout';
 
 type ParserPoCStats = {
   templateId: string,

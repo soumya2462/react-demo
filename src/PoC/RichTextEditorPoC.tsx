@@ -6,7 +6,7 @@ import tinymce from 'tinymce';
 import { Button, Theme, withStyles } from '@material-ui/core';
 import axios from 'axios';
 import qs from 'querystring';
-import ContentLayout from '../components/Layout/ContentLayout';
+import { ContentLayout } from '../components/Layout';
 import EditorButtons from './EditorButtons';
 import VariableDropdown from './VariableDropdown';
 

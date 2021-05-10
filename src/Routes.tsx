@@ -2,7 +2,7 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import { RootState } from './store';
-import Layout from './components/Layout/Layout';
+import { Layout } from './components/Layout';
 import Login from './pages/Login/Login';
 import Home from './pages/Home/Home';
 import RichTextEditorPoC from './PoC/RichTextEditorPoC';

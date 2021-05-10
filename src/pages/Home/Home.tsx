@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography } from "@material-ui/core";
-import ContentLayout from "../../components/Layout/ContentLayout";
+import { ContentLayout } from "../../components/Layout";
 
 const Home = () => {
   return (

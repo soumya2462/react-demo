@@ -16,7 +16,7 @@ import TreeView, {
   deselect,
   addNode,
 } from "./TreeView";
-import ContentLayout from "../../components/Layout/ContentLayout";
+import { ContentLayout } from "../../components/Layout";
 
 const useStyles = makeStyles<Theme>({
   rootDrag: {
