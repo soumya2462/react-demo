@@ -1,7 +1,6 @@
 import React, { forwardRef, FunctionComponent, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  createStyles,
   IconProps,
   ListItem,
   ListItemText,
@@ -10,19 +9,17 @@ import {
 import { NavigateNext } from '@material-ui/icons';
 import Color, { addAlpha } from '../../constants/Colors';
 
-const useStyles = makeStyles(() =>
-  createStyles({
-    button: {
-      color: addAlpha(Color.White, 0.6),
-      '&:hover': {
-        color: Color.White,
-      },
+const useStyles = makeStyles(() => ({
+  button: {
+    color: addAlpha(Color.White, 0.6),
+    '&:hover': {
+      color: Color.White,
     },
-    text: {
-      margin: 0,
-    },
-  })
-);
+  },
+  text: {
+    margin: 0,
+  },
+}));
 
 type SideMenuListItemLinkProps = {
   text: string,
@@ -48,6 +45,7 @@ const SideMenuListItemLink: FunctionComponent<SideMenuListItemLinkProps> = ({tex
       classes={{
         button: classes.button,
       }}
+      data-test="component-side-menu-list-item-link"
     >
       {icon}
       <ListItemText
@@ -55,8 +53,9 @@ const SideMenuListItemLink: FunctionComponent<SideMenuListItemLinkProps> = ({tex
         classes={{
           root: classes.text,
         }}
+        data-test="item-link-text"
       />
-      <NavigateNext />
+      <NavigateNext data-test="item-link-right-arrow" />
     </ListItem>
   );
 };

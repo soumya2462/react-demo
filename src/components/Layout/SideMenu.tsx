@@ -1,5 +1,5 @@
-import React, { Component, MouseEvent, ReactChild } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import React, { FunctionComponent, MouseEvent, ReactChild, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import qs from 'querystring';
 import {
@@ -7,7 +7,7 @@ import {
   Grid,
   Menu,
   MenuItem,
-  withStyles,
+  makeStyles,
 } from '@material-ui/core';
 import {
   Person,
@@ -21,8 +21,7 @@ import SideMenuListItemLink from './SideMenuListItemLink';
 import SideMenuIconButton from './SideMenuIconButton';
 import Color from '../../constants/Colors';
 
-
-const useStyles = () => ({
+const useStyles = makeStyles(() => ({
   sideMenu: {
     backgroundColor: Color.DarkBlue,
     height: '100vh',
@@ -41,57 +40,29 @@ const useStyles = () => ({
     width: '100%',
     flexGrow: 1,
   },
-});
+}));
 
-const mapStateToProps = ({ auth }: RootState) => ({
-  username: auth.username,
-  accessToken: auth.accessToken,
-  isLoggedIn: auth.isLoggedIn,
-});
-
-const mapDispatchToProps = ({
-  logOff: () => logOff()
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-type SideMenuProps = PropsFromRedux & {
-  classes: {
-    sideMenu: string,
-    footer: string,
-    profileMenu: string,
-    contentRoot: string,
-  },
+type SideMenuProps = {
   children?: ReactChild,
 };
 
-type SideMenuState = {
-  profileAnchor: null | Element | ((element: Element) => Element),
-};
+const SideMenu: FunctionComponent<SideMenuProps> = props => {
+  const [profileAnchor, setProfileAnchor]: any = useState();
+  const accessToken = useSelector((state: RootState) => state.auth.accessToken);
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  const open = Boolean(profileAnchor);
 
-class SideMenu extends Component<SideMenuProps, SideMenuState> {
-  constructor(props: SideMenuProps) {
-    super(props);
-
-    this.state = {
-      profileAnchor: null,
-    };
-  }
-
-  handleMenu = (event: MouseEvent<HTMLElement>) => {
-    this.setState({ ...this.state, profileAnchor: event.currentTarget });
+  const handleMenu = (event: MouseEvent<HTMLElement>) => {
+    setProfileAnchor(event.currentTarget);
   };
 
-  handleClose = () => {
-    this.setState({ ...this.state, profileAnchor: null });
+  const handleClose = () => {
+    setProfileAnchor(null);
   };
 
-  handleLogoutButton = () => {
-    this.handleClose();
-
-    const { accessToken, logOff } = this.props;
+  const handleLogoutButton = () => {
+    handleClose();
 
     const body = {
       client_id: process.env.REACT_APP_CLIENT_ID,
@@ -107,8 +78,8 @@ class SideMenu extends Component<SideMenuProps, SideMenuState> {
       headers: {'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': `Bearer ${accessToken}`},
       })
     .then(response => {
-      //log off based on response. How can a non error response be invalid? Maybe only after 
-      logOff();
+      //log off based on response. How can a non error response be invalid? Maybe only after
+      dispatch(logOff());
     },
     (error) => {
       console.log(error);
@@ -117,62 +88,59 @@ class SideMenu extends Component<SideMenuProps, SideMenuState> {
     });
   };
 
-  render() {
-    const { classes } = this.props;
-    const { profileAnchor } = this.state;
-    const open = Boolean(profileAnchor);
-
-    return (
+  return (
+    <Grid
+      container
+      direction="column"
+      justify="space-between"
+      alignItems="flex-start"
+      className={classes.sideMenu}
+      data-test="component-side-menu"
+    >
+      { props.children }
+      <List className={classes.contentRoot} data-test="link-list">
+        <SideMenuListItemLink text="Rich Text Editor" icon={<AccessibleForwardOutlined />} to="/editor/richtext" />
+        <SideMenuListItemLink text="Css Editor" icon={<AccessibleForwardOutlined />} to="/editor/css" />
+        <SideMenuListItemLink text="Js Editor" icon={<AccessibleForwardOutlined />} to="/editor/js" />
+        <SideMenuListItemLink text="Parser" icon={<AccessibleForwardOutlined />} to="/editor/parser" />
+        <SideMenuListItemLink text="Drag And Drop" icon={<AccessibleForwardOutlined />} to="/dragndrop" />
+      </List>
       <Grid
         container
-        direction="column"
-        justify="space-between"
-        alignItems="flex-start"
-        className={classes.sideMenu}
+        direction="row"
+        justify="space-evenly"
+        alignItems="center"
+        className={classes.footer}
+        data-test="bottom-icons"
       >
-        { this.props.children }
-        <List className={classes.contentRoot} >
-          <SideMenuListItemLink text="Rich Text Editor" icon={<AccessibleForwardOutlined />} to="/editor/richtext" />
-          <SideMenuListItemLink text="Css Editor" icon={<AccessibleForwardOutlined />} to="/editor/css" />
-          <SideMenuListItemLink text="Js Editor" icon={<AccessibleForwardOutlined />} to="/editor/js" />
-          <SideMenuListItemLink text="Parser" icon={<AccessibleForwardOutlined />} to="/editor/parser" />
-          <SideMenuListItemLink text="Drag And Drop" icon={<AccessibleForwardOutlined />} to="/dragndrop" />
-        </List>
-        <Grid
-          container
-          direction="row"
-          justify="space-evenly"
-          alignItems="center"
-          className={classes.footer}
+        <Menu
+          PopoverClasses={{
+            paper: classes.profileMenu
+          }}
+          anchorEl={profileAnchor}
+          getContentAnchorEl={null}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          keepMounted
+          transformOrigin={{
+            vertical: "bottom",
+            horizontal: "left",
+          }}
+          open={open}
+          onClose={handleClose}
+          data-test="popup-menu"
         >
-          <Menu
-            PopoverClasses={{
-              paper: classes.profileMenu
-            }}
-            anchorEl={profileAnchor}
-            getContentAnchorEl={null}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: "bottom",
-              horizontal: "left",
-            }}
-            open={open}
-            onClose={this.handleClose}
-          >
-            <MenuItem>Profile</MenuItem>
-            <MenuItem onClick={this.handleLogoutButton}>Logout</MenuItem>
-          </Menu>
-          <SideMenuIconButton icon={<Person />} onClick={this.handleMenu} />
-          <SideMenuIconButton icon={<CloudUpload />} onClick={()=>{}} />
-          <SideMenuIconButton icon={<Notifications />} onClick={()=>{}} />
-        </Grid>
+          <MenuItem>Profile</MenuItem>
+          <MenuItem onClick={handleLogoutButton}>Logout</MenuItem>
+        </Menu>
+        <SideMenuIconButton icon={<Person />} onClick={handleMenu} data-test="person-icon" />
+        <SideMenuIconButton icon={<CloudUpload />} onClick={()=>{}} />
+        <SideMenuIconButton icon={<Notifications />} onClick={()=>{}} />
       </Grid>
-    );
-  }
+    </Grid>
+  );
 }
 
-export default connector(withStyles(useStyles)(SideMenu));
+export default SideMenu;

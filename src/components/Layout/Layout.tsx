@@ -1,13 +1,13 @@
-import React, { Component, ReactChild } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import React, { ReactChild, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Drawer, Grid, Hidden, Theme } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
+import { createStyles, Drawer, Grid, Hidden, makeStyles, Theme } from '@material-ui/core';
 import { RootState } from '../../store';
 import SideMenu from './SideMenu';
 import Navbar from './Navbar';
+import { FunctionComponent } from 'react';
 
-const useStyles = (theme: Theme) => ({
+const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
     display: 'flex',
   },
@@ -34,78 +34,46 @@ const useStyles = (theme: Theme) => ({
   logoImg: {
     width: '80%',
   },
-});
+}));
 
-const mapStateToProps = ({ auth }: RootState) => ({
-  isLoggedIn: auth.isLoggedIn,
-});
-
-const connector = connect(mapStateToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-type LayoutProps = PropsFromRedux & {
-  children: ReactChild,
-  classes: {
-    root: string,
-    sideMenu: string,
-    nav: string,
-    navHide: string,
-    content: string,
-    header: string,
-    logoImg: string,
-  },
+type LayoutProps = {
+  children: ReactChild
 };
   
-type LayoutState = {
-  mobileSideMenuOpen: boolean,
-};
-  
-class Layout extends Component<LayoutProps, LayoutState> {
-  constructor(props: LayoutProps) {
-    super(props);
+const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
+  const [mobileSideMenuOpen, setMobileSideMenuOpen] = useState(false);
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+  const classes = useStyles();
 
-    this.state = {
-      mobileSideMenuOpen: false,
-    };
+  const handleSideMenuToggle = () => {
+    setMobileSideMenuOpen(!mobileSideMenuOpen);
   };
 
-  handleSideMenuToggle = () => {
-    this.setState({ ...this.state, mobileSideMenuOpen: !this.state.mobileSideMenuOpen });
-  };
-
-  render() {
-    const {
-      children,
-      classes,
-      isLoggedIn,
-    } = this.props;
-    const { mobileSideMenuOpen } = this.state;
-
-    return (
+  return (
+    <div data-test="component-layout">
       <Grid
         container
         direction="column"
         className={classes.root}
       >
       { isLoggedIn ?
-        <nav className={`${classes.nav} ${classes.navHide}`}>
-          <Navbar isLoggedIn={true} handleSideMenuToggle={this.handleSideMenuToggle} />
+        <nav className={`${classes.nav} ${classes.navHide}`} data-test="navbar-logged-in">
+          <Navbar isLoggedIn={true} handleSideMenuToggle={handleSideMenuToggle} />
         </nav>
       :
-      <nav className={classes.nav}>
+        <nav className={classes.nav} data-test="navbar">
           <Navbar isLoggedIn={false} />
         </nav>
       }
         <div className={classes.root}>
         { isLoggedIn ?
-          <div>
+          <div data-test="drawer">
             <Hidden mdUp>
               <Drawer
                 variant="persistent"
                 anchor="left"
                 open={mobileSideMenuOpen}
-                onClose={this.handleSideMenuToggle}
+                onClose={handleSideMenuToggle}
                 classes={{
                   paper: classes.sideMenu
                 }}
@@ -150,8 +118,8 @@ class Layout extends Component<LayoutProps, LayoutState> {
           </main>
         </div>
       </Grid>
-    );
-  };
+    </div>
+  );
 };
 
-export default connector(withStyles(useStyles)(Layout));
+export default Layout;

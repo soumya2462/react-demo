@@ -15,7 +15,7 @@ export type RootState = {
   auth: AuthState,
 };
 
-const rootReducer: Reducer<RootState> = combineReducers({
+export const rootReducer: Reducer<RootState> = combineReducers({
   componentExample: componentExampleReducer,
   auth: authReducer,
   //other: otherReducer,

@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom';
 import {
   AppBar,
   Button,
+  makeStyles,
   Toolbar,
-  withStyles,
 } from '@material-ui/core';
 import { Menu as MenuIcon } from '@material-ui/icons';
 import Color, { addAlpha } from '../../constants/Colors';
 
-const useStyles = () => ({
+const useStyles = makeStyles(() => ({
   appbar: {
     backgroundColor: Color.DarkBlue,
     boxShadow: 'none',
@@ -44,27 +44,23 @@ const useStyles = () => ({
     width: '11px',
     padding: 0,
   },
-});
+}));
 
-type DependentProps =
-  | { isLoggedIn: false; handleSideMenuToggle?: never, }
-  | { isLoggedIn: true; handleSideMenuToggle: React.MouseEventHandler<HTMLButtonElement>, }
+type NavbarProps =
+  | { isLoggedIn: false; handleSideMenuToggle?: never }
+  | { isLoggedIn: true; handleSideMenuToggle: React.MouseEventHandler<HTMLButtonElement> }
 
-type NavbarProps = DependentProps & {
-  classes: {
-    appbar: string,
-    toolbar: string,
-    logo: string,
-    logoLink: string,
-    menuButton: string,
-    menuIcon: string,
-  },
-};
-
-const Navbar: FunctionComponent<NavbarProps> = ({isLoggedIn, handleSideMenuToggle, classes}) => (
-  <AppBar position="fixed" className={classes.appbar}>
+const Navbar: FunctionComponent<NavbarProps> = ({isLoggedIn, handleSideMenuToggle}) => {
+  const classes = useStyles();
+  
+  return (
+  <AppBar
+    position="fixed"
+    className={classes.appbar}
+    data-test="component-navbar"
+  >
     <Toolbar classes={{root: classes.toolbar}}>
-      <Link to="/" className={classes.logoLink}>
+      <Link to="/" className={classes.logoLink} data-test="home-image" >
         <img
           src="/images/INSTANDA-logo-tm-RGB-vector-white.svg"
           alt="home-img"
@@ -78,6 +74,7 @@ const Navbar: FunctionComponent<NavbarProps> = ({isLoggedIn, handleSideMenuToggl
             root: classes.menuButton,
             label: classes.menuIcon,
           }}
+          data-test="side-menu-toggle-btn"
         >
           <MenuIcon fontSize="small" />
         </Button>
@@ -85,6 +82,7 @@ const Navbar: FunctionComponent<NavbarProps> = ({isLoggedIn, handleSideMenuToggl
       }
     </Toolbar>
   </AppBar>
-);
+  );
+};
 
-export default withStyles(useStyles)(Navbar);
+export default Navbar;

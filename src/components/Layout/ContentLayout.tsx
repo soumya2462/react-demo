@@ -1,4 +1,4 @@
-import React, { ReactChild } from 'react';
+import React, { FunctionComponent, ReactChild } from 'react';
 import { Box, Divider, makeStyles, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
@@ -17,7 +17,7 @@ type ContentLayoutProps = {
   title: string,
 };
 
-const ContentLayout = (props: ContentLayoutProps) => {
+const ContentLayout: FunctionComponent<ContentLayoutProps> = props => {
   const {
     children,
     title
@@ -25,13 +25,13 @@ const ContentLayout = (props: ContentLayoutProps) => {
   const classes = useStyles();
 
   return (
-    <div>
+    <div data-test="component-content-layout">
       <div className={classes.header}>
         <Typography
           align="left"
           variant="h5"
         >
-          <Box fontWeight={420}>
+          <Box fontWeight={420} data-test="title">
             {title}
           </Box>
         </Typography>
