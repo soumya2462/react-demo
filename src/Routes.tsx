@@ -9,6 +9,8 @@ import RichTextEditorPoC from './PoC/RichTextEditorPoC';
 import CssJsEditorPoC from './PoC/CssJsEditorPoC';
 import ParserPoC from './PoC/ParserPoC';
 import DragAndDropPoC from './PoC/DnDPoc/DragAndDropPoC';
+import CreatePackage from './pages/Packages/CreatePackage';
+import EditPackage from './pages/Packages/EditPackage';
 
 const mapStateToProps = ({ auth }: RootState) => ({
   isLoggedIn: auth.isLoggedIn,
@@ -34,6 +36,8 @@ const Routes = (props: PropsFromRedux) => {
                   templateId="55e8d45f-ccaa-41b7-bdcc-245f816c8193"
                   title="Css Editor" />
               )} />
+            <Route path="/packages/create" component={CreatePackage} />
+            <Route path="/packages/:id" component={EditPackage} />
             <Route
               path="/editor/js"
               render={(props) => (

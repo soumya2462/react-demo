@@ -11,11 +11,10 @@ const theme = createMuiTheme({
       contrastText: "rgb(255, 255, 255)",
     },
   },
-  typography: {
+  typography: {    
     button: {
       textTransform: 'none',
     },
   },
 });
-
 export default theme;
