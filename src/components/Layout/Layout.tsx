@@ -5,7 +5,6 @@ import { createStyles, Drawer, Grid, Hidden, makeStyles, Theme } from '@material
 import { RootState } from '../../store';
 import SideMenu from './SideMenu';
 import Navbar from './Navbar';
-import { FunctionComponent } from 'react';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
@@ -40,7 +39,7 @@ type LayoutProps = {
   children: ReactChild
 };
   
-const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
+const Layout = ({ children }: LayoutProps) => {
   const [mobileSideMenuOpen, setMobileSideMenuOpen] = useState(false);
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
   const classes = useStyles();

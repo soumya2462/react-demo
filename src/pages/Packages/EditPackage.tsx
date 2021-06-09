@@ -16,17 +16,18 @@ import {
 import { RootState } from "../../store";
 import { ContentLayout } from "../../components/Layout";
 import SaveAndCancelButtons from "../../components/Buttons/SaveAndCancelButtons";
+import { apiPackage } from "../../constants/apiTypes";
 
 
 const useStyles = makeStyles(() => ({
   formControl:
   {
-    padding:"20px",
+    padding: "20px",
   },
   divider:
   {
-    marginBottom:"40px", 
-    marginTop:"40px",
+    marginBottom: "40px", 
+    marginTop: "40px",
   },
   buttonGroup: {
     display: "flex", 
@@ -38,21 +39,18 @@ type paramsType = {
   id: string,
 }
 
-type Package = {
-  name : string,
-  id : string,
-  packageId: string,
-  clientId: string,   
-};
-
 const EditPackage = () => {
   const [nameError, setNameError] = useState('');
   const [workflowId, setWorkflowId] = useState('');  
-  const [packageToEdit, setPackageToEdit] = useState<Package>({
+  const [packageToEdit, setPackageToEdit] = useState<apiPackage>({
     name: "",
     id: "",
     packageId : "",
-    clientId: ""
+    clientId: "",
+    createdDate: {
+      seconds: 0,
+      nanos: 0,
+    },
   });  
  
   const history = useHistory();
@@ -70,7 +68,6 @@ const EditPackage = () => {
       }        
     })
     .then(response => {
-      //loaded 
       setPackageToEdit(response.data);
      //TO get a date: console.log(new Date((response.data.createdDate.seconds)*1000));
     },
@@ -143,7 +140,8 @@ const EditPackage = () => {
             <Typography 
               data-test="edit-package-name-label"
               variant="subtitle1"
-              align="left">
+              align="left"
+            >
               Name
             </Typography>
             <TextField 
@@ -155,8 +153,7 @@ const EditPackage = () => {
               required={true}
               onChange= {handleTextChange} 
               variant="outlined"
-              fullWidth
-            />
+              fullWidth />
             <Divider className={classes.divider} />
             <Typography
               variant="subtitle1"
@@ -190,8 +187,7 @@ const EditPackage = () => {
             data-test="save-cancel-buttons"
             saveButtonLabel="Save package"
             handleSaveButton={handleSavePackageButton}
-            handleCancelButton={handleCancelPackageButton}
-          />
+            handleCancelButton={handleCancelPackageButton} />
         </FormControl>
       </Paper>      
     </ContentLayout>

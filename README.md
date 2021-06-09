@@ -1,16 +1,36 @@
 # Run app locally
 
 Open design.ui folder in VS Code<br />
-Open a terminal within VS Code and use `yarn` (This will take a few minutes)
+Add an .env file in the root directory with
+
+```
+REACT_APP_CLIENT_ID=<clientID>
+REACT_APP_CLIENT_SECRET=<secret>
+REACT_APP_DESIGN_GATEWAY_URL=http://localhost:10011
+REACT_APP_AUTHENTICATION_URL=http://localhost:10081
+```
+
+Ask any dev from the team for the id and secret.
+
+Open a terminal within VS Code and use `yarn` or `yarn install` (This will take a few minutes)
 And then do `yarn start`<br />
 This is using redux and configured to show the store in redux dev tools in Chrome or Firefox.<br />
 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). It has been ejected.
 
 ## Available Scripts
 
 In the project directory, you can run:
+
+### `yarn install`
+
+Installs the packages in package.json and all required dependencies.
+Only needs to run when package.json is changed after a pull.
+
+### `yarn add`
+
+Adds a package to the project, installing and adding it to package.json dependencies.
 
 ### `yarn start`
 

@@ -1,4 +1,8 @@
-import React, { FunctionComponent, MouseEvent, ReactChild, useState } from 'react';
+import React, {
+  MouseEvent,
+  ReactChild,
+  useState,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import qs from 'querystring';
@@ -15,11 +19,12 @@ import {
   Notifications,
   AccessibleForwardOutlined
 } from '@material-ui/icons';
+import { Package } from 'react-feather';
 import { RootState } from '../../store';
 import { logOff } from '../../ducks/Auth';
 import SideMenuListItemLink from './SideMenuListItemLink';
 import SideMenuIconButton from './SideMenuIconButton';
-import Color from '../../constants/Colors';
+import Color from '../../constants/colors';
 
 const useStyles = makeStyles(() => ({
   sideMenu: {
@@ -46,23 +51,23 @@ type SideMenuProps = {
   children?: ReactChild,
 };
 
-const SideMenu: FunctionComponent<SideMenuProps> = props => {
-  const [profileAnchor, setProfileAnchor]: any = useState();
+const SideMenu = (props: SideMenuProps) => {
+  const [profileAnchor, setProfileAnchor] = useState<null | HTMLElement>(null);
   const accessToken = useSelector((state: RootState) => state.auth.accessToken);
   const classes = useStyles();
   const dispatch = useDispatch();
   const open = Boolean(profileAnchor);
 
-  const handleMenu = (event: MouseEvent<HTMLElement>) => {
+  const openProfileMenu = (event: MouseEvent<HTMLElement>) => {
     setProfileAnchor(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const closeProfileMenu = () => {
     setProfileAnchor(null);
   };
 
   const handleLogoutButton = () => {
-    handleClose();
+    closeProfileMenu();
 
     const body = {
       client_id: process.env.REACT_APP_CLIENT_ID,
@@ -99,6 +104,7 @@ const SideMenu: FunctionComponent<SideMenuProps> = props => {
     >
       { props.children }
       <List className={classes.contentRoot} data-test="link-list">
+        <SideMenuListItemLink text="Packages" icon={<Package />} to="/packages" />
         <SideMenuListItemLink text="Rich Text Editor" icon={<AccessibleForwardOutlined />} to="/editor/richtext" />
         <SideMenuListItemLink text="Css Editor" icon={<AccessibleForwardOutlined />} to="/editor/css" />
         <SideMenuListItemLink text="Js Editor" icon={<AccessibleForwardOutlined />} to="/editor/js" />
@@ -113,29 +119,21 @@ const SideMenu: FunctionComponent<SideMenuProps> = props => {
         className={classes.footer}
         data-test="bottom-icons"
       >
+        <SideMenuIconButton icon={<Person />} onClick={openProfileMenu} data-test="person-icon" />
         <Menu
-          PopoverClasses={{
-            paper: classes.profileMenu
-          }}
+          PopoverClasses={{ paper: classes.profileMenu }}
           anchorEl={profileAnchor}
           getContentAnchorEl={null}
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
           keepMounted
-          transformOrigin={{
-            vertical: "bottom",
-            horizontal: "left",
-          }}
+          transformOrigin={{ vertical: "bottom", horizontal: "left" }}
           open={open}
-          onClose={handleClose}
+          onClose={closeProfileMenu}
           data-test="popup-menu"
         >
           <MenuItem>Profile</MenuItem>
           <MenuItem onClick={handleLogoutButton}>Logout</MenuItem>
         </Menu>
-        <SideMenuIconButton icon={<Person />} onClick={handleMenu} data-test="person-icon" />
         <SideMenuIconButton icon={<CloudUpload />} onClick={()=>{}} />
         <SideMenuIconButton icon={<Notifications />} onClick={()=>{}} />
       </Grid>

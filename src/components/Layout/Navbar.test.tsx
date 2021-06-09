@@ -1,11 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import Navbar from './Navbar';
-import { findByTestAttr } from '../../utilities/testUtils';
+import { findByTestAttr } from '../../utilities/test';
 
 const setup = (props: any) => shallow(<Navbar {...props} />);
-
-const imgLink = jest.fn();
 
 describe('is logged in', () => {
   let wrapper: any;

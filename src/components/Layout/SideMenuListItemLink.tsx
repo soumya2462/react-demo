@@ -1,4 +1,4 @@
-import React, { forwardRef, FunctionComponent, useMemo } from 'react';
+import React, { forwardRef, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import {
   IconProps,
@@ -7,7 +7,7 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import { NavigateNext } from '@material-ui/icons';
-import Color, { addAlpha } from '../../constants/Colors';
+import Color, { addAlpha } from '../../constants/colors';
 
 const useStyles = makeStyles(() => ({
   button: {
@@ -27,7 +27,7 @@ type SideMenuListItemLinkProps = {
   to: string,
 };
 
-const SideMenuListItemLink: FunctionComponent<SideMenuListItemLinkProps> = ({text, icon, to}) => {
+const SideMenuListItemLink = ({ text, icon, to }: SideMenuListItemLinkProps) => {
   const classes = useStyles();
   const CustomLink = useMemo(
     () =>

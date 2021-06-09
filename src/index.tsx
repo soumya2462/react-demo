@@ -5,7 +5,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { ThemeProvider } from '@material-ui/core';
 import { store, persistor } from './store';
 import reportWebVitals from './reportWebVitals';
-import Routes from './Routes';
+import Routes from './routes/Routes';
 import Theme from './MuiTheme';
 
 ReactDOM.render(

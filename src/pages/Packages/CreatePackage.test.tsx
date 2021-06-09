@@ -3,7 +3,7 @@ import { mount, ReactWrapper } from 'enzyme';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import CreatePackage from './CreatePackage';
-import { findByTestAttr, storeFactory } from '../../utilities/testUtils';
+import { findByTestAttr, storeFactory } from '../../utilities/test';
 
 const setup = () =>{
   const store = storeFactory({});

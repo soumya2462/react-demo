@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import {
   AppBar,
@@ -7,7 +7,7 @@ import {
   Toolbar,
 } from '@material-ui/core';
 import { Menu as MenuIcon } from '@material-ui/icons';
-import Color, { addAlpha } from '../../constants/Colors';
+import Color, { addAlpha } from '../../constants/colors';
 
 const useStyles = makeStyles(() => ({
   appbar: {
@@ -50,7 +50,7 @@ type NavbarProps =
   | { isLoggedIn: false; handleSideMenuToggle?: never }
   | { isLoggedIn: true; handleSideMenuToggle: React.MouseEventHandler<HTMLButtonElement> }
 
-const Navbar: FunctionComponent<NavbarProps> = ({isLoggedIn, handleSideMenuToggle}) => {
+const Navbar = ({isLoggedIn, handleSideMenuToggle}: NavbarProps) => {
   const classes = useStyles();
   
   return (

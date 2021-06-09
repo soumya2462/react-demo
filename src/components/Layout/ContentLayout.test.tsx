@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import ContentLayout from './ContentLayout';
-import { findByTestAttr } from '../../utilities/testUtils';
+import { findByTestAttr } from '../../utilities/test';
 
 const setup = (props={title: "test title"}) => {
   return shallow(

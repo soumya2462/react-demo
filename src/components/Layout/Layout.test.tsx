@@ -1,11 +1,11 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { mount, ReactWrapper } from 'enzyme';
 import Layout from './Layout';
-import { findByTestAttr, storeFactory } from '../../utilities/testUtils';
+import { findByTestAttr, storeFactory } from '../../utilities/test';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router';
 
-const setup = (initialState: any) =>{
+const setup = (initialState: any) => {
   const store = storeFactory(initialState);
   return mount(
     <Provider store={store}>
@@ -17,7 +17,7 @@ const setup = (initialState: any) =>{
 }
 
 describe('if a user is not logged in', () => {
-  let wrapper: any;
+  let wrapper: ReactWrapper;
   beforeEach(() => {
     const initialState = {
       auth: {

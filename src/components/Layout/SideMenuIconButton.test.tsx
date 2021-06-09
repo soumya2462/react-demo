@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { AccessibleForwardOutlined } from '@material-ui/icons';
 import SideMenuIconButton from './SideMenuIconButton';
-import { findByTestAttr } from '../../utilities/testUtils';
+import { findByTestAttr } from '../../utilities/test';
 
 const mockCallBack = jest.fn();
 

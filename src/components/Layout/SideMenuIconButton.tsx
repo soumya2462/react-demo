@@ -1,10 +1,10 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import {
   IconButton,
   IconProps,
   makeStyles,
 } from '@material-ui/core';
-import Color, { addAlpha } from '../../constants/Colors';
+import Color, { addAlpha } from '../../constants/colors';
 
 const useStyles = makeStyles(() => ({
   button: {
@@ -20,7 +20,7 @@ type SideMenuIconButtonProps = {
   onClick: React.MouseEventHandler<HTMLButtonElement>,
 };
 
-const SideMenuIconButton: FunctionComponent<SideMenuIconButtonProps> = ({icon, onClick}) => {
+const SideMenuIconButton = ({ icon, onClick }: SideMenuIconButtonProps) => {
   const classes = useStyles();
 
   return(

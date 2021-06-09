@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import SideMenu from './SideMenu';
-import { findByTestAttr, storeFactory } from '../../utilities/testUtils';
+import { findByTestAttr, storeFactory } from '../../utilities/test';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 

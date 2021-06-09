@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { AccessibleForwardOutlined } from '@material-ui/icons';
 import SideMenuListItemLink from './SideMenuListItemLink';
-import { findByTestAttr } from '../../utilities/testUtils';
+import { findByTestAttr } from '../../utilities/test';
 
 const defaultProps = {
   text: 'test title',

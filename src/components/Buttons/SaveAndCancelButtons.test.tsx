@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow, ShallowWrapper } from 'enzyme';
 import SaveAndCancelButtons from './SaveAndCancelButtons';
-import { findByTestAttr } from '../../utilities/testUtils';
+import { findByTestAttr } from '../../utilities/test';
 
 describe('', () => {
   let wrapper: ShallowWrapper;
