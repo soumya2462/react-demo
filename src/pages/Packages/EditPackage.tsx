@@ -106,7 +106,7 @@ const EditPackage = () => {
       packageId: packageToEdit.packageId
     };    
 
-    axios.put(`${process.env.REACT_APP_DESIGN_GATEWAY_URL}/packages/${id}`,
+    axios.put(`${process.env.REACT_APP_DESIGN_GATEWAY_URL}/packages`,
       body,
       { headers: {
          ContentType: 'application/json',

@@ -39,23 +39,23 @@ const PackageList = () => {
     const modifiedOn = `Modified On ${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
 
     return ({
-    'id': pack.id,
+    'id': pack.packageId,
     'name': pack.name,
     'columns': [modifiedOn],
   })};
 
-  const getActionButtons = (id: string): ActionButtonGroupType => {
+  const getActionButtons = (packageId: string): ActionButtonGroupType => {
     return([
       {
         actionName: 'Clone',
-        actionUrl: `/packages/${id}/clone`,
+        actionUrl: `/packages/${packageId}/clone`,
       },
     ]);
   };
 
-  const deleteClick = (id: string) => {
+  const deleteClick = (packageId: string) => {
     axios.delete(
-      `${process.env.REACT_APP_DESIGN_GATEWAY_URL}/packages/${id}`,
+      `${process.env.REACT_APP_DESIGN_GATEWAY_URL}/packages/${packageId}`,
       { headers: {
         Authorization: `Bearer ${accessToken}`,
         ContentType: 'application/json',
@@ -63,7 +63,7 @@ const PackageList = () => {
     .then(response => {
       if (response.status === 204)
       {       
-        setPackages(packages.filter(x => x.id !== id));
+        setPackages(packages.filter(x => x.id !== packageId));
       }
     },
     (error) => {
@@ -71,8 +71,8 @@ const PackageList = () => {
     });
   };
   
-  const editClick = (id: string) => {
-    history.push(`/packages/${id}`);
+  const editClick = (packageId: string) => {
+    history.push(`/packages/${packageId}`);
   };
 
   return (
