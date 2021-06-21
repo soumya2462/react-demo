@@ -36,7 +36,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 type paramsType = {
-  id: string,
+  packageid: string,
 }
 
 const EditPackage = () => {
@@ -57,10 +57,10 @@ const EditPackage = () => {
   const classes = useStyles();
   
   const accessToken = useSelector((state: RootState) => state.auth.accessToken);
-  const { id } = useParams<paramsType>();
+  const { packageid } = useParams<paramsType>();
 
   useEffect(() => {     
-    axios.get(`${process.env.REACT_APP_DESIGN_GATEWAY_URL}/packages/${id}`,      
+    axios.get(`${process.env.REACT_APP_DESIGN_GATEWAY_URL}/packages/${packageid}`,      
     { 
       headers: {
         ContentType: 'application/json',
@@ -82,7 +82,7 @@ const EditPackage = () => {
       }
      
     });
-  }, [id, accessToken]);
+  }, [packageid, accessToken]);
 
   const handleWorkflowId = (event: ChangeEvent<{ value: unknown }>) => {
     setWorkflowId(event.target.value as string);

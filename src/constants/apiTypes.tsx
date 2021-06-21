@@ -10,3 +10,14 @@ export type apiPackage = {
   packageId: string,
   createdDate: DateTimestamp,
 };
+
+export type apiSite = {
+  id: string,
+  siteId: string,
+  name: string,
+  subDomain: string,
+  audience: string,
+  clientId: string,
+  packages: Array<string>,
+  createdDate: DateTimestamp,
+};

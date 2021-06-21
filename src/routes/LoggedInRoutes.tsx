@@ -4,6 +4,8 @@ import Home from '../pages/Home/Home';
 import PackageList from '../pages/Packages/PackageList';
 import CreatePackage from '../pages/Packages/CreatePackage';
 import EditPackage from '../pages/Packages/EditPackage';
+import CreateSite from '../pages/Sites/CreateSite';
+import EditSite from '../pages/Sites/EditSite';
 
 import RichTextEditorPoC from '../PoC/RichTextEditorPoC';
 import CssJsEditorPoC from '../PoC/CssJsEditorPoC';
@@ -14,9 +16,11 @@ const LoggedInRoutes = () => {
   return(
     <Switch>
       <Route path="/packages/create" component={CreatePackage} />
-      <Route path="/packages/:id" component={EditPackage} />
+      <Route path="/packages/:packageid" component={EditPackage} />
       <Route path="/packages" component={PackageList} />
-      
+      <Route path="/sites/create" component={CreateSite} />
+      <Route path="/sites/:siteid" component={EditSite} />
+
       <Route path="/editor/richtext" component={RichTextEditorPoC} />
       <Route
         path="/editor/css"
