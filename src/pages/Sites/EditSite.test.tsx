@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
-import CreatePackage from './EditSite';
+import EditSite from './EditSite';
 import { findByTestAttr, storeFactory } from '../../utilities/test';
 
 const setup = () => {
@@ -10,7 +10,7 @@ const setup = () => {
   return mount(
     <Provider store={store}>
       <MemoryRouter>
-        <CreatePackage/>
+        <EditSite/>
       </MemoryRouter>
     </Provider>
   );
