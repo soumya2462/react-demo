@@ -6,21 +6,7 @@ import { useHistory } from "react-router";
 import { apiSite } from "../../constants/apiTypes";
 import SiteSetup from "../../components/SiteConfig/SiteSetup"; 
 
-const CreateSite = () => {  
-  const [siteToCreate, setSiteToCreate] = useState<apiSite>({
-    name: "",
-    subDomain: "",
-    id: "",
-    siteId: "",
-    audience: "undefined",
-    clientId: "",
-    packages: [],
-    createdDate: {
-      seconds: 0,
-      nanos: 0,
-    },
-  });  
-
+const CreateSite = () => {
   const [validationError, setValidationError] = useState(''); 
   const accessToken = useSelector((state: RootState) => state.auth.accessToken);
   const history = useHistory();
@@ -64,12 +50,11 @@ const CreateSite = () => {
 
   return (
     <SiteSetup 
-      data-test="component-site-setup" 
+      data-test="component-create-site" 
       saveButtonLabel="Save site"
       handleSaveSiteButton={handleSaveSiteButton}
       validationError={validationError}
       pageTitle="Create site"
-      passedInSite={siteToCreate}
     />
   );
 }

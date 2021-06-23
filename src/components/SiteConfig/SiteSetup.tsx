@@ -63,7 +63,7 @@ export type SiteSetupProps = {
 	saveButtonLabel: string,
   validationError: string,
   pageTitle : string,
-  passedInSite: apiSite,
+  passedInSite?: apiSite,
 };
 
 const SiteSetup = (props: SiteSetupProps) =>  {
@@ -92,6 +92,7 @@ const SiteSetup = (props: SiteSetupProps) =>  {
   const [packages, setPackages] = useState<Array<RowProps>>([]);
   const history = useHistory();
   const accessToken = useSelector((state: RootState) => state.auth.accessToken);
+  const classes = useStyles();
 
   const handleTextChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSiteToSave(siteToSave => ({...siteToSave, [e.target.name]: e.target.value}));
@@ -135,20 +136,21 @@ const SiteSetup = (props: SiteSetupProps) =>  {
       return {...siteToSave, audience: e.target.value as string}
     });
 	};
-  
-  useEffect(() => {  
-    if(passedInSite.packages.length > 0){        
+
+  useEffect(() => {
+    if (passedInSite === undefined) return;
+
+    if (passedInSite.packages.length > 0) {
       setPackagesValue("site-packages-some");
     }
-    else{        
+    else {
       setPackagesValue("site-packages-all");
     }
 
     setSiteToSave(passedInSite);
-
   }, [passedInSite]);
 
-  useEffect(() => {    
+  useEffect(() => {
     axios.get(
       `${process.env.REACT_APP_DESIGN_GATEWAY_URL}/packages`,
       { headers: {
@@ -157,8 +159,8 @@ const SiteSetup = (props: SiteSetupProps) =>  {
       }})
     .then(response => {
       if (response.status === 200)
-      {   
-        setPackages(response.data.map((packageToSelect: apiPackage) => ({id: packageToSelect.id, name: packageToSelect.name })));        
+      {
+        setPackages(response.data.map((packageToSelect: apiPackage) => ({id: packageToSelect.id, name: packageToSelect.name })));
       }
     })
     .catch(error => {
@@ -166,24 +168,23 @@ const SiteSetup = (props: SiteSetupProps) =>  {
     });
   }, [accessToken]);
 
-	const classes = useStyles();
 	return (
-    <ContentLayout 
+    <ContentLayout
       title={pageTitle}
-      data-test="component-site-setup" 
+      data-test="component-site-setup"
     >
       <Paper elevation={2}>
-      <div className={classes.form}>   
+      <div className={classes.form}>
         <div className={classes.accordionWrapper}>
           {validationError !== "" && (
-            <Alert 
+            <Alert
               severity="error"
               data-test="site-details-validation"
             >{validationError}</Alert>
           )}
           <Accordion defaultExpanded>
             <AccordionSummary
-              data-test="site-details-accordion-header" 
+              data-test="site-details-accordion-header"
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
               id="panel1a-header"
@@ -191,34 +192,33 @@ const SiteSetup = (props: SiteSetupProps) =>  {
             >
             <Typography
               variant="subtitle2"
-              data-test="site-details-accordion-label" 
+              data-test="site-details-accordion-label"
             >
               Site Details
             </Typography>
             </AccordionSummary>
             <AccordionDetails
-              data-test="site-details-accordion-details" 
+              data-test="site-details-accordion-details"
             >
               <Grid container spacing={3}>
                 <Grid item xs={12}>
-                  <Typography 
+                  <Typography
                     data-test="site-name-label"
                     variant="subtitle2"
                     align="left"
                   >
                     Name
                   </Typography>
-                  <TextField  
-                    data-test="site-name-input" 
+                  <TextField
+                    data-test="site-name-input"
                     value={siteToSave.name}
                     name="name"
-                    size="small" 
+                    size="small"
                     required={true}
-                    onChange={handleTextChange} 
+                    onChange={handleTextChange}
                     variant="outlined"
-                    fullWidth
-                  />     
-                </Grid>   
+                    fullWidth />
+                </Grid>
                 <Grid item xs={12} md={12} lg={12}>
                   <Typography
                     data-test="site-sub-domain-label"
@@ -226,8 +226,8 @@ const SiteSetup = (props: SiteSetupProps) =>  {
                     align="left"
                   >
                     Site URL
-                  </Typography>   
-                  <Grid container>       
+                  </Typography>
+                  <Grid container>
                     <Grid item xs={3} md={2} lg={1}>
                       <TextField
                         data-test="https-label"
@@ -236,42 +236,41 @@ const SiteSetup = (props: SiteSetupProps) =>  {
                             root:classes.squareRightRadius,
                             notchedOutline: classes.noBorderRight,
                           }}
-                        }                      
+                        }
                         id="outlined-basic"
-                        label="https://" 
-                        variant="outlined" 
-                        disabled  
+                        label="https://"
+                        variant="outlined"
+                        disabled
                         size="small"
-                        fullWidth/>
-                    </Grid> 
+                        fullWidth />
+                    </Grid>
                     <Grid item xs={3} md={6} lg={8}>
                       <TextField
                         InputProps = {{classes:{root:classes.noBorderRadius}}}
                         value={siteToSave.subDomain}
-                        name="subDomain"  
+                        name="subDomain"
                         data-test="site-sub-domain-input"
-                        size="small" 
+                        size="small"
                         required={true}
-                        onChange= {handleTextChange} 
+                        onChange= {handleTextChange}
                         variant="outlined"
-                        fullWidth
-                      /> 
-                    </Grid> 
+                        fullWidth />
+                    </Grid>
                     <Grid item xs={6} md={4} lg={3}>
                       <TextField
-                        data-test="instandaclaims-label" 
+                        data-test="instandaclaims-label"
                         InputProps={{
                           classes: {
                             root:classes.squareLeftRadius,
                             notchedOutline: classes.noBorderLeft,
                           }}
-                        }                      
+                        }
                         id="outlined-basic"
-                        label=".instandaclaims.com" 
-                        variant="outlined" 
-                        disabled  
+                        label=".instandaclaims.com"
+                        variant="outlined"
+                        disabled
                         size="small"
-                        fullWidth/>
+                        fullWidth />
                     </Grid> 
                   </Grid>
                 </Grid> 
@@ -315,15 +314,31 @@ const SiteSetup = (props: SiteSetupProps) =>  {
                     onChange={showHidePackages} 
                   >
                     <FormControlLabel
-                      data-test="site-packages-all-form-control-label"                     
+                      data-test="site-packages-all-form-control-label"
                       value="site-packages-all" 
-                      control={<Radio size="small" color="primary" data-test="site-packages-all-radio"/>} 
-                      label={<Typography variant="subtitle2" data-test="site-packages-all-label">All</Typography>}/>
+                      control={<Radio
+                                size="small"
+                                color="primary"
+                                data-test="site-packages-all-radio" />} 
+                      label={<Typography
+                              variant="subtitle2"
+                              data-test="site-packages-all-label"
+                            >
+                              All
+                            </Typography>} />
                     <FormControlLabel                     
                       data-test="site-packages-some-form-control-label"
                       value="site-packages-some"
-                      control={<Radio size="small" color="primary" data-test="site-packages-some-radio"/>} 
-                      label={<Typography variant="subtitle2" data-test="site-packages-some-label">Specific packages</Typography>} />
+                      control={<Radio
+                                size="small"
+                                color="primary"
+                                data-test="site-packages-some-radio" />} 
+                      label={<Typography
+                              variant="subtitle2"
+                              data-test="site-packages-some-label"
+                            >
+                              Specific packages
+                            </Typography>} />
                   </RadioGroup>
                 </Grid>
                 {packagesValue === "site-packages-some" && (
@@ -339,10 +354,11 @@ const SiteSetup = (props: SiteSetupProps) =>  {
                                     value={packageToSelect.id}
                                     size="small"
                                     color="primary"
-                                    name="package" 
-                                  />}
-                        label={<Typography variant="subtitle2">{packageToSelect.name}</Typography>}
-                      />
+                                    name="package" />
+                        }
+                        label={<Typography variant="subtitle2">
+                                {packageToSelect.name}
+                              </Typography>} />
                   )}
                   </FormGroup>
                 </Grid>
@@ -360,10 +376,12 @@ const SiteSetup = (props: SiteSetupProps) =>  {
               id="panel1a-header"
               className={classes.accordionHeader}
             >
-            <Typography 
-              variant="subtitle2"
-              data-test="site-audience-accordion-label" 
-            >Audience</Typography>
+              <Typography 
+                variant="subtitle2"
+                data-test="site-audience-accordion-label" 
+              >
+                Audience
+              </Typography>
             </AccordionSummary>
             <AccordionDetails
               data-test="site-audience-accordion-details"
@@ -381,14 +399,15 @@ const SiteSetup = (props: SiteSetupProps) =>  {
                       data-test="site-audience-radiogroup"
                       aria-label="audience"
                       name="audience"
-                      onChange={handleAudienceChange} >
+                      onChange={handleAudienceChange}
+                    >
                       <FormControlLabel
                         data-test="site-audience-public-label"
-                        control={<Radio data-test="site-audience-public-radio" size="small" color="primary" value="Public" checked={siteToSave.audience === "Public"}/>} 
+                        control={<Radio data-test="site-audience-public-radio" size="small" color="primary" value="Public" checked={siteToSave.audience === "Public"} />}
                         label={<Typography variant="subtitle2">Insureds and other members of the public</Typography>} />
                       <FormControlLabel
                         data-test="site-audience-agent-label"
-                        control={<Radio data-test="site-audience-agent-radio" size="small" color="primary" value="Agent" checked={siteToSave.audience === "Agent"}/>}
+                        control={<Radio data-test="site-audience-agent-radio" size="small" color="primary" value="Agent" checked={siteToSave.audience === "Agent"} />}
                         label={<Typography variant="subtitle2">Agents and other claims administrators</Typography>} />
                     </RadioGroup>
                   </Grid>
@@ -397,15 +416,15 @@ const SiteSetup = (props: SiteSetupProps) =>  {
           </Accordion>
         </div>
       </div>
-        {<SaveAndCancelButtons 
+        {<SaveAndCancelButtons
           data-test="save-cancel-buttons"
           saveButtonLabel={saveButtonLabel}
           handleSaveButton={() => handleSaveSiteButton(siteToSave, packagesValue)}
-          handleCancelButton={handleCancelSiteButton}
-        />}
-      </Paper>      
+          handleCancelButton={handleCancelSiteButton} />
+        }
+      </Paper>
     </ContentLayout>
 	)
-} 
+}
 
 export default SiteSetup;

@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
+import { useParams } from "react-router-dom";
 import { RootState } from "../../store";
 import { apiSite } from "../../constants/apiTypes";
-import { useParams } from "react-router-dom";
 import SiteSetup from "../../components/SiteConfig/SiteSetup";
 
 type paramsType = {
@@ -94,7 +94,7 @@ const EditSite = () => {
 
   return (
     <SiteSetup 
-      data-test="component-site-setup" 
+      data-test="component-edit-site" 
       saveButtonLabel="Save site"
       handleSaveSiteButton={handleSaveSiteButton}
       validationError={validationError}
@@ -102,7 +102,6 @@ const EditSite = () => {
       passedInSite={siteToEdit}
     />
   );
-  
 };
 
 export default EditSite;

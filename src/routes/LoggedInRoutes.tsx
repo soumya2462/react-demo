@@ -6,6 +6,7 @@ import CreatePackage from '../pages/Packages/CreatePackage';
 import EditPackage from '../pages/Packages/EditPackage';
 import CreateSite from '../pages/Sites/CreateSite';
 import EditSite from '../pages/Sites/EditSite';
+import SiteList from '../pages/Sites/SiteList';
 
 import RichTextEditorPoC from '../PoC/RichTextEditorPoC';
 import CssJsEditorPoC from '../PoC/CssJsEditorPoC';
@@ -20,6 +21,7 @@ const LoggedInRoutes = () => {
       <Route path="/packages" component={PackageList} />
       <Route path="/sites/create" component={CreateSite} />
       <Route path="/sites/:siteid" component={EditSite} />
+      <Route path="/sites" component={SiteList} />
 
       <Route path="/editor/richtext" component={RichTextEditorPoC} />
       <Route

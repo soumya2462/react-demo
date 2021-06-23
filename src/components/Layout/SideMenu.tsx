@@ -19,7 +19,7 @@ import {
   Notifications,
   AccessibleForwardOutlined
 } from '@material-ui/icons';
-import { Package } from 'react-feather';
+import { Layout, Package } from 'react-feather';
 import { RootState } from '../../store';
 import { logOff } from '../../ducks/Auth';
 import SideMenuListItemLink from './SideMenuListItemLink';
@@ -105,6 +105,7 @@ const SideMenu = (props: SideMenuProps) => {
       { props.children }
       <List className={classes.contentRoot} data-test="link-list">
         <SideMenuListItemLink text="Packages" icon={<Package />} to="/packages" />
+        <SideMenuListItemLink text="Sites" icon={<Layout />} to="/sites" />
         <SideMenuListItemLink text="Rich Text Editor" icon={<AccessibleForwardOutlined />} to="/editor/richtext" />
         <SideMenuListItemLink text="Css Editor" icon={<AccessibleForwardOutlined />} to="/editor/css" />
         <SideMenuListItemLink text="Js Editor" icon={<AccessibleForwardOutlined />} to="/editor/js" />

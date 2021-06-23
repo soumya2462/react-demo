@@ -5,7 +5,7 @@ import { MemoryRouter } from 'react-router-dom';
 import CreatePackage from './EditSite';
 import { findByTestAttr, storeFactory } from '../../utilities/test';
 
-const setup = () =>{
+const setup = () => {
   const store = storeFactory({});
   return mount(
     <Provider store={store}>
@@ -16,25 +16,8 @@ const setup = () =>{
   );
 }
 
-
-describe('', () => {
-  let wrapper: ReactWrapper;
-
-  beforeEach(() => {
-    const initialState = {     
-    };
-    wrapper = setup();
-  });
-
-  afterEach(() => {
-    wrapper.unmount();
-  });
-  
-  test('renders site setup component without error', () => {
-    const component = findByTestAttr(wrapper, 'component-site-setup');
-    expect(component.exists()).toBe(true);
-  });
-  
+test('renders site setup component without error', () => {
+  const wrapper = setup();
+  const component = findByTestAttr(wrapper, 'component-create-site');
+  expect(component.exists()).toBe(true);
 });
-
- 

@@ -6,10 +6,6 @@ import { findByTestAttr, storeFactory } from '../../utilities/test';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 
-const saveButtonLabel = "Save site test example";
-const pageTitle = "Create site test title";
-const validationError = "Test validation";
-
 const mockApiSite: apiSite = {
   name: "",
   subDomain: "",
@@ -28,9 +24,9 @@ const saveMock = jest.fn();
 
 const siteSetupDefaultProps = {    
   handleSaveSiteButton: saveMock,
-  saveButtonLabel: saveButtonLabel, 
-  pageTitle: pageTitle, 
-  validationError: validationError,
+  saveButtonLabel: "Save site test example", 
+  pageTitle: "Create site test title", 
+  validationError: "Test validation",
   passedInSite: mockApiSite,
 };  
 
@@ -46,7 +42,7 @@ const setup = (props: SiteSetupProps ) =>{
   );
 }
 
-describe('', () => {
+describe('SiteSetup tests', () => {
   let wrapper: ReactWrapper;
 
   beforeEach(() => {
@@ -155,7 +151,6 @@ describe('', () => {
     expect(component.exists()).toBe(true);
   });
 
-
   test('renders site packages some form control label without error', () => {
     const component = findByTestAttr(wrapper, 'site-packages-some-form-control-label');
     expect(component.exists()).toBe(true);
@@ -171,7 +166,6 @@ describe('', () => {
     expect(component.exists()).toBe(true);
   });
   
-  //Site audience tests
   test('renders site audience accordion header', () => {
     const component = findByTestAttr(wrapper, 'site-audience-header');
     expect(component.exists()).toBe(true);
@@ -216,8 +210,7 @@ describe('', () => {
     const component = findByTestAttr(wrapper, 'site-audience-public-radio');
     expect(component.exists()).toBe(true);
   });
-
-  //Save and cancel buttons  
+ 
   test('renders buttons without error', () => {
     const component = findByTestAttr(wrapper, 'save-cancel-buttons');
     expect(component.exists()).toBe(true);

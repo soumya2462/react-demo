@@ -3,21 +3,20 @@ import { shallow, ShallowWrapper } from 'enzyme';
 import SaveAndCancelButtons from './SaveAndCancelButtons';
 import { findByTestAttr } from '../../utilities/test';
 
-describe('', () => {
+describe('Save and Cancel Buttons tests', () => {
   let wrapper: ShallowWrapper;
   const saveMock = jest.fn();
   const cancelMock = jest.fn();
-  const saveButtonLabel = "Save test example";
 
   const defaultProps = {    
     handleSaveButton: saveMock,
     handleCancelButton: cancelMock,
   };
 
-  const setup = (saveButtonLabel: string) => shallow(<SaveAndCancelButtons saveButtonLabel= {saveButtonLabel} {...defaultProps} />);
+  const setup = () => shallow(<SaveAndCancelButtons saveButtonLabel={"Save test example"} {...defaultProps} />);
 
   beforeEach(() => {
-    wrapper = setup(saveButtonLabel);
+    wrapper = setup();
   })
 
   test('renders button group without error', () => {
