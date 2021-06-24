@@ -37,11 +37,12 @@ const SiteList = () => {
   const siteToRowData = (site: apiSite): RowProps => {
     const date = new Date(site.createdDate.seconds*1000);    
     const modifiedOn = `Modified On ${date.toLocaleDateString()}`;
+    const subDomain = `${site.subDomain}.instandaclaims.com`;
 
     return ({
       'id': site.siteId,
       'name': site.name,
-      'columns': [modifiedOn],
+      'columns': [subDomain, site.audience, modifiedOn],
     });
   };
 
