@@ -16,8 +16,8 @@ import {
 import { RootState } from "../../store";
 import { ContentLayout } from "../../components/Layout";
 import SaveAndCancelButtons from "../../components/Buttons/SaveAndCancelButtons";
-import { apiPackage } from "../../constants/apiTypes";
-
+import { apiNumberFormat, apiPackage } from "../../constants/apiTypes";
+import NumberFormat from "./ReferenceNumberFormat/ReferenceNumberFormat";
 
 const useStyles = makeStyles(() => ({
   formControl:
@@ -51,7 +51,21 @@ const EditPackage = () => {
       seconds: 0,
       nanos: 0,
     },
-  });  
+  });
+  const [numberFormat, setNumberFormat] = useState<apiNumberFormat>({
+    id: '',
+    numberFormatId: '',
+    packageId: '',
+    clientId: '',
+    livePrefix: '',
+    testPrefix: '',
+    suffix: '',
+    numberPadding: 0,
+    numberRange: [],
+    letterRange: [],
+    messageIfNumbersOutsideRange: '',
+    messageIfLettersOutsideRange: '',
+  });
  
   const history = useHistory();
   const classes = useStyles();
@@ -101,31 +115,56 @@ const EditPackage = () => {
   }
 
   const handleSavePackageButton = () => {
-    const body = {
-      name: packageToEdit.name,
-      packageId: packageToEdit.packageId
-    };    
-
-    axios.put(`${process.env.REACT_APP_DESIGN_GATEWAY_URL}/packages`,
-      body,
-      { headers: {
-         ContentType: 'application/json',
-         Authorization: `Bearer ${accessToken}`
+    const numberFormatBody = numberFormat;
+    numberFormatBody.packageId = packageToEdit.packageId;
+    numberFormatBody.clientId = packageToEdit.clientId;
+    
+    var numberFormatRequest;
+    var numberFormatRequestBody = {
+      ...numberFormatBody,
+      letterRange: JSON.stringify(numberFormat.letterRange),
+      numberRange: JSON.stringify(numberFormat.numberRange)
+    };
+    
+    if (numberFormatBody.numberFormatId === '') {
+      numberFormatRequest = axios.post(`${process.env.REACT_APP_DESIGN_GATEWAY_URL}/numberformat`,
+        numberFormatRequestBody,
+        {
+          headers: {
+            ContentType: 'application/json',
+            Authorization: `Bearer ${accessToken}`
+          }
+        })
+    }
+    else {
+      numberFormatRequest = axios.put(`${process.env.REACT_APP_DESIGN_GATEWAY_URL}/numberformat`,
+        numberFormatRequestBody,
+        {
+          headers: {
+            ContentType: 'application/json',
+            Authorization: `Bearer ${accessToken}`
+          }
+        })
+    }
+        
+    axios.all([
+      axios.put(`${process.env.REACT_APP_DESIGN_GATEWAY_URL}/packages`,
+        {
+          name: packageToEdit.name,
+          packageId: packageToEdit.packageId
+        },
+        { headers: {
+          ContentType: 'application/json',
+          Authorization: `Bearer ${accessToken}`
         }         
-      })
+        }),
+      numberFormatRequest,
+    ])
     .then(response => {
-      //created    
       history.push("/packages");
-    },
-    (error) => {      
-      if (error.response){    
-        setNameError(error.response.data);
-      }
-      else
-      {
-        //Generic error
-        setNameError("Something went wrong, please try again.");
-      }   
+    })
+    .catch(error => {      
+      console.log(error);
     });
   };
 
@@ -181,7 +220,16 @@ const EditPackage = () => {
               data-test="claim-statuses-label"
             >
               Claims Statuses
-            </Typography>            
+            </Typography>
+            <Divider className={classes.divider} /> 
+            <Typography
+              variant="subtitle1"
+              align="left"
+              data-test="reference-number-format"
+            >
+              Reference Number Format
+            </Typography>
+            <NumberFormat id={packageToEdit.packageId} updateParentValue={setNumberFormat} />
           </div>          
           <SaveAndCancelButtons 
             data-test="save-cancel-buttons"

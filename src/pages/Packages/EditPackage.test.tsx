@@ -61,4 +61,9 @@ describe('', () => {
     const component = findByTestAttr(wrapper, 'save-cancel-buttons');
     expect(component.exists()).toBe(true);
   });
+  
+  test('renders number format without error', () => {
+    const component = findByTestAttr(wrapper, 'reference-number-format');
+    expect(component.exists()).toBe(true);
+  });
 });
