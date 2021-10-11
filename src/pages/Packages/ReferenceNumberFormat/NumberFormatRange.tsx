@@ -6,7 +6,7 @@ export type NumberFormatRangeProps = {
   range: Array<LetterRange | NumberRange>,
   errorMessage: string,
   title: string,
-  key: React.Key,
+  name: string,
   handleRangeAdd: () => void,
   handleRangeRemove: (index: number) => void,
   handleRangeChange: (e: ChangeEvent<HTMLInputElement>, index: number) => void,
@@ -18,7 +18,7 @@ const NumberFormatRange = (props: NumberFormatRangeProps) => {
     range,
     errorMessage,
     title,
-    key,
+    name,
     handleRangeAdd,
     handleRangeRemove,
     handleRangeChange,
@@ -31,7 +31,7 @@ const NumberFormatRange = (props: NumberFormatRangeProps) => {
         <Typography
           variant="subtitle1"
           align="left"
-          data-test={`${key}-range-label`}
+          data-test={`${name}-range-label`}
         >
           {title}
         </Typography>
@@ -40,7 +40,7 @@ const NumberFormatRange = (props: NumberFormatRangeProps) => {
             <Typography
               variant="subtitle1"
               align="left"
-              data-test={`${key}-range-start-label`}
+              data-test={`${name}-range-start-label`}
               display="inline"
             >
               Start:
@@ -53,11 +53,11 @@ const NumberFormatRange = (props: NumberFormatRangeProps) => {
               onChange={(e: ChangeEvent<HTMLInputElement>) => handleRangeChange(e, i)}
               variant="outlined"
               fullWidth={false}
-              data-test={`${key}-range-start-input`} />
+              data-test={`${name}-range-start-input`} />
             <Typography
               variant="subtitle1"
               align="left"
-              data-test={`${key}-range-end-label`}
+              data-test={`${name}-range-end-label`}
               display="inline"
             >
               End:
@@ -70,22 +70,22 @@ const NumberFormatRange = (props: NumberFormatRangeProps) => {
               onChange={(e: ChangeEvent<HTMLInputElement>) => handleRangeChange(e, i)}
               variant="outlined"
               fullWidth={false}
-              data-test={`${key}-range-end-input`} />
+              data-test={`${name}-range-end-input`} />
             <Button onClick={() => handleRangeRemove(i)}>Remove</Button>
           </div>
         )}
       </div>        
-      <Button data-test={`${key}-range-add`} onClick={handleRangeAdd}>Add</Button>
+      <Button data-test={`${name}-range-add`} onClick={handleRangeAdd}>Add</Button>
       <div>
         <Typography
-          data-test={`message-if-${key}s-outside-range-label`}
+          data-test={`message-if-${name}s-outside-range-label`}
           variant="subtitle1"
           align="left"
         >
           Message if reference number outside these ranges
         </Typography>
         <TextField
-          data-test={`message-if-${key}s-outside-range-input`}
+          data-test={`message-if-${name}s-outside-range-input`}
           value={errorMessage}
           // error={nameError !== ""}
           // helperText={nameError}
