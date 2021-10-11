@@ -21,9 +21,6 @@ import { apiNumberFormat } from "../../../constants/apiTypes";
 import NumberFormatRange from './NumberFormatRange';
 
 const useStyles = makeStyles(() => ({
-  formControl: {
-    padding: "20px",
-  },
   divider: {
     marginBottom: "40px",
     marginTop: "40px",
@@ -149,117 +146,115 @@ const NumberFormat = ({ id, updateParentValue }: NumberFormatProps) => {
       fullWidth
       data-test="component-number-format"
     >
-      <div className={classes.formControl}>
-        <div>
-          <Typography
-            data-test="live-prefix-label"
-            variant="subtitle1"
-            align="left"
-          >
-            Live reference number prefix
-          </Typography>
-          <TextField
-            data-test="live-prefix-input"
-            name="livePrefix"
-            value={numberFormat.livePrefix}
-            // error={nameError !== ""}
-            // helperText={nameError}
-            size="small"
-            required={true}
-            onChange={handleTextChange}
-            variant="outlined"
-            fullWidth />
-        </div>
-        <div>
-          <Typography
-            data-test="test-prefix-label"
-            variant="subtitle1"
-            align="left"
-          >
-            Test reference number prefix
-          </Typography>
-          <TextField
-            data-test="test-prefix-input"
-            value={numberFormat.testPrefix}
-            name="testPrefix"
-            // error={nameError !== ""}
-            // helperText={nameError}
-            size="small"
-            required={true}
-            onChange={handleTextChange}
-            variant="outlined"
-            fullWidth />
-        </div>
-        <div>
-          <Typography
-            data-test="suffix-label"
-            variant="subtitle1"
-            align="left"
-          >
-            Suffix (optional)
-          </Typography>
-          <TextField
-            data-test="suffix-input"
-            value={numberFormat.suffix}
-            name="suffix"
-            // error={nameError !== ""}
-            // helperText={nameError}
-            size="small"
-            required={false}
-            onChange={handleTextChange}
-            variant="outlined"
-            fullWidth />
-        </div>
-        <Divider className={classes.divider} />
-        <div>
-          <Typography
-            variant="subtitle1"
-            align="left"
-            data-test="number-padding-label"
-          >
-            Number of following digits
-          </Typography>
-          <Select
-            data-test="number-padding-input"
-            labelId="input-label"
-            id="input"
-            name="numberPadding"
-            value={numberFormat.numberPadding === 0 ? '' : numberFormat.numberPadding}
-            onChange={handlePaddingChange}
-            variant="outlined"
-            fullWidth
-          >
-            { menuRows(3, 10) }
-          </Select>
-        </div>
-        <Divider className={classes.divider} />
-        <NumberFormatRange
-          range={numberFormat.numberRange}
-          errorMessage={numberFormat.messageIfNumbersOutsideRange}
-          title="Number Range"
-          key="number"
-          handleRangeAdd={handleNumberRangeAdd}
-          handleRangeRemove={handleNumberRangeRemove}
-          handleRangeChange={handleNumberRangeChange}
-          handleErrorTextChange={handleTextChange} />
-        <Divider className={classes.divider} />
-        <NumberFormatRange
-          range={numberFormat.letterRange}
-          errorMessage={numberFormat.messageIfLettersOutsideRange}
-          title="Letter Range"
-          key="letter"
-          handleRangeAdd={handleLetterRangeAdd}
-          handleRangeRemove={handleLetterRangeRemove}
-          handleRangeChange={handleLetterRangeChange}
-          handleErrorTextChange={handleTextChange} />
-        {/* 
-        <Divider className={classes.divider} />
-        <SaveAndCancelButtons
-          data-test="button-group"
-          saveButtonLabel="Save"
-          handleSaveButton={handleSaveNumberFormatButton}
-          handleCancelButton={handleCancelNumberFormatButton} /> */}
+      <div>
+        <Typography
+          data-test="live-prefix-label"
+          variant="subtitle1"
+          align="left"
+        >
+          Live reference number prefix
+        </Typography>
+        <TextField
+          data-test="live-prefix-input"
+          name="livePrefix"
+          value={numberFormat.livePrefix}
+          // error={nameError !== ""}
+          // helperText={nameError}
+          size="small"
+          required={true}
+          onChange={handleTextChange}
+          variant="outlined"
+          fullWidth />
       </div>
+      <div>
+        <Typography
+          data-test="test-prefix-label"
+          variant="subtitle1"
+          align="left"
+        >
+          Test reference number prefix
+        </Typography>
+        <TextField
+          data-test="test-prefix-input"
+          value={numberFormat.testPrefix}
+          name="testPrefix"
+          // error={nameError !== ""}
+          // helperText={nameError}
+          size="small"
+          required={true}
+          onChange={handleTextChange}
+          variant="outlined"
+          fullWidth />
+      </div>
+      <div>
+        <Typography
+          data-test="suffix-label"
+          variant="subtitle1"
+          align="left"
+        >
+          Suffix (optional)
+        </Typography>
+        <TextField
+          data-test="suffix-input"
+          value={numberFormat.suffix}
+          name="suffix"
+          // error={nameError !== ""}
+          // helperText={nameError}
+          size="small"
+          required={false}
+          onChange={handleTextChange}
+          variant="outlined"
+          fullWidth />
+      </div>
+      <Divider className={classes.divider} />
+      <div>
+        <Typography
+          variant="subtitle1"
+          align="left"
+          data-test="number-padding-label"
+        >
+          Number of following digits
+        </Typography>
+        <Select
+          data-test="number-padding-input"
+          labelId="input-label"
+          id="input"
+          name="numberPadding"
+          value={numberFormat.numberPadding === 0 ? '' : numberFormat.numberPadding}
+          onChange={handlePaddingChange}
+          variant="outlined"
+          fullWidth
+        >
+          { menuRows(3, 10) }
+        </Select>
+      </div>
+      <Divider className={classes.divider} />
+      <NumberFormatRange
+        range={numberFormat.numberRange}
+        errorMessage={numberFormat.messageIfNumbersOutsideRange}
+        title="Number Range"
+        name="number"
+        handleRangeAdd={handleNumberRangeAdd}
+        handleRangeRemove={handleNumberRangeRemove}
+        handleRangeChange={handleNumberRangeChange}
+        handleErrorTextChange={handleTextChange} />
+      <Divider className={classes.divider} />
+      <NumberFormatRange
+        range={numberFormat.letterRange}
+        errorMessage={numberFormat.messageIfLettersOutsideRange}
+        title="Letter Range"
+        name="letter"
+        handleRangeAdd={handleLetterRangeAdd}
+        handleRangeRemove={handleLetterRangeRemove}
+        handleRangeChange={handleLetterRangeChange}
+        handleErrorTextChange={handleTextChange} />
+      {/* 
+      <Divider className={classes.divider} />
+      <SaveAndCancelButtons
+        data-test="button-group"
+        saveButtonLabel="Save"
+        handleSaveButton={handleSaveNumberFormatButton}
+        handleCancelButton={handleCancelNumberFormatButton} /> */}
     </FormControl>
   );
 }
