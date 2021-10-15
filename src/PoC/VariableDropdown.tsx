@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Box, Button, Chip, makeStyles, TextField, Theme, withStyles } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
-import tinymce from 'tinymce';
 
 type StyleProps = {
   chipBackgroundColor: string, //change to color constants
@@ -68,7 +67,7 @@ function VariableDropdown(props: VariableDropdownProps) {
   };
 
   const handleVariableClick = (event: any) => {
-    tinymce.get('TempEditor').execCommand('mceInsertContent', false, event.target.innerText);
+    //insert into editor: event.target.innerText
   };
 
   const {

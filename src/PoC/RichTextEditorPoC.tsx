@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { Editor } from '@tinymce/tinymce-react';
-import tinymce from 'tinymce';
 //import { CKEditor } from '@ckeditor/ckeditor5-react';
 //import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Button, Theme, withStyles } from '@material-ui/core';
@@ -11,9 +9,6 @@ import EditorButtons from './EditorButtons';
 import VariableDropdown from './VariableDropdown';
 
 const useStyles = (theme: Theme) => ({
-  buttonGroup: {
-    paddingTop: "1.5rem",
-  },
 });
 
 type RichTextEditorPoCState = {
@@ -23,7 +18,6 @@ type RichTextEditorPoCState = {
 
 type RichTextEditorPoCProps = {
   classes: {
-    buttonGroup: string,
   },
 };
 
@@ -65,6 +59,7 @@ class RichTextEditorPoC extends Component<RichTextEditorPoCProps, RichTextEditor
   }
 
   handleEditorChange = (e: any) => {
+    // double check this is getting data from editor
     this.setState({html: e.target.getContent()});
   }
 
@@ -93,8 +88,7 @@ class RichTextEditorPoC extends Component<RichTextEditorPoCProps, RichTextEditor
   fetchData = () => {
     axios.get(`${process.env.REACT_APP_DESIGN_GATEWAY_URL}/templates/${this.state.templateId}`)
     .then(response => {
-      //tinymce.get('TempEditor').execCommand('mceInsertContent', false, response.data.html);
-      tinymce.get('TempEditor').execCommand('mceSetContent', false, response.data.html);
+      // insert into editor here
       this.setState({html: response.data.html});
     },
     (error) => {
@@ -130,23 +124,7 @@ class RichTextEditorPoC extends Component<RichTextEditorPoCProps, RichTextEditor
             placeholder="Type here to insert variables"
             chipBackgroundColor="rgb(218, 140, 16)"
             chipBorderColor="rgb(207, 133, 15)" />
-          <Editor
-            id="TempEditor"
-            init={{
-              height: 500,
-              menubar: 'tools',
-              plugins: [
-                'advlist autolink link image lists charmap print preview hr anchor pagebreak',
-                'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
-                'table emoticons template paste help'
-              ],
-              toolbar:
-              'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' +
-              'bullist numlist outdent indent | link image | print preview media fullpage | ' +
-              'forecolor backcolor emoticons | help | code',
-            }}
-            onChange={this.handleEditorChange}
-        />
+
         {/*<div className="App">
           <h2>Using CKEditor 5 build in React</h2>
           <CKEditor
