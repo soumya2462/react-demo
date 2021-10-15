@@ -53,6 +53,7 @@ stages:
         REACT_APP_AUTHENTICATION_URL: https://auth.instandaclaims.com
         REACT_APP_CLIENT_ID: design_ui
         REACT_APP_CLIENT_SECRET: secret
+        INLINE_RUNTIME_CHUNK: false
     - publish: $(Build.SourcesDirectory)/build
       displayName: Publish app build to artifacts
       artifact: public
