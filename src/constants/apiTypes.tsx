@@ -46,3 +46,11 @@ export type apiNumberFormat = {
   messageIfNumbersOutsideRange: string,
   messageIfLettersOutsideRange: string,
 };
+
+export type apiClaimStatuses = {
+  id: string,
+  claimStatusesId: string,
+  packageId: string,
+  clientId: string,
+  claimStatusesList: Array<string>,
+};

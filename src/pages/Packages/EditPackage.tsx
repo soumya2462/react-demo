@@ -18,6 +18,7 @@ import { ContentLayout } from "../../components/Layout";
 import SaveAndCancelButtons from "../../components/Buttons/SaveAndCancelButtons";
 import { apiNumberFormat, apiPackage } from "../../constants/apiTypes";
 import NumberFormat from "./ReferenceNumberFormat/ReferenceNumberFormat";
+import ClaimStatuses from "./ClaimStatuses/ClaimStatuses";
 
 const useStyles = makeStyles(() => ({
   formControl:
@@ -221,6 +222,7 @@ const EditPackage = () => {
             >
               Claims Statuses
             </Typography>
+            <ClaimStatuses packageId={packageToEdit.packageId} />
             <Divider className={classes.divider} /> 
             <Typography
               variant="subtitle1"
