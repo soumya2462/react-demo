@@ -1,6 +1,7 @@
 import { Button, TextField, Typography } from '@material-ui/core';
 import React, { ChangeEvent } from 'react';
 import { LetterRange, NumberRange } from '../../../constants/apiTypes';
+import { capitaliseFirstLetter } from '../../../utilities/strings';
 
 export type NumberFormatRangeProps = {
   range: Array<LetterRange | NumberRange>,
@@ -89,7 +90,7 @@ const NumberFormatRange = (props: NumberFormatRangeProps) => {
           value={errorMessage}
           // error={nameError !== ""}
           // helperText={nameError}
-          name="messageIfNumbersOutsideRange"
+          name={`messageIf${capitaliseFirstLetter(name)}sOutsideRange`}
           size="small"
           required={false}
           onChange={handleErrorTextChange}
