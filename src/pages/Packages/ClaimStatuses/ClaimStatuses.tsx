@@ -100,10 +100,11 @@ const ClaimStatuses = ({ packageId }: ClaimStatusesProps) => {
 
   const handleClaimStatusSave = () => {    
     const claimStatusesBody = claimStatuses;
-    claimStatusesBody.packageId = packageId;
-    claimStatusesBody.clientId = claimStatuses.clientId;
-    claimStatusesBody.claimStatusesList = claimStatuses.claimStatusesList;
     if (claimStatusesBody.claimStatusesId === '') {
+      claimStatusesBody.packageId = packageId;
+      claimStatusesBody.clientId = claimStatuses.clientId;
+      claimStatusesBody.claimStatusesList = claimStatuses.claimStatusesList;
+
       axios.post(`${process.env.REACT_APP_DESIGN_GATEWAY_URL}/claimStatuses`,
       claimStatusesBody,
         {
@@ -111,7 +112,10 @@ const ClaimStatuses = ({ packageId }: ClaimStatusesProps) => {
             ContentType: 'application/json',
             Authorization: `Bearer ${accessToken}`
           }
-        })
+        }).then(response => {
+          const claimStatuses = response.data; 
+          setClaimStatuses(claimStatuses);
+        });
     }
     else {
        axios.put(`${process.env.REACT_APP_DESIGN_GATEWAY_URL}/claimStatuses`,
