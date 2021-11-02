@@ -16,7 +16,7 @@ import {
 import { RootState } from "../../store";
 import { ContentLayout } from "../../components/Layout";
 import SaveAndCancelButtons from "../../components/Buttons/SaveAndCancelButtons";
-import { apiNumberFormat, apiPackage } from "../../constants/apiTypes";
+import { apiPackage } from "../../constants/apiTypes";
 import NumberFormat from "./ReferenceNumberFormat/ReferenceNumberFormat";
 import ClaimStatuses from "./ClaimStatuses/ClaimStatuses";
 
@@ -53,21 +53,7 @@ const EditPackage = () => {
       nanos: 0,
     },
   });
-  const [numberFormat, setNumberFormat] = useState<apiNumberFormat>({
-    id: '',
-    numberFormatId: '',
-    packageId: '',
-    clientId: '',
-    livePrefix: '',
-    testPrefix: '',
-    suffix: '',
-    numberPadding: 0,
-    numberRange: [],
-    letterRange: [],
-    messageIfNumbersOutsideRange: '',
-    messageIfLettersOutsideRange: '',
-  });
- 
+   
   const history = useHistory();
   const classes = useStyles();
   
@@ -116,38 +102,6 @@ const EditPackage = () => {
   }
 
   const handleSavePackageButton = () => {
-    const numberFormatBody = numberFormat;
-    numberFormatBody.packageId = packageToEdit.packageId;
-    numberFormatBody.clientId = packageToEdit.clientId;
-    
-    var numberFormatRequest;
-    var numberFormatRequestBody = {
-      ...numberFormatBody,
-      letterRange: JSON.stringify(numberFormat.letterRange),
-      numberRange: JSON.stringify(numberFormat.numberRange)
-    };
-    
-    if (numberFormatBody.numberFormatId === '') {
-      numberFormatRequest = axios.post(`${process.env.REACT_APP_DESIGN_GATEWAY_URL}/numberformat`,
-        numberFormatRequestBody,
-        {
-          headers: {
-            ContentType: 'application/json',
-            Authorization: `Bearer ${accessToken}`
-          }
-        })
-    }
-    else {
-      numberFormatRequest = axios.put(`${process.env.REACT_APP_DESIGN_GATEWAY_URL}/numberformat`,
-        numberFormatRequestBody,
-        {
-          headers: {
-            ContentType: 'application/json',
-            Authorization: `Bearer ${accessToken}`
-          }
-        })
-    }
-        
     axios.all([
       axios.put(`${process.env.REACT_APP_DESIGN_GATEWAY_URL}/packages`,
         {
@@ -159,7 +113,6 @@ const EditPackage = () => {
           Authorization: `Bearer ${accessToken}`
         }         
         }),
-      numberFormatRequest,
     ])
     .then(response => {
       history.push("/packages");
@@ -231,7 +184,7 @@ const EditPackage = () => {
             >
               Reference Number Format
             </Typography>
-            <NumberFormat id={packageToEdit.packageId} updateParentValue={setNumberFormat} />
+            <NumberFormat id={packageToEdit.packageId} />
           </div>          
           <SaveAndCancelButtons 
             data-test="save-cancel-buttons"

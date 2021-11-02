@@ -2,10 +2,9 @@ import React, {
   useState,
   useEffect,
   ChangeEvent,
-  Dispatch,
-  SetStateAction,
 } from "react";
 import axios from "axios";
+import _ from "lodash";
 import {
   Divider,
   TextField,
@@ -13,7 +12,9 @@ import {
   makeStyles,
   Select,
   MenuItem,
-  FormControl
+  FormControl,
+  Button,
+  Box
 } from "@material-ui/core";
 import { RootState } from "../../../store";
 import { useSelector } from "react-redux";
@@ -29,14 +30,27 @@ const useStyles = makeStyles(() => ({
     display: "flex",
     justifyContent: "space-between",
   },
+  btn: {
+    fontSize: '13px',
+    fontWeight: 400,
+    height: 'auto',
+    width: 'auto',
+    minWidth: '20px',
+    marginLeft: '4px',
+    marginTop: '2px'    
+  },
+  buttonRoot: {
+    width: '43%',
+		display: "flex", 
+		justifyContent: "space-between", 
+  },
 }));
 
 type NumberFormatProps = {
   id: string;
-  updateParentValue: Dispatch<SetStateAction<apiNumberFormat>>;
 }
 
-const NumberFormat = ({ id, updateParentValue }: NumberFormatProps) => {
+const NumberFormat = ({ id }: NumberFormatProps) => {
   const classes = useStyles();
   const [numberFormat, setNumberFormat] = useState<apiNumberFormat>({
     id: '',
@@ -65,12 +79,8 @@ const NumberFormat = ({ id, updateParentValue }: NumberFormatProps) => {
           }
         })
         .then(response => {
-          const numberFormat = response.data;
-        
-          numberFormat.numberRange = JSON.parse(response.data.numberRange);
-          numberFormat.letterRange = JSON.parse(response.data.letterRange);
-        
-          helperSetNumberFormat(numberFormat);
+          const numberFormat = response.data;        
+          setNumberFormat(numberFormat);
         });
     }
   }, [id, accessToken]);
@@ -83,20 +93,15 @@ const NumberFormat = ({ id, updateParentValue }: NumberFormatProps) => {
     }    
     return rows;
   }
-  
-  const helperSetNumberFormat = (setFunction: (prevState: apiNumberFormat) => apiNumberFormat) => {
-    setNumberFormat(setFunction);
-    updateParentValue(setFunction);
-  }
 
   const handleTextChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    helperSetNumberFormat(refNumberFormat => ({ ...refNumberFormat, [name]: value }));
+    setNumberFormat(refNumberFormat => ({ ...refNumberFormat, [name]: value }));
   };
 
   const handlePaddingChange = (e: ChangeEvent<{ name?: string | undefined; value: unknown; }>) => {
     const { value } = e.target;
-    helperSetNumberFormat(refNumberFormat => ({ ...refNumberFormat, numberPadding: value as number }));
+    setNumberFormat(refNumberFormat => ({ ...refNumberFormat, numberPadding: value as number }));
   };
     
   const handleNumberRangeChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
@@ -105,18 +110,18 @@ const NumberFormat = ({ id, updateParentValue }: NumberFormatProps) => {
 
     if (name === 'start' || name === 'end'){
       list[index][name] = parseInt(value);
-      helperSetNumberFormat(prevNumberFormat => ({...prevNumberFormat, numberRange: list}));
+      setNumberFormat(prevNumberFormat => ({...prevNumberFormat, numberRange: list}));
     }    
   };
     
   const handleNumberRangeRemove = (index: number) => {
     const list = numberFormat.numberRange;
     list.splice(index, 1);
-    helperSetNumberFormat(prevNumberFormat => ({...prevNumberFormat, numberRange: list}));
+    setNumberFormat(prevNumberFormat => ({...prevNumberFormat, numberRange: list}));
   };
     
   const handleNumberRangeAdd = () => {
-    helperSetNumberFormat(prevNumberFormat => ({...prevNumberFormat, numberRange: [...prevNumberFormat.numberRange, { start: 0, end: 0 }] }));
+    setNumberFormat(prevNumberFormat => ({...prevNumberFormat, numberRange: [...prevNumberFormat.numberRange, { start: 0, end: 0 }] }));
   };
   
   const handleLetterRangeChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
@@ -125,19 +130,47 @@ const NumberFormat = ({ id, updateParentValue }: NumberFormatProps) => {
     
     if (name === 'start' || name === 'end') {
       list[index][name] = value;
-      helperSetNumberFormat(prevNumberFormat => ({ ...prevNumberFormat, letterRange: list }));
+      setNumberFormat(prevNumberFormat => ({ ...prevNumberFormat, letterRange: list }));
     }
   };
     
   const handleLetterRangeRemove = (index: number) => {
     const list = [...numberFormat.letterRange];
     list.splice(index, 1);
-    helperSetNumberFormat(prevNumberFormat => ({...prevNumberFormat, letterRange: list}));
+    setNumberFormat(prevNumberFormat => ({...prevNumberFormat, letterRange: list}));
   };
     
   const handleLetterRangeAdd = () => {
-    helperSetNumberFormat(prevNumberFormat => ({...prevNumberFormat, letterRange: [...prevNumberFormat.letterRange, { start: '', end: '' }] }));
-  };  
+    setNumberFormat(prevNumberFormat => ({...prevNumberFormat, letterRange: [...prevNumberFormat.letterRange, { start: '', end: '' }] }));
+  };
+
+  const handleReferenceNumberFormatSave = () => {
+    const numberFormatBody = _.cloneDeep(numberFormat);
+    numberFormatBody.packageId = id;
+    
+    if (numberFormatBody.numberFormatId === '') {
+      
+
+      axios.post(`${process.env.REACT_APP_DESIGN_GATEWAY_URL}/numberformat`,
+      numberFormatBody,
+        {
+          headers: {
+            ContentType: 'application/json',
+            Authorization: `Bearer ${accessToken}`
+          }
+        })
+    }
+    else {
+      axios.put(`${process.env.REACT_APP_DESIGN_GATEWAY_URL}/numberformat`,
+      numberFormatBody,
+        {
+          headers: {
+            ContentType: 'application/json',
+            Authorization: `Bearer ${accessToken}`
+          }
+        })
+    }
+  };
 
   return (
     <FormControl
@@ -248,13 +281,19 @@ const NumberFormat = ({ id, updateParentValue }: NumberFormatProps) => {
         handleRangeRemove={handleLetterRangeRemove}
         handleRangeChange={handleLetterRangeChange}
         handleErrorTextChange={handleTextChange} />
-      {/* 
-      <Divider className={classes.divider} />
-      <SaveAndCancelButtons
-        data-test="button-group"
-        saveButtonLabel="Save"
-        handleSaveButton={handleSaveNumberFormatButton}
-        handleCancelButton={handleCancelNumberFormatButton} /> */}
+      <Box className={classes.buttonRoot}>
+          <Box>
+            <Button
+              variant="contained"
+              color="primary"		
+              className={classes.btn}
+              onClick={handleReferenceNumberFormatSave}
+              data-test="save-button"
+            >
+            Save
+            </Button>
+          </Box>
+        </Box>
     </FormControl>
   );
 }
