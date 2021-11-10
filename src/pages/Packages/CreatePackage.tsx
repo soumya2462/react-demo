@@ -55,20 +55,25 @@ const CreatePackage = () => {
         },
         (error) => {
           if (error.response) {
+            console.log(error.response.data);
             if (error.response.data.hasValidations) {
-              const data: Array<ValidationErrorEntry> = error.response.data.validationEntries;
+              console.log('got validations');
+              const validations: Array<ValidationErrorEntry> = error.response.data.validationEntries;
 
+              console.log(validations);
               var errorArray: { [id: string]: string } = {};
 
-              data.forEach((x) => {
+              validations.forEach((x) => {
                 errorArray[x.property] = x.message;
               });
 
               setValidationErrors(errorArray);
             } else if (error.response.data.hasErrors) {
+              console.log('got errors');
               //Generic error
               //TODO: Decide how we present them to the user
             }
+            console.log('got nothing');
           } else {
           }
         }
