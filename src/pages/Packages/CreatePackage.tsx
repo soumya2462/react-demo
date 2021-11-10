@@ -41,6 +41,8 @@ const CreatePackage = () => {
       name: packageName,
     };
 
+    console.log('POSTING');
+
     axios
       .post(`${process.env.REACT_APP_DESIGN_GATEWAY_URL}/Packages`, body, {
         headers: {
