@@ -55,7 +55,7 @@ const CreatePackage = () => {
         },
         (error) => {
           if (error.response) {
-            if (error.response.data.HasValidations) {
+            if (error.response.data.hasValidations) {
               const data: Array<ValidationErrorEntry> = error.response.data.validationEntries;
 
               var errorArray: { [id: string]: string } = {};
@@ -65,7 +65,7 @@ const CreatePackage = () => {
               });
 
               setValidationErrors(errorArray);
-            } else if (error.response.data.HasErrors) {
+            } else if (error.response.data.hasErrors) {
               //Generic error
               //TODO: Decide how we present them to the user
             }
