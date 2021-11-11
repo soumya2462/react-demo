@@ -41,8 +41,6 @@ const CreatePackage = () => {
       name: packageName,
     };
 
-    console.log('POSTING');
-
     axios
       .post(`${process.env.REACT_APP_DESIGN_GATEWAY_URL}/Packages`, body, {
         headers: {
@@ -57,12 +55,8 @@ const CreatePackage = () => {
         },
         (error) => {
           if (error.response) {
-            console.log(error.response.data);
             if (error.response.data.hasValidations) {
-              console.log('got validations');
               const validations: Array<ValidationErrorEntry> = error.response.data.validationEntries;
-
-              console.log(validations);
               var errorArray: { [id: string]: string } = {};
 
               validations.forEach((x) => {
@@ -71,11 +65,9 @@ const CreatePackage = () => {
 
               setValidationErrors(errorArray);
             } else if (error.response.data.hasErrors) {
-              console.log('got errors');
               //Generic error
               //TODO: Decide how we present them to the user
             }
-            console.log('got nothing');
           } else {
           }
         }
