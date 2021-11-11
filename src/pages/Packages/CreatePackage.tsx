@@ -91,6 +91,7 @@ const CreatePackage = () => {
           </Typography>
           <TextField
             name="Name"
+            data-debug-help="debug-help"
             data-test="create-package-name-input"
             error={validationErrors['Name'] !== undefined && validationErrors['Name'] !== ''}
             helperText={validationErrors['Name']}
