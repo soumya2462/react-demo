@@ -1,159 +1,141 @@
-import React, { useState, useEffect , ChangeEvent } from "react";
-import axios from "axios";
-import { useParams, useHistory } from "react-router";
-import { useSelector } from "react-redux";
-import {
-  Divider,
-  Paper,
-  TextField,
-  Typography,
-  makeStyles,
-  Select,
-  MenuItem,
-  FormControl
-} from "@material-ui/core";
+import React, { useState, useEffect, ChangeEvent } from 'react';
+import axios from 'axios';
+import { useParams, useHistory } from 'react-router';
+import { useSelector } from 'react-redux';
+import { Divider, Paper, TextField, Typography, makeStyles, Select, MenuItem, FormControl } from '@material-ui/core';
 
-import { RootState } from "../../store";
-import { ContentLayout } from "../../components/Layout";
-import SaveAndCancelButtons from "../../components/Buttons/SaveAndCancelButtons";
-import { apiPackage } from "../../constants/apiTypes";
-import NumberFormat from "./ReferenceNumberFormat/ReferenceNumberFormat";
-import ClaimStatuses from "./ClaimStatuses/ClaimStatuses";
+import { RootState } from '../../store';
+import { ContentLayout } from '../../components/Layout';
+import SaveAndCancelButtons from '../../components/Buttons/SaveAndCancelButtons';
+import { apiPackage } from '../../constants/apiTypes';
+import NumberFormat from './ReferenceNumberFormat/ReferenceNumberFormat';
+import ClaimStatuses from './ClaimStatuses/ClaimStatuses';
 
 const useStyles = makeStyles(() => ({
-  formControl:
-  {
-    padding: "20px",
+  formControl: {
+    padding: '20px',
   },
-  divider:
-  {
-    marginBottom: "40px", 
-    marginTop: "40px",
+  divider: {
+    marginBottom: '40px',
+    marginTop: '40px',
   },
   buttonGroup: {
-    display: "flex", 
-    justifyContent: "space-between",
+    display: 'flex',
+    justifyContent: 'space-between',
   },
 }));
 
 type paramsType = {
-  packageid: string,
-}
+  packageId: string;
+};
 
 const EditPackage = () => {
   const [nameError, setNameError] = useState('');
-  const [workflowId, setWorkflowId] = useState('');  
+  const [workflowId, setWorkflowId] = useState('');
   const [packageToEdit, setPackageToEdit] = useState<apiPackage>({
-    name: "",
-    id: "",
-    packageId : "",
-    clientId: "",
+    name: '',
+    id: '',
+    packageId: '',
+    clientId: '',
     createdDate: {
       seconds: 0,
       nanos: 0,
     },
   });
-   
+
   const history = useHistory();
   const classes = useStyles();
-  
-  const accessToken = useSelector((state: RootState) => state.auth.accessToken);
-  const { packageid } = useParams<paramsType>();
 
-  useEffect(() => {     
-    axios.get(`${process.env.REACT_APP_DESIGN_GATEWAY_URL}/packages/${packageid}`,      
-    { 
-      headers: {
-        ContentType: 'application/json',
-        Authorization: `Bearer ${accessToken}`
-      }        
-    })
-    .then(response => {
-      setPackageToEdit(response.data);
-     //TO get a date: console.log(new Date((response.data.createdDate.seconds)*1000));
-    },
-    (error) => {           
-      if (error.response){    
-        setNameError(error.response.data);
-      }
-      else
-      {
-        //Generic error
-        setNameError("Something went wrong, please try again.");
-      }
-     
-    });
-  }, [packageid, accessToken]);
+  const accessToken = useSelector((state: RootState) => state.auth.accessToken);
+  const { packageId } = useParams<paramsType>();
+
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_DESIGN_GATEWAY_URL}/packages/${packageId}`, {
+        headers: {
+          ContentType: 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then(
+        (response) => {
+          setPackageToEdit(response.data);
+          //TO get a date: console.log(new Date((response.data.createdDate.seconds)*1000));
+        },
+        (error) => {
+          if (error.response) {
+            setNameError(error.response.data);
+          } else {
+            //Generic error
+            setNameError('Something went wrong, please try again.');
+          }
+        }
+      );
+  }, [packageId, accessToken]);
 
   const handleWorkflowId = (event: ChangeEvent<{ value: unknown }>) => {
     setWorkflowId(event.target.value as string);
   };
 
   const handleCancelPackageButton = () => {
-    history.push("/packages");
-  }
-  
+    history.push('/packages');
+  };
+
   const handleTextChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setPackageToEdit(packageToEdit => {
-      return {...packageToEdit, name:e.target.value}
+    setPackageToEdit((packageToEdit) => {
+      return { ...packageToEdit, name: e.target.value };
     });
 
-    setNameError("");
-  }
+    setNameError('');
+  };
 
   const handleSavePackageButton = () => {
-    axios.all([
-      axios.put(`${process.env.REACT_APP_DESIGN_GATEWAY_URL}/packages`,
-        {
-          name: packageToEdit.name,
-          packageId: packageToEdit.packageId
-        },
-        { headers: {
-          ContentType: 'application/json',
-          Authorization: `Bearer ${accessToken}`
-        }         
-        }),
-    ])
-    .then(response => {
-      history.push("/packages");
-    })
-    .catch(error => {      
-      console.log(error);
-    });
+    axios
+      .all([
+        axios.put(
+          `${process.env.REACT_APP_DESIGN_GATEWAY_URL}/packages`,
+          {
+            name: packageToEdit.name,
+            packageId: packageToEdit.packageId,
+          },
+          {
+            headers: {
+              ContentType: 'application/json',
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        ),
+      ])
+      .then((response) => {
+        history.push('/packages');
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
-    <ContentLayout 
-      title="Edit Package"
-      data-test="component-edit-package"
-    >
-      <Paper elevation={2}>      
+    <ContentLayout title="Edit Package" data-test="component-edit-package">
+      <Paper elevation={2}>
         <FormControl variant="filled" size="small" fullWidth>
           <div className={classes.formControl}>
-            <Typography 
-              data-test="edit-package-name-label"
-              variant="subtitle1"
-              align="left"
-            >
+            <Typography data-test="edit-package-name-label" variant="subtitle1" align="left">
               Name
             </Typography>
-            <TextField 
+            <TextField
               data-test="edit-package-name-input"
-              value ={packageToEdit.name}
-              error={nameError !== ""}
-              helperText={nameError}  
-              size="small" 
+              value={packageToEdit.name}
+              error={nameError !== ''}
+              helperText={nameError}
+              size="small"
               required={true}
-              onChange= {handleTextChange} 
+              onChange={handleTextChange}
               variant="outlined"
-              fullWidth />
+              fullWidth
+            />
             <Divider className={classes.divider} />
-            <Typography
-              variant="subtitle1"
-              align="left"
-              data-test="initial-workflow-label"
-            >
-              Workflow that runs when a claim is first started  
+            <Typography variant="subtitle1" align="left" data-test="initial-workflow-label">
+              Workflow that runs when a claim is first started
             </Typography>
             <Select
               data-test="initial-workflow-select"
@@ -166,33 +148,26 @@ const EditPackage = () => {
             >
               <MenuItem value="workflow1guid">Workflow 1</MenuItem>
               <MenuItem value="workflow2guid">Workflow 2</MenuItem>
-            </Select>      
-            <Divider className={classes.divider} /> 
-            <Typography
-              variant="subtitle1"
-              align="left"
-              data-test="claim-statuses-label"
-            >
+            </Select>
+            <Divider className={classes.divider} />
+            <Typography variant="subtitle1" align="left" data-test="claim-statuses-label">
               Claims Statuses
             </Typography>
             <ClaimStatuses packageId={packageToEdit.packageId} />
-            <Divider className={classes.divider} /> 
-            <Typography
-              variant="subtitle1"
-              align="left"
-              data-test="reference-number-format"
-            >
+            <Divider className={classes.divider} />
+            <Typography variant="subtitle1" align="left" data-test="reference-number-format">
               Reference Number Format
             </Typography>
             <NumberFormat id={packageToEdit.packageId} />
-          </div>          
-          <SaveAndCancelButtons 
+          </div>
+          <SaveAndCancelButtons
             data-test="save-cancel-buttons"
             saveButtonLabel="Save package"
             handleSaveButton={handleSavePackageButton}
-            handleCancelButton={handleCancelPackageButton} />
+            handleCancelButton={handleCancelPackageButton}
+          />
         </FormControl>
-      </Paper>      
+      </Paper>
     </ContentLayout>
   );
 };
