@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Layers } from 'react-feather';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { ContentLayout } from '../../components/Layout';
 import { ActionButtonGroupType } from '../../components/List/ActionButtonGroup';
 import List from '../../components/List/List';
@@ -11,18 +11,19 @@ import ListRow, { RowProps } from '../../components/List/ListRow';
 import { RootState } from '../../store';
 import { apiWorkflow } from '../../constants/apiTypes'
 
-type WorkflowListProps = {
+type paramsType = {
   packageId: string;
-}
+};
 
-const WorkflowList = ({ packageId }: WorkflowListProps) => {
+const WorkflowList = () => {
   const history = useHistory();
+  const { packageId } = useParams<paramsType>();
   const accessToken = useSelector((state: RootState) => state.auth.accessToken);
   const [workflows, setWorkflows] = useState<Array<RowProps>>([]);
 
   useEffect(() => {    
     axios.get(
-      `${process.env.REACT_APP_DESIGN_GATEWAY_URL}/Workflows`,
+      `${process.env.REACT_APP_DESIGN_GATEWAY_URL}/workflows/package/${packageId}`,
       { headers: {
         Authorization: `Bearer ${accessToken}`,
         ContentType: 'application/json',
@@ -59,7 +60,7 @@ const WorkflowList = ({ packageId }: WorkflowListProps) => {
 
   const deleteClick = (workflowId: string) => {
     axios.delete(
-      `${process.env.REACT_APP_DESIGN_GATEWAY_URL}/Workflow/${workflowId}`,
+      `${process.env.REACT_APP_DESIGN_GATEWAY_URL}/workflows/${workflowId}/package/${packageId}`,
       { headers: {
         Authorization: `Bearer ${accessToken}`,
         ContentType: 'application/json',

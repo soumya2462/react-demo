@@ -19,8 +19,8 @@ const LoggedInRoutes = () => {
   return (
     <Switch>
       <Route path="/packages/create" component={CreatePackage} />
-      <Route path="/packages/:packageId/workflows" component={WorkflowList} />
-      <Route path="/packages/:packageId/workflow/create" component={CreateWorkflow} />
+      <Route path="/packages/:packageId/workflows/create" component={CreateWorkflow} />
+      <Route path="/packages/:packageId/workflows" component={WorkflowList} />      
       <Route path="/packages/:packageId" component={EditPackage} />
       <Route path="/packages" component={PackageList} />
       <Route path="/sites/create" component={CreateSite} />
