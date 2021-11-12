@@ -12,13 +12,15 @@ import RichTextEditorPoC from '../PoC/RichTextEditorPoC';
 import CssJsEditorPoC from '../PoC/CssJsEditorPoC';
 import ParserPoC from '../PoC/ParserPoC';
 import DragAndDropPoC from '../PoC/DnDPoc/DragAndDropPoC';
+import WorkflowList from '../pages/Workflows/WorkflowList';
 
 const LoggedInRoutes = () => {
   return(
     <Switch>
       <Route path="/packages/create" component={CreatePackage} />
+      <Route path="/packages/:packageId/workflows" component={WorkflowList} />
       <Route path="/packages/:packageid" component={EditPackage} />
-      <Route path="/packages" component={PackageList} />
+      <Route path="/packages" component={PackageList} />      
       <Route path="/sites/create" component={CreateSite} />
       <Route path="/sites/:siteid" component={EditSite} />
       <Route path="/sites" component={SiteList} />

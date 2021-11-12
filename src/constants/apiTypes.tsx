@@ -55,6 +55,15 @@ export type apiClaimStatuses = {
   claimStatusesList: Array<string>;
 };
 
+export type apiWorkflow = {
+  id: string;
+  workflowId: string;
+  packageId: string;
+  clientId: string;
+  name: string;
+  createdDate: DateTimestamp;
+};
+
 export type ValidationErrorEntry = {
   type: string;
   code: string;
