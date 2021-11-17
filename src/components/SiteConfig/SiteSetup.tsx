@@ -187,7 +187,7 @@ const SiteSetup = (props: SiteSetupProps) =>  {
               data-test="site-details-accordion-header"
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
-              id="panel1a-header"
+              id="panel-header"
               className={classes.accordionHeader}
             >
             <Typography

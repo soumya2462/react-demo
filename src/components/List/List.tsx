@@ -21,11 +21,11 @@ const useStyles = makeStyles({
 });
 
 export type ListProps = {
-  name: string,
+  createLabel?: string,
   children: ReactChild,
 };
 
-const List = ({ name, children }: ListProps) => {
+const List = ({ createLabel, children }: ListProps) => {
   const classes = useStyles();
   const history = useHistory();
 
@@ -39,15 +39,17 @@ const List = ({ name, children }: ListProps) => {
     >
       <ListItem className={`${classes.row} ${classes.header}`}>
         <span data-test="list-sort">Sort</span>
-        <Button
-          data-test="list-create-btn"
-          variant="contained"
-          color="primary"
-          size="small"
-          onClick={createItem}
-        >
-          {`Create ${name}`}
-        </Button>
+        { createLabel &&
+          <Button
+            data-test="list-create-btn"
+            variant="contained"
+            color="primary"
+            size="small"
+            onClick={createItem}
+          >
+            {createLabel}
+          </Button>
+        }
       </ListItem>
       <ListItem className={classes.row}>
         <span data-test="list-search">Search</span>

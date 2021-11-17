@@ -3,9 +3,9 @@ import { shallow, ShallowWrapper } from 'enzyme';
 import List from './List';
 import { findByTestAttr } from '../../utilities/test';
 
-const setup = (name: string) => {
+const setup = (createLabel: string) => {
   return shallow(
-    <List {...{name}}>
+    <List {...{createLabel}}>
       <div data-test="list-row-child">test</div>
     </List>
   );
@@ -15,7 +15,7 @@ describe('Only mandatory props, data without columns', () => {
   let wrapper: ShallowWrapper;
 
   beforeEach(() => {
-    wrapper = setup('test');
+    wrapper = setup('Create Test');
   });
   
   test('renders without errors', () => {
@@ -30,7 +30,7 @@ describe('Only mandatory props, data without columns', () => {
 
   test('create btn name from props', () => {
     const btn = findByTestAttr(wrapper, 'list-create-btn');
-    expect(btn.text()).toBe('Create test');
+    expect(btn.text()).toBe('Create Test');
   });
 
   test('renders children', () => {

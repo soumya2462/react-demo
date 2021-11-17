@@ -8,6 +8,7 @@ import EditPackage from '../pages/Packages/EditPackage';
 import CreateSite from '../pages/Sites/CreateSite';
 import EditSite from '../pages/Sites/EditSite';
 import SiteList from '../pages/Sites/SiteList';
+import MandatoryTemplateList from '../pages/Templates/MandatoryTemplateList';
 
 import RichTextEditorPoC from '../PoC/RichTextEditorPoC';
 import CssJsEditorPoC from '../PoC/CssJsEditorPoC';
@@ -20,10 +21,11 @@ const LoggedInRoutes = () => {
     <Switch>
       <Route path="/packages/create" component={CreatePackage} />
       <Route path="/packages/:packageId/workflows/create" component={CreateWorkflow} />
-      <Route path="/packages/:packageId/workflows" component={WorkflowList} />      
+      <Route path="/packages/:packageId/workflows" component={WorkflowList} />
       <Route path="/packages/:packageId" component={EditPackage} />
       <Route path="/packages" component={PackageList} />
       <Route path="/sites/create" component={CreateSite} />
+      <Route path="/sites/:siteId/mandatorytemplates" component={MandatoryTemplateList} />
       <Route path="/sites/:siteId" component={EditSite} />
       <Route path="/sites" component={SiteList} />
 

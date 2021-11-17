@@ -79,7 +79,7 @@ const SiteList = () => {
 
   return (
     <ContentLayout title="Manage Sites" data-test="component-site-list">
-      <List name="Site" data-test="site-list-list">
+      <List createLabel="Create Site" data-test="site-list-list">
         <div>
           { sites.map(row =>
             <ListRow

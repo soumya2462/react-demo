@@ -70,3 +70,11 @@ export type ValidationErrorEntry = {
   message: string;
   property: string;
 };
+
+export type apiTemplate = {
+  templateId: string;
+  clientId: string;
+  createdDate: DateTimestamp;
+  html: string;
+  name: string;
+};

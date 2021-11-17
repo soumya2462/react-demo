@@ -77,7 +77,7 @@ const PackageList = () => {
 
   return (
     <ContentLayout title="Manage Packages" data-test="component-package-list">
-      <List name="Package" data-test="package-list-list">
+      <List createLabel="Create Package" data-test="package-list-list">
         <div>
           { packages.map(row =>
             <ListRow

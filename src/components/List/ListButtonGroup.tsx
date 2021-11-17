@@ -24,7 +24,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 export type ListButtonGroupProps = ActionButtonGroupProps & {
-  onDeleteClick: () => void,
+  onDeleteClick?: () => void,
   onEditClick: () => void,
 };
 
@@ -47,16 +47,18 @@ const ListButtonGroup = (props: ListButtonGroupProps) => {
       <ActionButtonGroup
         btnClass={classes.btn}
         actionButtons={props.actionButtons} />
-      <Button
-        data-test="btn-group-delete"
-        className={classes.btn}
-        variant="outlined"
-        color="secondary"
-        size="small"
-        onClick={onDeleteClick}
-      >
-        Delete
-      </Button>
+      { onDeleteClick && 
+        <Button
+          data-test="btn-group-delete"
+          className={classes.btn}
+          variant="outlined"
+          color="secondary"
+          size="small"
+          onClick={onDeleteClick}
+        >
+          Delete
+        </Button>
+      }
     </div>
   );
 };
