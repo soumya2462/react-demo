@@ -9,7 +9,7 @@ import List from '../../components/List/List';
 import ListButtonGroup from '../../components/List/ListButtonGroup';
 import ListRow, { RowProps } from '../../components/List/ListRow';
 import { RootState } from '../../store';
-import { apiWorkflow } from '../../constants/apiTypes'
+import { apiWorkflow } from '../../constants/apiTypes';
 
 type paramsType = {
   packageId: string;
@@ -21,7 +21,7 @@ const WorkflowList = () => {
   const accessToken = useSelector((state: RootState) => state.auth.accessToken);
   const [workflows, setWorkflows] = useState<Array<RowProps>>([]);
 
-  useEffect(() => {    
+  useEffect(() => {
     axios.get(
       `${process.env.REACT_APP_DESIGN_GATEWAY_URL}/workflows/package/${packageId}`,
       { headers: {
@@ -35,8 +35,8 @@ const WorkflowList = () => {
       }
     })
     .catch(error => {
-      console.log(error);
-    });    
+        console.log(error);
+      });
   }, [accessToken]);
 
   const workflowToRowData = (workflow: apiWorkflow): RowProps => {
@@ -82,7 +82,7 @@ const WorkflowList = () => {
 
   return (
     <ContentLayout title="Manage Workflows" data-test="component-workflow-list">
-      <List name="Workflow" data-test="workflow-list-list">
+      <List createLabel="Workflow" data-test="workflow-list-list">
         <div>
           { workflows.map(row =>
             <ListRow
