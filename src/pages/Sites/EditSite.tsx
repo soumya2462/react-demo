@@ -54,7 +54,9 @@ const EditSite = () => {
       );
   }, [accessToken, siteId]);
 
-  const handleSaveSiteButton = (site: apiSite, packagesValue: string) => {
+  const handleSaveSiteButton = (site: apiSite, packagesValue: string, packages: Array<string>) => {
+    var filteredPackages = site.packages.filter((thisPackage) => packages.includes(thisPackage)).map((item) => item);
+
     const body = {
       name: site.name,
       subDomain: site.subDomain,
@@ -63,7 +65,7 @@ const EditSite = () => {
       siteId: site.siteId,
     };
 
-    if (packagesValue === 'site-packages-some' && site.packages.length === 0) {
+    if (packagesValue === 'site-packages-some' && filteredPackages.length === 0) {
       setValidationError('Please select at least one package');
       return false;
     }
