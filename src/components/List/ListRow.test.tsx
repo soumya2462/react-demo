@@ -140,11 +140,6 @@ describe('All props', () => {
     expect(column.text()).toBe('col1');
   });
 
-  test('child is rendered', () => {
-    const child = findByTestAttr(wrapper, 'list-row-child');
-    expect(child.length).toBe(1);
-  });
-
   test('name click works', () => {
     const name = findByTestAttr(wrapper, 'list-row-name');
     name.simulate('click');
