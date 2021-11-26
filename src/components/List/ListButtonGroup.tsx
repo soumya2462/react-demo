@@ -24,15 +24,15 @@ const useStyles = makeStyles(() => ({
 }));
 
 export type ListButtonGroupProps = ActionButtonGroupProps & {
-  onDeleteClick?: () => void,
-  onEditClick: () => void,
+  onDeleteClick?: () => void;
+  onEditClick: () => void;
 };
 
 const ListButtonGroup = (props: ListButtonGroupProps) => {
   const { onEditClick, onDeleteClick } = props;
   const classes = useStyles();
-  
-  return(
+
+  return (
     <div className={classes.btnGroup} data-test="component-list-button-group">
       <Button
         data-test="btn-group-edit"
@@ -44,10 +44,8 @@ const ListButtonGroup = (props: ListButtonGroupProps) => {
       >
         Edit
       </Button>
-      <ActionButtonGroup
-        btnClass={classes.btn}
-        actionButtons={props.actionButtons} />
-      { onDeleteClick && 
+      <ActionButtonGroup btnClass={classes.btn} actionButtons={props.actionButtons} />
+      {onDeleteClick && (
         <Button
           data-test="btn-group-delete"
           className={classes.btn}
@@ -58,7 +56,7 @@ const ListButtonGroup = (props: ListButtonGroupProps) => {
         >
           Delete
         </Button>
-      }
+      )}
     </div>
   );
 };

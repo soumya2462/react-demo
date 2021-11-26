@@ -7,7 +7,6 @@ import { faFile } from '@fortawesome/free-solid-svg-icons';
 
 import { ContentLayout } from '../../components/Layout';
 import List from '../../components/List/List';
-import ListButtonGroup from '../../components/List/ListButtonGroup';
 import ListRow, { RowProps } from '../../components/List/ListRow';
 import { RootState } from '../../store';
 import { apiTemplate } from '../../constants/apiTypes';
@@ -69,9 +68,7 @@ const TemplateList = () => {
               data={row}
               key={row.id}
               onEditClick={() => editClick(row.id)}
-            >
-              <ListButtonGroup onEditClick={() => editClick(row.id)} />
-            </ListRow>
+            />
           ))}
         </div>
       </List>

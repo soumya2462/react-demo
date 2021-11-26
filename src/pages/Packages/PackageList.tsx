@@ -3,9 +3,9 @@ import axios from 'axios';
 import { Package } from 'react-feather';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+
 import { ContentLayout } from '../../components/Layout';
 import List from '../../components/List/List';
-import ListButtonGroup from '../../components/List/ListButtonGroup';
 import ListRow, { RowProps } from '../../components/List/ListRow';
 import { RootState } from '../../store';
 import { apiPackage } from '../../constants/apiTypes';
@@ -73,9 +73,13 @@ const PackageList = () => {
       <List createLabel="Create Package" data-test="package-list-list">
         <div>
           {packages.map((row) => (
-            <ListRow icon={<Package />} data={row} key={row.id} onEditClick={() => editClick(row.id)}>
-              <ListButtonGroup onEditClick={() => editClick(row.id)} onDeleteClick={() => deleteClick(row.id)} />
-            </ListRow>
+            <ListRow
+              icon={<Package />}
+              data={row}
+              key={row.id}
+              onEditClick={() => editClick(row.id)}
+              onDeleteClick={() => deleteClick(row.id)}
+            />
           ))}
         </div>
       </List>

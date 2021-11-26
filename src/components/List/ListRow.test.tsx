@@ -5,10 +5,8 @@ import { findByTestAttr } from '../../utilities/test';
 import { AccessibleForwardOutlined } from '@material-ui/icons';
 
 const setup = (props: ListRowProps) => {
-  return shallow(
-    <ListRow {...props} />
-  );
-}
+  return shallow(<ListRow {...props} />);
+};
 
 describe('Only mandatory props, data without columns', () => {
   let wrapper: ShallowWrapper;
@@ -19,18 +17,18 @@ describe('Only mandatory props, data without columns', () => {
       name: 'row name',
       columns: [],
     },
-  }
+  };
 
   beforeEach(() => {
     wrapper = setup(props);
   });
-  
-  test('renders without errors', () => {  
+
+  test('renders without errors', () => {
     const component = findByTestAttr(wrapper, 'component-list-row');
     expect(component.length).toBe(1);
   });
 
-  test('renders the name', () => {  
+  test('renders the name', () => {
     const name = findByTestAttr(wrapper, 'list-row-name');
     expect(name.length).toBe(1);
   });
@@ -40,12 +38,12 @@ describe('Only mandatory props, data without columns', () => {
     expect(name.text()).toBe('row name');
   });
 
-  test('does not render the icon', () => {  
+  test('does not render the icon', () => {
     const icon = findByTestAttr(wrapper, 'list-row-icon');
     expect(icon.length).toBe(0);
   });
 
-  test('does not render any column', () => {  
+  test('does not render any column', () => {
     const columns = findByTestAttr(wrapper, 'list-row-map-column');
     expect(columns.length).toBe(0);
   });
@@ -59,19 +57,19 @@ describe('Only mandatory props, but data with columns', () => {
       id: '75bc9cbc-a8fe-471f-86d0-5455c2b5e2ab',
       name: 'second name',
       columns: ['col1', 'col2'],
-    }
-  }
+    },
+  };
 
   beforeEach(() => {
     wrapper = setup(props);
   });
-  
-  test('renders without errors', () => {  
+
+  test('renders without errors', () => {
     const component = findByTestAttr(wrapper, 'component-list-row');
     expect(component.length).toBe(1);
   });
-  
-  test('renders the name', () => {  
+
+  test('renders the name', () => {
     const name = findByTestAttr(wrapper, 'list-row-name');
     expect(name.length).toBe(1);
   });
@@ -81,12 +79,12 @@ describe('Only mandatory props, but data with columns', () => {
     expect(name.text()).toBe('second name');
   });
 
-  test('does not render the icon', () => {  
+  test('does not render the icon', () => {
     const icon = findByTestAttr(wrapper, 'list-row-icon');
     expect(icon.length).toBe(0);
   });
 
-  test('renders 2 columns', () => {  
+  test('renders 2 columns', () => {
     const columns = findByTestAttr(wrapper, 'list-row-map-column');
     expect(columns.length).toBe(2);
   });
@@ -108,25 +106,21 @@ describe('All props', () => {
     },
     icon: <AccessibleForwardOutlined />,
     onEditClick: mockEditClick,
-  }
-  
-  const wrapper = shallow(
-    <ListRow {...props}>
-      <div data-test="list-row-child">for the test</div>
-    </ListRow>
-  );
-  
-  test('renders without errors', () => {  
+  };
+
+  const wrapper = shallow(<ListRow {...props} />);
+
+  test('renders without errors', () => {
     const component = findByTestAttr(wrapper, 'component-list-row');
     expect(component.length).toBe(1);
   });
 
-  test('renders the icon', () => {  
+  test('renders the icon', () => {
     const icon = findByTestAttr(wrapper, 'list-row-icon');
     expect(icon.length).toBe(1);
   });
 
-  test('renders the name', () => {  
+  test('renders the name', () => {
     const name = findByTestAttr(wrapper, 'list-row-name');
     expect(name.length).toBe(1);
   });
@@ -136,7 +130,7 @@ describe('All props', () => {
     expect(name.text()).toBe('last name');
   });
 
-  test('renders one column', () => {  
+  test('renders one column', () => {
     const column = findByTestAttr(wrapper, 'list-row-map-column');
     expect(column.length).toBe(1);
   });
@@ -151,7 +145,7 @@ describe('All props', () => {
     expect(child.length).toBe(1);
   });
 
-  test('name click works', () => {  
+  test('name click works', () => {
     const name = findByTestAttr(wrapper, 'list-row-name');
     name.simulate('click');
     expect(mockEditClick).toBeCalled();

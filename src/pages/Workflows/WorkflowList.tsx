@@ -3,9 +3,9 @@ import axios from 'axios';
 import { Layers } from 'react-feather';
 import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
+
 import { ContentLayout } from '../../components/Layout';
 import List from '../../components/List/List';
-import ListButtonGroup from '../../components/List/ListButtonGroup';
 import ListRow, { RowProps } from '../../components/List/ListRow';
 import { RootState } from '../../store';
 import { apiWorkflow } from '../../constants/apiTypes';
@@ -78,9 +78,13 @@ const WorkflowList = () => {
       <List createLabel="Workflow" data-test="workflow-list-list">
         <div>
           {workflows.map((row) => (
-            <ListRow icon={<Layers />} data={row} key={row.id} onEditClick={() => editClick(row.id)}>
-              <ListButtonGroup onEditClick={() => editClick(row.id)} onDeleteClick={() => deleteClick(row.id)} />
-            </ListRow>
+            <ListRow
+              icon={<Layers />}
+              data={row}
+              key={row.id}
+              onEditClick={() => editClick(row.id)}
+              onDeleteClick={() => deleteClick(row.id)}
+            />
           ))}
         </div>
       </List>
