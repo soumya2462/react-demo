@@ -11,10 +11,11 @@ import {
   FormControl,
   Button,
   Box,
+  FormHelperText,
 } from '@material-ui/core';
 import { RootState } from '../../../store';
 import { useSelector } from 'react-redux';
-import { apiNumberFormat } from '../../../constants/apiTypes';
+import { apiNumberFormat, ValidationErrorEntry } from '../../../constants/apiTypes';
 import NumberFormatRange from './NumberFormatRange';
 
 const useStyles = makeStyles(() => ({
@@ -63,6 +64,10 @@ const NumberFormat = ({ id }: NumberFormatProps) => {
     messageIfLettersOutsideRange: '',
   });
 
+  const [validationErrors, setValidationErrors] = useState<{
+    [id: string]: string;
+  }>({});
+
   const accessToken = useSelector((state: RootState) => state.auth.accessToken);
 
   useEffect(() => {
@@ -97,21 +102,24 @@ const NumberFormat = ({ id }: NumberFormatProps) => {
   const handleTextChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setNumberFormat((refNumberFormat) => ({ ...refNumberFormat, [name]: value }));
+    setValidationErrors((x) => ({ ...x, [name]: '' }));
   };
 
   const handlePaddingChange = (e: ChangeEvent<{ name?: string | undefined; value: unknown }>) => {
-    const { value } = e.target;
+    const { name, value } = e.target;
+    const elementName = name ? name : '';
     setNumberFormat((refNumberFormat) => ({ ...refNumberFormat, numberPadding: value as number }));
+    setValidationErrors((x) => ({ ...x, [elementName]: '' }));
   };
 
   const handleNumberRangeChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
     const { name, value } = e.target;
     const list = [...numberFormat.numberRange];
-
     if (name === 'start' || name === 'end') {
       list[index][name] = parseInt(value) || 0;
-
       setNumberFormat((prevNumberFormat) => ({ ...prevNumberFormat, numberRange: list }));
+      var elementName = `numberRange[${index}].${name}`;
+      setValidationErrors((x) => ({ ...x, [elementName]: '' }));
     }
   };
 
@@ -156,19 +164,61 @@ const NumberFormat = ({ id }: NumberFormatProps) => {
     numberFormatBody.packageId = id;
 
     if (numberFormatBody.numberFormatId === '') {
-      axios.post(`${process.env.REACT_APP_DESIGN_GATEWAY_URL}/numberformat`, numberFormatBody, {
-        headers: {
-          ContentType: 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      axios
+        .post(`${process.env.REACT_APP_DESIGN_GATEWAY_URL}/numberformat`, numberFormatBody, {
+          headers: {
+            ContentType: 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then(
+          () => {},
+          (error) => {
+            if (error.response) {
+              if (error.response.data.hasValidations) {
+                const validations: Array<ValidationErrorEntry> = error.response.data.validationEntries;
+                var errorArray: { [id: string]: string } = {};
+
+                validations.forEach((x) => {
+                  errorArray[x.property] = x.message;
+                });
+                setValidationErrors(errorArray);
+              } else if (error.response.data.hasErrors) {
+                //Generic error
+                //TODO: Decide how we present them to the user
+              }
+            } else {
+            }
+          }
+        );
     } else {
-      axios.put(`${process.env.REACT_APP_DESIGN_GATEWAY_URL}/numberformat`, numberFormatBody, {
-        headers: {
-          ContentType: 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      axios
+        .put(`${process.env.REACT_APP_DESIGN_GATEWAY_URL}/numberformat`, numberFormatBody, {
+          headers: {
+            ContentType: 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then(
+          () => {},
+          (error) => {
+            if (error.response) {
+              if (error.response.data.hasValidations) {
+                const validations: Array<ValidationErrorEntry> = error.response.data.validationEntries;
+                var errorArray: { [id: string]: string } = {};
+
+                validations.forEach((x) => {
+                  errorArray[x.property] = x.message;
+                });
+                setValidationErrors(errorArray);
+              } else if (error.response.data.hasErrors) {
+                //Generic error
+                //TODO: Decide how we present them to the user
+              }
+            } else {
+            }
+          }
+        );
     }
   };
 
@@ -182,8 +232,8 @@ const NumberFormat = ({ id }: NumberFormatProps) => {
           data-test="live-prefix-input"
           name="livePrefix"
           value={numberFormat.livePrefix}
-          // error={nameError !== ""}
-          // helperText={nameError}
+          error={validationErrors['livePrefix'] !== undefined && validationErrors['livePrefix'] !== ''}
+          helperText={validationErrors['livePrefix']}
           size="small"
           required={true}
           onChange={handleTextChange}
@@ -199,8 +249,8 @@ const NumberFormat = ({ id }: NumberFormatProps) => {
           data-test="test-prefix-input"
           value={numberFormat.testPrefix}
           name="testPrefix"
-          // error={nameError !== ""}
-          // helperText={nameError}
+          error={validationErrors['testPrefix'] !== undefined && validationErrors['testPrefix'] !== ''}
+          helperText={validationErrors['testPrefix']}
           size="small"
           required={true}
           onChange={handleTextChange}
@@ -216,8 +266,8 @@ const NumberFormat = ({ id }: NumberFormatProps) => {
           data-test="suffix-input"
           value={numberFormat.suffix}
           name="suffix"
-          // error={nameError !== ""}
-          // helperText={nameError}
+          error={validationErrors['suffix'] !== undefined && validationErrors['suffix'] !== ''}
+          helperText={validationErrors['suffix']}
           size="small"
           required={false}
           onChange={handleTextChange}
@@ -235,13 +285,19 @@ const NumberFormat = ({ id }: NumberFormatProps) => {
           labelId="input-label"
           id="input"
           name="numberPadding"
+          error={validationErrors['numberPadding'] !== undefined && validationErrors['numberPadding'] !== ''}
           value={numberFormat.numberPadding === 0 ? '' : numberFormat.numberPadding}
           onChange={handlePaddingChange}
           variant="outlined"
           fullWidth
         >
-          {menuRows(3, 10)}
+          {menuRows(1, 10)}
         </Select>
+        <FormHelperText
+          error={validationErrors['numberPadding'] !== undefined && validationErrors['numberPadding'] !== ''}
+        >
+          {validationErrors['numberPadding']}
+        </FormHelperText>
       </div>
       <Divider className={classes.divider} />
       <NumberFormatRange
@@ -253,6 +309,7 @@ const NumberFormat = ({ id }: NumberFormatProps) => {
         handleRangeRemove={handleNumberRangeRemove}
         handleRangeChange={handleNumberRangeChange}
         handleErrorTextChange={handleTextChange}
+        validationErrors={validationErrors}
       />
       <Divider className={classes.divider} />
       <NumberFormatRange
@@ -264,6 +321,7 @@ const NumberFormat = ({ id }: NumberFormatProps) => {
         handleRangeRemove={handleLetterRangeRemove}
         handleRangeChange={handleLetterRangeChange}
         handleErrorTextChange={handleTextChange}
+        validationErrors={validationErrors}
       />
       <Box className={classes.buttonRoot}>
         <Box>
