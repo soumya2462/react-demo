@@ -16,11 +16,12 @@ const defaultNumberFormatRangeProps: NumberFormatRangeProps = {
   handleRangeRemove: mockCallBack,
   handleRangeChange: mockCallBack,
   handleErrorTextChange: mockCallBack,
+  validationErrors: { 0: '' },
 };
 
 const setup = (props = {}) => {
   const store = storeFactory({});
-  const setupProps = {...defaultNumberFormatRangeProps, ...props};
+  const setupProps = { ...defaultNumberFormatRangeProps, ...props };
 
   return mount(
     <Provider store={store}>
@@ -29,7 +30,7 @@ const setup = (props = {}) => {
       </MemoryRouter>
     </Provider>
   );
-}
+};
 
 describe('default behaviour with no range props', () => {
   let wrapper: ReactWrapper;
@@ -49,9 +50,9 @@ describe('default behaviour with no range props', () => {
 
   test('title text to match prop', () => {
     const component = findByTestAttr(wrapper, 'test-range-label');
-    expect(component.first().text()).toBe('Test title');  
+    expect(component.first().text()).toBe('Test title');
   });
-      
+
   test('does not render key range start label', () => {
     const component = findByTestAttr(wrapper, 'test-range-start-label');
     expect(component.exists()).toBe(false);
@@ -61,7 +62,7 @@ describe('default behaviour with no range props', () => {
     const component = findByTestAttr(wrapper, 'test-range-start-input');
     expect(component.exists()).toBe(false);
   });
-  
+
   test('does not render number range end label', () => {
     const component = findByTestAttr(wrapper, 'test-range-end-label');
     expect(component.exists()).toBe(false);
@@ -71,23 +72,23 @@ describe('default behaviour with no range props', () => {
     const component = findByTestAttr(wrapper, 'test-range-end-input');
     expect(component.exists()).toBe(false);
   });
-  
+
   test('renders number range add button without error', () => {
     const component = findByTestAttr(wrapper, 'test-range-add');
     expect(component.exists()).toBe(true);
   });
-    
+
   test('add range click event', () => {
     const component = findByTestAttr(wrapper, 'test-range-add');
     component.at(0).simulate('click');
     expect(mockCallBack).toBeCalled();
   });
-  
+
   test('renders message if numbers outside range label without error', () => {
     const component = findByTestAttr(wrapper, 'message-if-tests-outside-range-label');
     expect(component.exists()).toBe(true);
   });
-  
+
   test('renders message if numbers outside range textfield without error', () => {
     const component = findByTestAttr(wrapper, 'message-if-tests-outside-range-input');
     expect(component.exists()).toBe(true);
@@ -98,13 +99,13 @@ describe('behaviour when range props is not empty', () => {
   let wrapper: ReactWrapper;
 
   beforeEach(() => {
-    wrapper = setup({ range: [{ start: 1, end: 5}] });
+    wrapper = setup({ range: [{ start: 1, end: 5 }] });
   });
 
   afterEach(() => {
     wrapper.unmount();
   });
-    
+
   test('renders key range start label', () => {
     const component = findByTestAttr(wrapper, 'test-range-start-label');
     expect(component.exists()).toBe(true);
@@ -114,7 +115,7 @@ describe('behaviour when range props is not empty', () => {
     const component = findByTestAttr(wrapper, 'test-range-start-input');
     expect(component.exists()).toBe(true);
   });
-  
+
   test('renders number range end label', () => {
     const component = findByTestAttr(wrapper, 'test-range-end-label');
     expect(component.exists()).toBe(true);
