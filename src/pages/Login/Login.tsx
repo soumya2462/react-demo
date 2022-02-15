@@ -14,28 +14,26 @@ import {
   Divider,
 } from "@material-ui/core";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
-import axios from "axios";
-import qs from "querystring";
-import { logOn } from "../../ducks/Auth";
+import { login,logout} from "./../../redux/actions/user_auth";
+
 
 interface LoginProps {
   username: string;
   accessToken: string;
   isLoggedIn: boolean;
-  logOn: (username: string, accessToken: string) => void;
+  user_auth:(object:any)=>void
 }
 
 type LoginState = {
   username: string;
   password: string;
   showPassword: boolean;
-  rememberMe: boolean; // not used atm
+  rememberMe: boolean; 
 };
 
 export class Login extends Component<LoginProps, LoginState> {
   constructor(props: LoginProps) {
     super(props);
-
     this.state = {
       username: "",
       password: "",
@@ -65,31 +63,9 @@ export class Login extends Component<LoginProps, LoginState> {
       grant_type: 'password',
       username: this.state.username,
       password: this.state.password,
-      scope: 'openid profile api email',
+      scope: 'open id profile api email',
     };
-
-    axios.post(`${process.env.REACT_APP_AUTHENTICATION_URL}/connect/token`,
-      qs.stringify(body),
-      { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
-    .then(response => {
-      if(response?.data?.access_token)
-      {
-        this.props.logOn(this.state.username, response.data.access_token);
-      }
-      else{
-        console.log("show error");
-      }
-    },
-    (error) => {
-      const { data } = error.response;
-
-      if(data.error_description === "invalid_username_or_password") {
-        console.log("show error");
-      }
-      else {
-        console.log("show error_description");
-      }
-    });
+    this.props.user_auth(body);
   };
 
   render() {
@@ -211,18 +187,17 @@ export class Login extends Component<LoginProps, LoginState> {
 
 const mapStateToProps = (state: any) => {
   return {
-    username: state.auth.username,
-    accessToken: state.auth.accessToken,
-    isLoggedIn: state.auth.isLoggedIn,
+    is_success: state.user_auth.is_success,
+    login_data: state.user_auth.login_data,
+    is_fetching: state.user_auth.is_fetching,
+    error: state.user_auth.error,
   };
 };
 
-function mapDispatchToProps(dispatch: any) {
-  return {
-    logOn: (username: string, accessToken: string) => {
-      return dispatch(logOn(username, accessToken));
-    },
-  };
-}
+const mapDispatchToProps = (dispatch:any)=> ({
+  user_auth: (request_data:any) => dispatch(login(request_data)),
+ // logout: (request_data:any) => dispatch(logout(request_data)),
+
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

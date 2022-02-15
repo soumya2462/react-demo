@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { ThemeProvider } from '@material-ui/core';
-import { store, persistor } from './store';
+import { store, persistor } from './redux/store';
 import reportWebVitals from './reportWebVitals';
 import Routes from './routes/Routes';
 import Theme from './MuiTheme';

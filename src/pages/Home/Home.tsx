@@ -1,26 +1,38 @@
-import React from "react";
-import { Typography } from "@material-ui/core";
-import { ContentLayout } from "../../components/Layout";
-
+import React, { useState } from "react";
+import {
+  Container,
+  Grid,
+  TextField,
+  Checkbox,
+  InputAdornment,
+  IconButton,
+  FormControlLabel,
+  Button,
+  Link,
+  Typography,
+  Divider,
+} from "@material-ui/core";
+import Childclass from "./child"
 const Home = () => {
+  const [username, setusername] = useState("");
+
   return (
-    <ContentLayout title="Home" >
-      <Typography paragraph>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-        eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
-        dolor purus non enim praesent elementum facilisis leo vel. Risus at
-        ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum
-        quisque non tellus. Convallis convallis tellus id interdum velit
-        laoreet id donec ultrices. Odio morbi quis commodo odio aenean sed
-        adipiscing. Amet nisl suscipit adipiscing bibendum est ultricies
-        integer quis. Cursus euismod quis viverra nibh cras. Metus vulputate
-        eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo
-        quis imperdiet massa tincidunt. Cras tincidunt lobortis feugiat
-        vivamus at augue. At augue eget arcu dictum varius duis at consectetur
-        lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa sapien
-        faucibus et molestie ac.
-      </Typography>
-    </ContentLayout>
+    <Container title="Home" maxWidth="lg" className="container" >
+      <div >
+        <TextField
+          value={username}
+          name="username"
+          placeholder="Username"
+          variant="outlined"
+          fullWidth
+        />
+      </div>
+      <div >
+        <Childclass onPressRight={(data) => {
+          setusername(data);
+        }} />
+      </div>
+    </Container>
   );
 };
 

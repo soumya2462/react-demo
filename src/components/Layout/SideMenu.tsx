@@ -13,17 +13,6 @@ import {
   MenuItem,
   makeStyles,
 } from '@material-ui/core';
-import {
-  Person,
-  CloudUpload,
-  Notifications,
-  AccessibleForwardOutlined
-} from '@material-ui/icons';
-import { Layout, Package } from 'react-feather';
-import { RootState } from '../../store';
-import { logOff } from '../../ducks/Auth';
-import SideMenuListItemLink from './SideMenuListItemLink';
-import SideMenuIconButton from './SideMenuIconButton';
 import Color from '../../constants/colors';
 
 const useStyles = makeStyles(() => ({
@@ -53,7 +42,7 @@ type SideMenuProps = {
 
 const SideMenu = (props: SideMenuProps) => {
   const [profileAnchor, setProfileAnchor] = useState<null | HTMLElement>(null);
-  const accessToken = useSelector((state: RootState) => state.auth.accessToken);
+ // const accessToken = useSelector((state: RootState) => state.auth.accessToken);
   const classes = useStyles();
   const dispatch = useDispatch();
   const open = Boolean(profileAnchor);
@@ -69,28 +58,28 @@ const SideMenu = (props: SideMenuProps) => {
   const handleLogoutButton = () => {
     closeProfileMenu();
 
-    const body = {
-      client_id: process.env.REACT_APP_CLIENT_ID,
-      client_secret: process.env.REACT_APP_CLIENT_SECRET,
-      token: accessToken,
-      token_type_hint: 'access_token',
-    };
+    // const body = {
+    //   client_id: process.env.REACT_APP_CLIENT_ID,
+    //   client_secret: process.env.REACT_APP_CLIENT_SECRET,
+    //   token: accessToken,
+    //   token_type_hint: 'access_token',
+    // };
 
-    axios({
-      method: 'post',
-      url: `${process.env.REACT_APP_AUTHENTICATION_URL}/connect/revocation`,
-      data: qs.stringify(body),
-      headers: {'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': `Bearer ${accessToken}`},
-      })
-    .then(response => {
-      //log off based on response. How can a non error response be invalid? Maybe only after
-      dispatch(logOff());
-    },
-    (error) => {
-      console.log(error);
-      // alert with error message
-      // which error message might also need for logOff()?
-    });
+    // axios({
+    //   method: 'post',
+    //   url: `${process.env.REACT_APP_AUTHENTICATION_URL}/connect/revocation`,
+    //   data: qs.stringify(body),
+    //   headers: {'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': `Bearer ${accessToken}`},
+    //   })
+    // .then(response => {
+    //   //log off based on response. How can a non error response be invalid? Maybe only after
+    // //  dispatch(logOff());
+    // },
+    // (error) => {
+    //   console.log(error);
+    //   // alert with error message
+    //   // which error message might also need for logOff()?
+    // });
   };
 
   return (
@@ -104,13 +93,13 @@ const SideMenu = (props: SideMenuProps) => {
     >
       { props.children }
       <List className={classes.contentRoot} data-test="link-list">
-        <SideMenuListItemLink text="Packages" icon={<Package />} to="/packages" />
+        {/* <SideMenuListItemLink text="Packages" icon={<Package />} to="/packages" />
         <SideMenuListItemLink text="Sites" icon={<Layout />} to="/sites" />
         <SideMenuListItemLink text="Rich Text Editor" icon={<AccessibleForwardOutlined />} to="/editor/richtext" />
         <SideMenuListItemLink text="Css Editor" icon={<AccessibleForwardOutlined />} to="/editor/css" />
         <SideMenuListItemLink text="Js Editor" icon={<AccessibleForwardOutlined />} to="/editor/js" />
         <SideMenuListItemLink text="Parser" icon={<AccessibleForwardOutlined />} to="/editor/parser" />
-        <SideMenuListItemLink text="Drag And Drop" icon={<AccessibleForwardOutlined />} to="/dragndrop" />
+        <SideMenuListItemLink text="Drag And Drop" icon={<AccessibleForwardOutlined />} to="/dragndrop" /> */}
       </List>
       <Grid
         container
@@ -120,7 +109,7 @@ const SideMenu = (props: SideMenuProps) => {
         className={classes.footer}
         data-test="bottom-icons"
       >
-        <SideMenuIconButton icon={<Person />} onClick={openProfileMenu} data-test="person-icon" />
+        {/* <SideMenuIconButton icon={<Person />} onClick={openProfileMenu} data-test="person-icon" /> */}
         <Menu
           PopoverClasses={{ paper: classes.profileMenu }}
           anchorEl={profileAnchor}
@@ -135,8 +124,8 @@ const SideMenu = (props: SideMenuProps) => {
           <MenuItem>Profile</MenuItem>
           <MenuItem onClick={handleLogoutButton}>Logout</MenuItem>
         </Menu>
-        <SideMenuIconButton icon={<CloudUpload />} onClick={()=>{}} />
-        <SideMenuIconButton icon={<Notifications />} onClick={()=>{}} />
+        {/* <SideMenuIconButton icon={<CloudUpload />} onClick={()=>{}} />
+        <SideMenuIconButton icon={<Notifications />} onClick={()=>{}} /> */}
       </Grid>
     </Grid>
   );

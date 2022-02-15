@@ -6,25 +6,22 @@ import {
   Route,
   Switch,
 } from 'react-router-dom';
-import { RootState } from '../store';
 import { Layout } from '../components/Layout';
 import LoggedInRoutes from './LoggedInRoutes';
 import Login from '../pages/Login/Login';
+import Home from '../pages/Home/Home';
 
 const Routes = () => {
-  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
   
   return (
     <Router>
       <Layout>
-        { isLoggedIn ?
-          <LoggedInRoutes />
-        :
+      
           <Switch>
-            <Route exact path="/" component={Login} />
+            <Route exact path="/" component={Home} />
             <Redirect from="*" to="/" />
           </Switch>
-        }
+        
       </Layout>
     </Router>
   );
